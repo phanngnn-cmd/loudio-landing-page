@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Loudio - The AI-powered music platform for venues to optimize playlists, boost engagement, and monetize crowd interactions.">
+    <title>Loudio | The AI-Powered Music Experience for Venues</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Outfit:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.png" type="image/png">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="." class="logo">
+                <img src="assets/loudio_full_logo.png" alt="Loudio" class="logo-full-img">
+                <span class="venue-tag nav-tag-small" data-i18n="nav_tag">for venues</span>
+            </a>
+            <div class="nav-links">
+                <a href="#hero" data-i18n="nav_intro">Introduction</a>
+                <a href="#features" data-i18n="nav_features">Features</a>
+                <a href="#blog" data-i18n="nav_blog">Blog</a>
+                <a href="#testimonials" data-i18n="nav_testimonials">Testimonials</a>
+                <a href="#pricing" data-i18n="nav_pricing">Pricing</a>
+                <a href="#faq" data-i18n="nav_faq">FAQ</a>
+                <a href="https://loudio.app" class="nav-pick-music" target="_blank">Pick Music</a>
+            </div>
+            <div class="nav-actions">
+                <div class="lang-switcher">
+                    <button class="lang-btn lang-btn-compact" id="langBtn">
+                        <span class="flag">🇺🇸</span>
+                        <span class="lang-name">EN</span>
+                    </button>
+                    <div class="lang-dropdown" id="langDropdown">
+                        <a href="#" class="lang-option active" data-lang="en">
+                            <span class="flag">🇺🇸</span> English
+                        </a>
+                        <a href="#" class="lang-option" data-lang="vi">
+                            <span class="flag">🇻🇳</span> Tiếng Việt
+                        </a>
+                        <a href="#" class="lang-option" data-lang="fr">
+                            <span class="flag">🇫🇷</span> Français
+                        </a>
+                    </div>
+                </div>
+                <a href="https://loudiomanager.com" class="btn btn-glass" target="_blank" data-i18n="nav_login">Venue
+                    Login</a>
+                <a href="#signup" class="btn btn-primary" data-i18n="nav_get_started">Get Started</a>
+            </div>
+            <div class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-overlay"></div>
+        <div class="container hero-container">
+            <div class="hero-content">
+                <div class="hero-trust-badge" data-i18n="hero_badge">Trusted by 500+ venues nationwide</div>
+                <h1 class="hero-title" data-i18n="hero_title">Transform Your Venue with <span
+                        class="text-gradient">Loudio's AI Music</span>
+                </h1>
+                <p class="hero-subtitle" data-i18n="hero_subtitle">As <strong>Southeast Asia's first digital
+                        jukebox</strong>, Loudio boosts
+                    engagement and revenue with AI-curated playlists, real-time feedback, and seamless integrations.</p>
+
+                <div class="hero-actions-container">
+                    <div class="hero-buttons">
+                        <a href="#signup" class="btn btn-primary btn-lg" data-i18n="hero_start_trial">Start Free
+                            Trial</a>
+                        <a href="#how-it-works" class="btn btn-outline btn-lg" data-i18n="hero_how_it_works">See How It
+                            Works</a>
+                    </div>
+
+                    <!-- Soundwave Divider below buttons -->
+                    <div class="soundwave-divider mini-wave" style="margin-top: 20px;">
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="assets/loudio-app-mockup.png" alt="Loudio Digital Jukebox App Mockup" class="floating-mockup">
+            </div>
+        </div>
+    </section>
+
+    <!-- Centered Metrics Section -->
+    <section class="metrics-section">
+        <div class="container">
+            <h3 class="metrics-title" data-i18n="metrics_title">Proven Results That Drive Growth</h3>
+            <div class="hero-stats centered-stats">
+                <div class="stat-item">
+                    <span class="stat-number gradient-text-pop">54%</span>
+                    <span class="stat-label" data-i18n="metric1_label">Increase Dwell Time</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number gradient-text-pop">25%</span>
+                    <span class="stat-label" data-i18n="metric2_label">Spending Long-Term</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number gradient-text-pop">92%</span>
+                    <span class="stat-label" data-i18n="metric3_label">Customer Satisfaction</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number gradient-text-pop">3/4</span>
+                    <span class="stat-label" data-i18n="metric4_label">Prefer Music-Enabled Venues</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brands Section -->
+    <section class="brands-section">
+        <div class="container">
+            <p class="brands-title" data-i18n="brands_title">Trusted by Leading Brands</p>
+            <div class="brands-grid">
+                <div class="brand-item">
+                    <img src="assets/brand_kfc.png" alt="KFC" class="brand-logo">
+                    <span class="brand-name">KFC</span>
+                </div>
+                <div class="brand-item">
+                    <img src="assets/brand_phuclong.png" alt="Phúc Long" class="brand-logo">
+                    <span class="brand-name">Phúc Long</span>
+                </div>
+                <div class="brand-item">
+                    <img src="assets/brand_elite.png" alt="Elite Fitness" class="brand-logo">
+                    <span class="brand-name">Elite Fitness</span>
+                </div>
+                <div class="brand-item">
+                    <img src="assets/brand_swequity.png" alt="Swequity Fitness" class="brand-logo">
+                    <span class="brand-name">Swequity Fitness</span>
+                </div>
+                <div class="brand-item brand-more-container">
+                    <span class="brands-more" data-i18n="brands_more">and many more...</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What is Loudio / How it Works Section -->
+    <section id="how-it-works" class="section how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" data-i18n="how_it_works_title">What is Loudio?</h2>
+                <p class="section-desc" data-i18n="how_it_works_desc">We bridge the gap between your music system and
+                    your customers, functioning as a
+                    smart, AI-driven digital jukebox.</p>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">01</div>
+                    <div class="step-image-container premium-illustration">
+                        <svg class="illustration-svg connect-svg" viewBox="0 0 200 120" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <!-- Speaker -->
+                            <rect x="140" y="30" width="40" height="60" rx="4" fill="rgba(255,255,255,0.05)"
+                                stroke="white" stroke-opacity="0.2" />
+                            <circle cx="160" cy="45" r="8" stroke="white" stroke-opacity="0.2" />
+                            <circle cx="160" cy="75" r="12" stroke="white" stroke-opacity="0.2" />
+                            <!-- Phone -->
+                            <rect x="20" y="20" width="36" height="72" rx="6" fill="rgba(255,255,255,0.1)"
+                                stroke="white" stroke-opacity="0.3" />
+                            <rect x="24" y="26" width="28" height="60" rx="2" fill="rgba(76, 201, 240, 0.1)" />
+                            <!-- Connection Path -->
+                            <path class="pulse-path" d="M56 56C80 56 100 56 140 56" stroke="var(--secondary-color)"
+                                stroke-width="2" stroke-linecap="round" stroke-dasharray="4 8" />
+                            <circle class="pulse-dot" cx="56" cy="56" r="3" fill="var(--secondary-color)" />
+                        </svg>
+                    </div>
+                    <h3 data-i18n="step1_title">Connect</h3>
+                    <p data-i18n="step1_desc">Link Loudio to your venue's existing music system. It integrates
+                        seamlessly with popular music
+                        platforms.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">02</div>
+                    <div class="step-image-container premium-illustration">
+                        <svg class="illustration-svg engage-svg" viewBox="0 0 200 120" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <!-- Phone -->
+                            <rect x="82" y="20" width="36" height="72" rx="6" fill="rgba(255,255,255,0.1)"
+                                stroke="white" stroke-opacity="0.3" />
+                            <!-- Floating Notes -->
+                            <path class="note note-1" d="M130 40C130 35 135 32 138 32V42C138 45 135 48 132 48"
+                                stroke="var(--secondary-color)" stroke-width="2" stroke-linecap="round" />
+                            <path class="note note-2" d="M60 50C60 45 65 42 68 42V52C68 55 65 58 62 58"
+                                stroke="rgba(76, 201, 240, 0.6)" stroke-width="2" stroke-linecap="round" />
+                            <path class="note note-3" d="M120 70C120 65 125 62 128 62V72C128 75 125 78 122 78"
+                                stroke="var(--secondary-color)" stroke-width="1.5" stroke-linecap="round" />
+                            <!-- Interaction Waves -->
+                            <circle class="ring ring-1" cx="100" cy="56" r="20" stroke="white" stroke-opacity="0.1" />
+                            <circle class="ring ring-2" cx="100" cy="56" r="30" stroke="white" stroke-opacity="0.05" />
+                        </svg>
+                    </div>
+                    <h3 data-i18n="step2_title">Engage</h3>
+                    <p data-i18n="step2_desc">Guests scan a QR code to view your playlist. They can vote on upcoming
+                        tracks or request songs
+                        directly from their phones.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">03</div>
+                    <div class="step-image-container premium-illustration">
+                        <svg class="illustration-svg monetize-svg" viewBox="0 0 200 120" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <!-- Grid -->
+                            <path d="M40 90H160" stroke="white" stroke-opacity="0.1" />
+                            <path d="M40 30V90" stroke="white" stroke-opacity="0.1" />
+                            <!-- Bars -->
+                            <rect class="bar bar-1" x="55" y="65" width="15" height="25" rx="2"
+                                fill="rgba(255,255,255,0.1)" />
+                            <rect class="bar bar-2" x="85" y="50" width="15" height="40" rx="2"
+                                fill="rgba(76, 201, 240, 0.3)" />
+                            <rect class="bar bar-3" x="115" y="35" width="15" height="55" rx="2"
+                                fill="var(--secondary-color)" fill-opacity="0.8" />
+                            <rect class="bar bar-4" x="145" y="25" width="15" height="65" rx="2"
+                                fill="var(--secondary-color)" />
+                            <!-- Trend Line -->
+                            <path class="trend-line" d="M55 75C75 65 105 45 152 35" stroke="white" stroke-width="2"
+                                stroke-dasharray="3 3" />
+                        </svg>
+                    </div>
+                    <h3 data-i18n="step3_title">Monetize</h3>
+                    <p data-i18n="step3_desc">Turn requests into revenue. Set prices for skip-the-line requests or
+                        dedications, and watch your
+                        music ROI grow.</p>
+                </div>
+            </div>
+            <!-- Soundwave Divider -->
+            <div class="soundwave-divider" style="margin-top: 50px;">
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" data-i18n="features_title">Why Top Venues Choose Loudio</h2>
+                <p class="section-desc" data-i18n="features_desc">Turn your music into a powerful engagement and revenue
+                    tool.</p>
+            </div>
+            <div class="features-grid">
+                <!-- 1. Copyright Compliance - Legal protection is crucial -->
+                <div class="feature-card">
+                    <div class="feature-icon">⚖️</div>
+                    <h3 data-i18n="feat3_title">Copyright Compliance</h3>
+                    <p data-i18n="feat3_desc">Play music legally with full rights coverage. Unlike standard streaming,
+                        we ensure both publishing and performance rights are handled.</p>
+                </div>
+                <!-- 2. Digital Jukebox Mode - Revenue generation -->
+                <div class="feature-card">
+                    <div class="feature-icon">💸</div>
+                    <h3 data-i18n="feat2_title">Digital Jukebox Mode</h3>
+                    <p data-i18n="feat2_desc">Let guests request songs effortlessly. Our AI ensures requests fit the
+                        vibe while you drive
+                        active engagement.</p>
+                </div>
+                <!-- 3. Promotional Pop-ups - Revenue generation -->
+                <div class="feature-card">
+                    <div class="feature-icon">📢</div>
+                    <h3 data-i18n="feat5_title">Promotional Pop-ups</h3>
+                    <p data-i18n="feat5_desc">Drive sales with customized pop-up messages. Promote specials, events, or
+                        brand partnerships
+                        directly on user screens.</p>
+                </div>
+                <!-- 4. AI Smart Playlists - Engagement -->
+                <div class="feature-card">
+                    <div class="feature-icon">🎵</div>
+                    <h3 data-i18n="feat1_title">AI Smart Playlists</h3>
+                    <p data-i18n="feat1_desc">Curate the perfect atmosphere with adaptive playlists that respond to the
+                        crowd's energy using
+                        advanced AI.</p>
+                </div>
+                <!-- 5. AI Analytics - Insights -->
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3 data-i18n="feat4_title">AI Analytics</h3>
+                    <p data-i18n="feat4_desc">Deep insights into crowd preferences and behavior. Understand your
+                        audience like never before
+                        with AI-powered reports.</p>
+                </div>
+                <!-- 6. Seamless Integration - Ease of use -->
+                <div class="feature-card">
+                    <div class="feature-icon">🔌</div>
+                    <h3 data-i18n="feat6_title">Seamless Integration</h3>
+                    <p data-i18n="feat6_desc">Works with your existing music system. No hardware needed.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="section blog">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" data-i18n="blog_title">Loudio Insights</h2>
+                <p class="section-desc" data-i18n="blog_desc">Market trends, venue success stories, and AI music tips.
+                </p>
+            </div>
+            <div class="blog-grid" id="blog-grid">
+                <!-- Articles will be loaded here dynamically -->
+                <div class="blog-loading">Loading latest articles...</div>
+            </div>
+            <div class="blog-footer" style="text-align: center; margin-top: 40px;">
+                <a href="#" class="btn btn-outline" data-i18n="blog_view_all">View All Articles</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="section testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" data-i18n="testimonials_title">Trusted by Nightlife Leaders</h2>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p class="quote" data-i18n="test1_quote">"Loudio changed the vibe completely. Customers stay longer
+                        because they control the
+                        music, and our revenue is up 20%."</p>
+                    <div class="author">
+                        <div class="author-info">
+                            <h4 data-i18n="test1_author">Nguyen Tuan Anh</h4>
+                            <span data-i18n="test1_role">Owner, The Coffee House (HCMC)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="quote">"Setup was instant. No hardware needed. It's the first time I've seen customers
+                        actually excited about the background music."</p>
+                    <div class="author">
+                        <div class="author-info">
+                            <h4>Tran Thi Mai</h4>
+                            <span>Manager, Chill Skybar</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="quote">"The AI DJ is a lifesaver. It reads the room perfectly on busy Friday nights. Huge
+                        upgrade from our old Spotify playlists."</p>
+                    <div class="author">
+                        <div class="author-info">
+                            <h4>Le Minh</h4>
+                            <span>Founder, Acoustic Bar Hanoi</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="section pricing">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" data-i18n="pricing_title">Simple, Transparent Pricing</h2>
+                <p class="section-desc" data-i18n="pricing_desc">Choose the plan that fits your venue size. Save 20%
+                    with yearly billing.</p>
+
+                <!-- Pricing Toggle -->
+                <div class="pricing-toggle-container">
+                    <span class="billing-label">Monthly</span>
+                    <label class="switch">
+                        <input type="checkbox" id="billing-toggle">
+                        <span class="slider round"></span>
+                    </label>
+                    <span class="billing-label">Yearly <span class="discount-badge">-20%</span></span>
+                </div>
+            </div>
+
+            <div class="pricing-grid">
+                <!-- Basic Plan -->
+                <div class="pricing-card">
+                    <h3>Basic</h3>
+                    <div class="price-container">
+                        <div class="price" data-monthly="250,000" data-yearly="2,400,000"
+                            data-yearly-original="3,000,000">250,000</div>
+                        <span class="currency" data-i18n="pricing_currency">VND / month</span>
+                    </div>
+                    <p class="plan-desc">Essential AI playlist tools.</p>
+                    <ul class="features-list">
+                        <li>AI Shuffle & Flow</li>
+                        <li>Standard Support</li>
+                        <li>1 Admin Account</li>
+                        <li class="disabled">Monetization Features</li>
+                    </ul>
+                    <a href="#signup" class="btn btn-outline full-width">Start Basic</a>
+                </div>
+
+                <!-- Pro Plan -->
+                <div class="pricing-card popular">
+                    <div class="badge" data-i18n="pricing_popular">Most Popular</div>
+                    <h3>Pro</h3>
+                    <div class="price-container">
+                        <div class="price" data-monthly="450,000" data-yearly="4,320,000"
+                            data-yearly-original="5,400,000">450,000</div>
+                        <span class="currency" data-i18n="pricing_currency">VND / month</span>
+                    </div>
+                    <p class="plan-desc">Unlock revenue streams.</p>
+                    <ul class="features-list">
+                        <li>Everything in Basic</li>
+                        <li><strong>Monetized Requests</strong></li>
+                        <li>Real-time Analytics</li>
+                        <li>Priority Support</li>
+                    </ul>
+                    <a href="#signup" class="btn btn-primary full-width">Start Pro Trial</a>
+                </div>
+
+                <!-- Premium Plan -->
+                <div class="pricing-card">
+                    <h3>Premium</h3>
+                    <div class="price-container">
+                        <div class="price" data-monthly="700,000" data-yearly="6,000,000"
+                            data-yearly-original="8,400,000">700,000</div>
+                        <span class="currency">VND / month</span>
+                    </div>
+                    <p class="plan-desc">Full control & branding.</p>
+                    <ul class="features-list">
+                        <li>Everything in Pro</li>
+                        <li>Advanced Scheduling</li>
+                        <li>Custom Branding</li>
+                        <li>Dedicated Account Manager</li>
+                    </ul>
+                    <a href="#signup" class="btn btn-outline full-width">Get Premium Quote</a>
+                </div>
+            </div>
+
+            <!-- Add-ons Section -->
+            <div class="addons-section">
+                <h3 class="addons-title">Power-Up Add-ons</h3>
+                <div class="addons-grid">
+                    <div class="addon-card">
+                        <div class="addon-header">
+                            <h4>Commercial License</h4>
+                            <span class="addon-price">Custom Quote</span>
+                        </div>
+                        <p>Full legal coverage for public performance rights regarding specialized catalogs.</p>
+                        <a href="#signup" class="btn btn-outline btn-sm addon-btn">Get a Quote</a>
+                    </div>
+                    <div class="addon-card">
+                        <div class="addon-header">
+                            <h4>Music Consultation</h4>
+                            <span class="addon-price">Custom Package</span>
+                        </div>
+                        <p>Expert curation advice to define your venue's perfect sonic identity.</p>
+                        <a href="#signup" class="btn btn-outline btn-sm addon-btn">Book a Session</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sign Up / CTA Section -->
+    <section id="signup" class="section cta-section">
+        <div class="container">
+            <div class="cta-box">
+                <h2 data-i18n="cta_title">Ready to Turn Up the Volume?</h2>
+                <p data-i18n="cta_desc">Join venues like KFC, Phúc Long, and Elite Fitness in revolutionizing their
+                    music experience.</p>
+                <form class="signup-form">
+                    <div class="form-group">
+                        <input type="text" placeholder="Your Name" required data-i18n="cta_name_ph">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="Venue Name" required data-i18n="cta_venue_ph">
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" placeholder="Phone Number (Optional)" data-i18n="cta_phone_ph">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Email Address" required data-i18n="cta_email_ph">
+                    </div>
+                    <div class="form-group full">
+                        <textarea placeholder="Any specific notes or requirements?" rows="3"
+                            data-i18n="cta_notes_ph"></textarea>
+                    </div>
+                    <div class="form-footer">
+                        <button type="submit" class="btn btn-primary btn-block" data-i18n="cta_btn">Get Started
+                            Now</button>
+                    </div>
+                </form>
+                <p class="small-text" data-i18n="cta_footer">No credit card required. 14-day free trial on Pro plans.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="section faq">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" data-i18n="faq_title">Frequently Asked Questions</h2>
+            </div>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h3 data-i18n="faq1_q">How does monetization work?</h3>
+                    <p data-i18n="faq1_a">You set the price for song requests (e.g., $1, $5). Guests pay via their
+                        phones, and you keep 90%
+                        of the revenue. Payouts are weekly.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Do I need special hardware?</h3>
+                    <p>No! Loudio runs on any computer, tablet, or smartphone connected to your music system. It's
+                        completely web-based.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Can I ban certain songs or genres?</h3>
+                    <p>Absolutely. You have full control. Set blacklists, limit genres, or approve requests manually
+                        before they play.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 data-i18n="faq4_q">Is Loudio legal for public performance?</h3>
+                    <p data-i18n="faq4_a">Loudio manages the queue, but you still need your standard PRO (Performance
+                        Rights Organization)
+                        licenses for playing music publicly, just like with Spotify Business or other services.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <a href="#" class="logo footer-logo-custom">
+                    <img src="assets/loudio_full_logo.png" alt="Loudio" class="logo-footer-img">
+                    <span class="venue-tag" data-i18n="nav_tag">for venues</span>
+                </a>
+                <p data-i18n="footer_slogan">Empowering venues with the future of AI music management.</p>
+            </div>
+            <div class="footer-links">
+                <div class="link-group">
+                    <h4 data-i18n="footer_prod">Product</h4>
+                    <a href="#features" data-i18n="footer_feat">Features</a>
+                    <a href="#pricing" data-i18n="footer_price">Pricing</a>
+                    <a href="#faq" data-i18n="footer_faq">FAQ</a>
+                </div>
+                <!-- Removed empty/dead links as requested -->
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; 2026 Loudio. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#">FB</a>
+                <a href="#">IG</a>
+                <a href="#">LI</a>
+            </div>
+        </div>
+    </footer>
+    <!-- Onboarding Popup -->
+    <div id="onboarding-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+
+            <!-- Initial View -->
+            <div id="modal-initial-view">
+                <div class="modal-header">
+                    <h2>Join the Music Revolution</h2>
+                    <p>Get a simplified roadmap to monetizing your venue's music system.</p>
+                </div>
+                <form id="onboarding-form">
+                    <div class="form-group">
+                        <input type="text" id="popup-name" name="venue_name" placeholder="Venue Name (Optional)"
+                            class="modal-input">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="popup-contact" name="contact_info" placeholder="Email or Phone Number"
+                            required class="modal-input">
+                    </div>
+                    <button type="submit" id="submit-btn" class="btn btn-primary full-width">Get a Free
+                        Consultation</button>
+                </form>
+                <p class="modal-footer-text">We respect your inbox. No spam, ever.</p>
+            </div>
+
+            <!-- Success View -->
+            <div id="modal-success-view" style="display: none;">
+                <div class="success-icon">🎉</div>
+                <div class="modal-header">
+                    <h2>Thank You!</h2>
+                    <p>We've received your details. A Loudio expert will contact you shortly at <span
+                            id="contact-display" style="color: var(--secondary-color);"></span>.</p>
+                </div>
+                <button class="btn btn-outline full-width"
+                    onclick="document.querySelector('.close-modal').click()">Return to Site</button>
+            </div>
+        </div>
+    </div>
+    <!-- Background Music -->
+    <audio id="bg-music" loop autoplay>
+        <source
+            src="https://upload.wikimedia.org/wikipedia/commons/9/90/WinnieTheMoog_-_Street_Trap_%28cc-by%29_%28filmmusic%29.mp3"
+            type="audio/mpeg">
+    </audio>
+
+    <!-- Music Toggle -->
+    <div class="music-controller" id="musicToggle">
+        <div class="music-bars">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <span class="music-text">Music Off</span>
+    </div>
+
+    <script src="translations.js" defer></script>
+    <script src="main.js" defer></script>
+</body>
+
+</html>
+```

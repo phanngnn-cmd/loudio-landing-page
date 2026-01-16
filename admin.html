@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loudio Content Studio | Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #0a0a0b;
+            --card-bg: #151518;
+            --accent-color: #4cc9f0;
+            --text-main: #ffffff;
+            --text-dim: #a0a0a0;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Login Overlay */
+        #login-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--primary-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .login-box {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 12px 24px;
+            background: var(--accent-color);
+            border: none;
+            border-radius: 8px;
+            color: #000;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        /* Dashboard Layout */
+        .sidebar {
+            width: 300px;
+            border-right: 1px solid var(--border-color);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overflow-y: auto;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .article-item {
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .article-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .article-item.active {
+            background: rgba(76, 201, 240, 0.1);
+            border-color: var(--accent-color);
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        textarea {
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: white;
+            padding: 16px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 400px;
+        }
+
+        .form-row {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        .badge {
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .badge-pub {
+            background: #4caf50;
+            color: white;
+        }
+
+        .badge-draft {
+            background: #ff9800;
+            color: white;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="login-overlay">
+        <div class="login-box">
+            <h2 style="margin-top: 0;">Loudio Content Studio</h2>
+            <p style="color: var(--text-dim);">Enter your internal passkey</p>
+            <input type="password" id="passkey" placeholder="••••••••">
+            <button onclick="checkAuth()">Access Studio</button>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h3 style="margin: 0;">Articles</h3>
+            <button onclick="newArticle()" style="width: auto; padding: 6px 12px;">+ New</button>
+        </div>
+        <div id="article-list">
+            <!-- Items via JS -->
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div id="editor-view" class="hidden">
+            <div class="editor-header">
+                <h2 id="editor-title-display">New Article</h2>
+                <div style="display: flex; gap: 10px;">
+                    <button onclick="deleteCurrentArticle()"
+                        style="background: transparent; color: #ff5252; border: 1px solid #ff5252; width: auto;">Delete</button>
+                    <button onclick="saveCurrentArticle()" style="width: auto;">Publish / Save</button>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label>Title</label>
+                <input type="text" id="art-title" placeholder="The Future of AI Music in Venues">
+            </div>
+
+            <div class="form-row">
+                <label>Excerpt (Short summary for the card)</label>
+                <input type="text" id="art-excerpt" placeholder="How AI is transforming the customer experience...">
+            </div>
+
+            <div class="form-row">
+                <label>Featured Image URL</label>
+                <input type="text" id="art-image" placeholder="https://example.com/image.jpg">
+            </div>
+
+            <div class="form-row">
+                <label>Content (HTML/Text)</label>
+                <textarea id="art-content"></textarea>
+            </div>
+
+            <div class="form-row">
+                <label>
+                    <input type="checkbox" id="art-published" style="width: auto; margin: 0 8px 0 0;">
+                    Published (Visible on landing page)
+                </label>
+            </div>
+        </div>
+        <div id="empty-state"
+            style="height: 100%; display: flex; align-items: center; justify-content: center; color: var(--text-dim);">
+            Select an article or create a new one to start.
+        </div>
+    </div>
+
+    <script>
+        const SCRIPT_URL = localStorage.getItem('loudio_gas_url') || '';
+        let currentArticles = [];
+        let activeArticleId = null;
+        let auth_token = '';
+
+        async function checkAuth() {
+            const pass = document.getElementById('passkey').value;
+            if (pass === 'loudio-internal-2026') {
+                auth_token = pass;
+                document.getElementById('login-overlay').classList.add('hidden');
+                initStudio();
+            } else {
+                alert('Invalid passkey');
+            }
+        }
+
+        async function initStudio() {
+            if (!SCRIPT_URL) {
+                const url = prompt("Please enter your Google Apps Script Web App URL:");
+                if (url) {
+                    localStorage.setItem('loudio_gas_url', url);
+                    location.reload();
+                }
+                return;
+            }
+            loadArticles();
+        }
+
+        async function loadArticles() {
+            try {
+                // We need to fetch ALL articles (even unpublished) - GAS needs update or we use action
+                const response = await fetch(`${SCRIPT_URL}?action=get_articles`);
+                currentArticles = await response.json();
+                renderList();
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function renderList() {
+            const list = document.getElementById('article-list');
+            list.innerHTML = '';
+            currentArticles.forEach(art => {
+                const item = document.createElement('div');
+                item.className = `article-item ${activeArticleId === art.id ? 'active' : ''}`;
+                item.innerHTML = `
+                    <div style="font-weight: 600;">${art.title || 'Untitled'}</div>
+                    <div style="font-size: 0.8rem; color: var(--text-dim); margin-top: 4px;">
+                        ${new Date(art.date).toLocaleDateString()}
+                        <span class="badge ${art.published ? 'badge-pub' : 'badge-draft'}">${art.published ? 'Pub' : 'Draft'}</span>
+                    </div>
+                `;
+                item.onclick = () => openArticle(art.id);
+                list.appendChild(item);
+            });
+        }
+
+        function openArticle(id) {
+            activeArticleId = id;
+            const art = currentArticles.find(a => a.id === id);
+            document.getElementById('editor-view').classList.remove('hidden');
+            document.getElementById('empty-state').classList.add('hidden');
+
+            document.getElementById('art-title').value = art.title;
+            document.getElementById('art-excerpt').value = art.excerpt;
+            document.getElementById('art-image').value = art.image;
+            document.getElementById('art-content').value = art.content;
+            document.getElementById('art-published').checked = art.published;
+
+            document.getElementById('editor-title-display').innerText = id ? 'Edit Article' : 'New Article';
+            renderList();
+        }
+
+        function newArticle() {
+            activeArticleId = null;
+            document.getElementById('editor-view').classList.remove('hidden');
+            document.getElementById('empty-state').classList.add('hidden');
+
+            document.getElementById('art-title').value = '';
+            document.getElementById('art-excerpt').value = '';
+            document.getElementById('art-image').value = '';
+            document.getElementById('art-content').value = '';
+            document.getElementById('art-published').checked = false;
+
+            document.getElementById('editor-title-display').innerText = 'New Article';
+        }
+
+        async function saveCurrentArticle() {
+            const article = {
+                id: activeArticleId,
+                title: document.getElementById('art-title').value,
+                excerpt: document.getElementById('art-excerpt').value,
+                image: document.getElementById('art-image').value,
+                content: document.getElementById('art-content').value,
+                published: document.getElementById('art-published').checked,
+                date: new Date().toISOString()
+            };
+
+            const btn = document.querySelector('button[onclick="saveCurrentArticle()"]');
+            btn.innerText = 'Saving...';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify({
+                        action: 'save_article',
+                        token: auth_token,
+                        article: article
+                    })
+                });
+
+                alert('Saved successfully! (Wait a few seconds for GAS to sync before refreshing list)');
+                setTimeout(loadArticles, 2000);
+            } catch (e) {
+                alert('Error saving. Check console.');
+            } finally {
+                btn.innerText = 'Publish / Save';
+                btn.disabled = false;
+            }
+        }
+
+        async function deleteCurrentArticle() {
+            if (!activeArticleId) return;
+            if (!confirm('Are you sure you want to delete this article?')) return;
+
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify({
+                        action: 'delete_article',
+                        token: auth_token,
+                        id: activeArticleId
+                    })
+                });
+                activeArticleId = null;
+                document.getElementById('editor-view').classList.add('hidden');
+                document.getElementById('empty-state').classList.remove('hidden');
+                setTimeout(loadArticles, 2000);
+            } catch (e) {
+                alert('Error deleting.');
+            }
+        }
+    </script>
+</body>
+
+</html>

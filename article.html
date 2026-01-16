@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article | Loudio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.png" type="image/png">
+    <style>
+        .article-page {
+            padding-top: 150px;
+            padding-bottom: 100px;
+            background: var(--bg-dark);
+            min-height: 100vh;
+        }
+
+        .article-hero {
+            max-width: 900px;
+            margin: 0 auto 50px;
+            text-align: center;
+        }
+
+        .article-main-image {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .article-body {
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+            font-size: 1.15rem;
+            color: var(--text-dim);
+        }
+
+        .article-body h2,
+        .article-body h3 {
+            color: white;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 40px;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .back-btn:hover {
+            color: var(--secondary-color);
+            transform: translateX(-5px);
+        }
+
+        .article-loading {
+            text-align: center;
+            padding: 100px;
+            font-size: 1.5rem;
+            color: var(--text-dim);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar" style="background: rgba(10, 10, 11, 0.95);">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="assets/loudio_full_logo.png" alt="Loudio" class="logo-full-img">
+                <span class="venue-tag nav-tag" data-i18n="nav_tag">for venues</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html#hero">Introduction</a>
+                <a href="index.html#features">Features</a>
+                <a href="index.html#blog">Blog</a>
+            </div>
+            <div class="nav-actions">
+                <a href="index.html#signup" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="article-page">
+        <div class="container" id="article-container">
+            <div class="article-loading">Loading article...</div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <!-- Re-using footer structure from index.html -->
+        <div class="container footer-bottom">
+            <p>&copy; 2026 Loudio. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="translations.js"></script>
+    <script>
+        const SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE'; // User needs to update this
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const articleId = urlParams.get('id');
+            const container = document.getElementById('article-container');
+            const lang = document.documentElement.lang || 'en';
+            const dict = translations[lang] || translations['en'];
+
+            console.log('Article Page Loaded. ID:', articleId, 'Lang:', lang);
+
+            // Update initial loading text
+            container.innerHTML = `<div class="article-loading">${dict.loading_article}</div>`;
+
+            if (!articleId) {
+                console.error('No article ID provided in URL');
+                container.innerHTML = `<h1>${dict.article_not_found}</h1><a href="./index.html#blog" class="back-btn">${dict.back_to_blog}</a>`;
+                return;
+            }
+
+            // Dummy data check
+            if (articleId.startsWith('dummy')) {
+                const dummies = {
+                    dummy1: {
+                        title: "The Future of Venue Soundscapes",
+                        content: "<h2>Personalizing the Vibe</h2><p>How AI is personalizing the music experience for every guest in real-time. This is the future of hospitality where the environment adapts to the crowd.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>",
+                        image: "https://images.unsplash.com/photo-1514525253361-bee8718a74a1?auto=format&fit=crop&w=800&q=80",
+                        date: new Date().toISOString(),
+                        author: "Loudio Team"
+                    },
+                    dummy2: {
+                        title: "Boosting ROI with Digital Jukeboxes",
+                        content: "<h2>Data-Driven Success</h2><p>Case studies from 5 leading brands that saw a 15% increase in dwell time. Digital jukeboxes aren't just for music; they're revenue engines.</p>",
+                        image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80",
+                        date: new Date().toISOString(),
+                        author: "Loudio Team"
+                    },
+                    dummy3: {
+                        title: "Top 10 Vibe-Setting Tips",
+                        content: "<h2>Curating the Sound</h2><p>Expert advice on balancing requests with your venue's unique sonic identity. Don't let your vibe be compromised while engaging your guests.</p>",
+                        image: "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?auto=format&fit=crop&w=800&q=80",
+                        date: new Date().toISOString(),
+                        author: "Loudio Team"
+                    }
+                };
+                renderArticle(dummies[articleId], dict);
+                return;
+            }
+
+            try {
+                // Fetch articles and filter by ID
+                const response = await fetch(`${SCRIPT_URL}?action=get_articles`);
+                const articles = await response.json();
+                const article = articles.find(a => a.id == articleId);
+
+                if (article) {
+                    renderArticle(article, dict);
+                } else {
+                    container.innerHTML = `<h1>${dict.article_not_found}</h1><a href="index.html#blog" class="back-btn">${dict.back_to_blog}</a>`;
+                }
+            } catch (error) {
+                console.error(error);
+                container.innerHTML = `<h1>${dict.article_not_found}</h1><a href="index.html#blog" class="back-btn">${dict.back_to_blog}</a>`;
+            }
+        });
+
+        function renderArticle(art, dict) {
+            const container = document.getElementById('article-container');
+            container.innerHTML = `
+                <a href="index.html#blog" class="back-btn">${dict.back_to_blog}</a>
+                <article class="article-hero">
+                    <div class="article-meta">
+                        <span>${new Date(art.date).toLocaleDateString()}</span>
+                        <span>•</span>
+                        <span>${dict.by_author} ${art.author || 'Loudio Team'}</span>
+                    </div>
+                    <h1 class="hero-title">${art.title}</h1>
+                </article>
+                <img src="${art.image || 'https://images.unsplash.com/photo-1459749411177-042180ce6742?auto=format&fit=crop&w=800&q=80'}" class="article-main-image" alt="${art.title}">
+                <div class="article-body">
+                    ${art.content}
+                </div>
+                <div style="text-align: center; margin-top: 60px;">
+                    <a href="index.html#signup" class="btn btn-primary">${dict.article_cta}</a>
+                </div>
+            `;
+        }
+    </script>
+</body>
+
+</html>
