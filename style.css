@@ -17,7 +17,7 @@
     --gradient-main: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     --transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
 
-    --font-main: 'Outfit', sans-serif;
+    --font-main: 'Be Vietnam Pro', 'Outfit', sans-serif;
 
     --container-width: 1200px;
     --header-height: 80px;
