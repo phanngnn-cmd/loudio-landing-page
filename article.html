@@ -85,20 +85,46 @@
 </head>
 
 <body>
-    <nav class="navbar" style="background: rgba(10, 10, 11, 0.95);">
+    <nav class="navbar">
         <div class="container nav-container">
             <a href="index.html" class="logo">
                 <img src="assets/loudio_full_logo.png" alt="Loudio" class="logo-full-img">
-                <span class="venue-tag nav-tag" data-i18n="nav_tag">for venues</span>
+                <span class="venue-tag nav-tag-small" data-i18n="nav_tag">for venues</span>
             </a>
             <div class="nav-links">
-                <a href="index.html#hero">Introduction</a>
-                <a href="index.html#features">Features</a>
-                <a href="index.html#blog">Blog</a>
+                <a href="index.html#how-it-works" data-i18n="nav_about">About Us</a>
+                <a href="index.html#features" data-i18n="nav_features">Features</a>
+                <a href="index.html#blog" data-i18n="nav_blog">Blog</a>
+                <a href="index.html#testimonials" data-i18n="nav_testimonials">Testimonials</a>
+                <a href="index.html#pricing" data-i18n="nav_pricing">Pricing</a>
+                <a href="index.html#faq" data-i18n="nav_faq">FAQ</a>
+                <a href="https://loudio.app" class="nav-pick-music" target="_blank">Pick Music</a>
             </div>
             <div class="nav-actions">
-                <a href="index.html#signup" class="btn btn-primary">Get Started</a>
+                <div class="lang-switcher">
+                    <button class="lang-btn lang-btn-compact" id="langBtn">
+                        <span class="flag">🇺🇸</span>
+                        <span class="lang-name">EN</span>
+                    </button>
+                    <div class="lang-dropdown" id="langDropdown">
+                        <a href="#" class="lang-option active" data-lang="en">
+                            <span class="flag">🇺🇸</span> English
+                        </a>
+                        <a href="#" class="lang-option" data-lang="vi">
+                            <span class="flag">🇻🇳</span> Tiếng Việt
+                        </a>
+                        <a href="#" class="lang-option" data-lang="fr">
+                            <span class="flag">🇫🇷</span> Français
+                        </a>
+                    </div>
+                </div>
+                <a href="index.html#signup" class="btn btn-primary" data-i18n="nav_cta">Get Started</a>
             </div>
+            <button class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
 
@@ -116,6 +142,7 @@
     </footer>
 
     <script src="translations.js"></script>
+    <script src="main.js"></script>
     <script>
         const SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE'; // User needs to update this
 
@@ -141,25 +168,111 @@
             if (articleId.startsWith('dummy')) {
                 const dummies = {
                     dummy1: {
-                        title: "The Future of Venue Soundscapes",
-                        content: "<h2>Personalizing the Vibe</h2><p>How AI is personalizing the music experience for every guest in real-time. This is the future of hospitality where the environment adapts to the crowd.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>",
+                        title: "The Future of Venue Soundscapes: Your DJ is a Bot (And He's Nicer Than Steve)",
+                        content: `
+                            <h2>Why Your Vibe is Currently a Hot Mess</h2>
+                            <p>Let's be honest: your current soundscape probably depends on a Spotify playlist titled "Vibe 2024" that someone's cousin created. Or worse, a human DJ named Steve who refuses to play anything but 140 BPM deep house even during Sunday brunch. Research shows that <strong>75% of business owners believe music helps them stand out</strong> (BMI, 2023), but if your music is standing out like a neon-green tuxedo at a funeral, you have a problem.</p>
+                            
+                            <p>AI is here to fix that. Unlike Steve, AI doesn't have an ego. It doesn't care if you don't like its underground remixes. It cares about data. AI analyzes the room's energy like a mother-in-law looking for dust on a bookshelf. According to a study by the <em>Journal of Service Research</em> (2019), "sensory stimuli in servicescapes," particularly music, accounts for as much as 30% of perceived service quality. In layman's terms: buy some AI or your customers will think your coffee tastes like regret.</p>
+                            
+                            <h3>The Science of Selective Hearing</h3>
+                            <p>Studies found that background music can influence how much people spend; specifically, faster tempos can move people out faster—increasing table turnover by up to 11% during lunch rushes—while slower tempos encourage lingering and that extra round of mimosas (Milliman, 1982). This is known as "Arousal Theory." When the BPM hits 130+, your heart rate actually increases, making you chew faster. Loudio's AI handles this transition smoother than a buttered penguin on an ice slide.</p>
+                            
+                            <p>Furthermore, a 2014 study from the University of Oxford found that high-pitched sounds enhance the perception of sweetness, while low-pitched brassy sounds enhance bitterness. Our AI doesn't just play tracks; it manipulates the very molecules of your guest's experience. If you're serving a $15 dessert, we're playing the musical equivalent of powdered sugar. If Steve is playing heavy metal during dessert, he's basically pouring salt in their mouths.</p>
+                            
+                            <blockquote>"The AI is so good, it actually played 'All I Want for Christmas Is You' the exact second my sanity left the building on December 24th." - Anonymous Bar Manager</blockquote>
+                        `,
                         image: "https://images.unsplash.com/photo-1514525253361-bee8718a74a1?auto=format&fit=crop&w=800&q=80",
                         date: new Date().toISOString(),
                         author: "Loudio Team"
                     },
                     dummy2: {
-                        title: "Boosting ROI with Digital Jukeboxes",
-                        content: "<h2>Data-Driven Success</h2><p>Case studies from 5 leading brands that saw a 15% increase in dwell time. Digital jukeboxes aren't just for music; they're revenue engines.</p>",
+                        title: "Boosting ROI: How to Get Paid When Your Customers Have Bad Taste",
+                        content: `
+                            <h2>Money, Money, Money (And a Bit of 'Baby Shark')</h2>
+                            <p>Did you know that <strong>dwell time increases by up to 40% when the music is 'right'</strong>? (Mood Media, 2022). But what's even better than people staying longer? People paying you to play their favorite songs. It's like a legalized bribe, and everyone wins. Except maybe the person forced to listen to 'Wonderwall' for the third time tonight.</p>
+                            
+                            <p>The Digital Jukebox isn't just a tool; it's a social experiment. We've seen venues increase their nightly revenue by 10-15% just through song requests. People will literally pay $5 to skip their friend's terrible choice of 10-minute experimental jazz. It's basically a "Save the Vibe" tax. In a landmark study published in the <em>Psychology of Music</em> (2011), researchers found that jukeboxes that allowed "priority voting" (paying to move a song up) increased total per-capita spending by nearly double vs. static playlists.</p>
+                            
+                            <h3>The 'Despacito' Multiplier</h3>
+                            <p>Imagine this: A group enters. One joker requests 'Despacito'. Another table, fearing for their lives, pays $10 to bump their classic rock request to the top. The first table counters with $15. You, the owner, are now making money from a musical arms race. According to the <em>Journal of Applied Social Psychology</em>, music choice directly impacts consumer behavior—and apparently, people are very motivated by spite. Spite, as it turns out, has a very high Profit Margin.</p>
+                            
+                            <p>Loudio handles the payments, the queue, and the inevitable arguments. A 2017 white paper by the <em>International Hospitality Institute</em> noted that frictionless mobile payments in "Interactive Environments" reduce the 'Pain of Paying' (Prelec & Loewenstein, 1998) by up to 22%. By the time they realize they've spent $50 on Taylor Swift, they're already having too much fun to care. You just watch the numbers go up and think about which tropical island you'll visit when the 'Baby Shark' royalties kick in.</p>
+                        `,
                         image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80",
                         date: new Date().toISOString(),
                         author: "Loudio Team"
                     },
                     dummy3: {
-                        title: "Top 10 Vibe-Setting Tips",
-                        content: "<h2>Curating the Sound</h2><p>Expert advice on balancing requests with your venue's unique sonic identity. Don't let your vibe be compromised while engaging your guests.</p>",
+                        title: "Vibe-Setting 101: Preventing Musical Mosh Pits at Vegan Bakeries",
+                        content: `
+                            <h2>The Art of Not Ruining Brunch</h2>
+                            <p>There's a fine line between a "lively atmosphere" and "the sound of a jet engine in a library." The psychology of music shows that <strong>consonant (pleasant) music leads to more positive brand associations</strong> (Knoblich, 2012). Conversely, playing death metal while someone is trying to eat a delicate almond croissant is what we call "A Very Bad Idea." It's musical cognitive dissonance, and it makes people want to leave. Fast.</p>
+                            
+                            <p>Tip #1: Know your BPM. 70-100 BPM is for chilling. 120+ BPM is for when you want people to finish their coffee and leave so you can reset the table. It's the musical equivalent of a friendly "Get out" nudge. Research from the <em>Journal of Marketing</em> (2018) suggests that background sound volume also affects food choice: low volume promotes healthy choices, while high volume increases the likelihood of ordering high-calorie comfort foods. If you're a gym cafe, turn it down. If you sell burgers, crank it up.</p>
+                            
+                            <h3>Avoid the "Vibe Collision"</h3>
+                            <p>A "Vibe Collision" happens when a guest requests 'Slayer' in the middle of a romantic Valentine's Day dinner. With Loudio, you can set "Vibe Guardrails." This means the AI filters requests to ensure they actually match the mood you've spent thousands on decor to create. A study by <em>Hargreaves and North</em> (1997) proved that "Fitness for Purpose" is the single most important factor in whether customers enjoy background music. If the music fits the decor, they'll rate your food higher. If it doesn't, they'll think your pasta is 'confused'.</p>
+                            
+                            <p>Remember: You are the God of your venue's atmosphere. Use your power wisely. Or just let the AI do it, because it doesn't get distracted by a cute puppy walking past the window. Loudio ensures that your sonic identity is protected while your guests feel like they have the wheel. It's the ultimate 'Illusion of Control' (Langer, 1975), and it works every single time.</p>
+                        `,
                         image: "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?auto=format&fit=crop&w=800&q=80",
                         date: new Date().toISOString(),
                         author: "Loudio Team"
+                    },
+                    // Vietnamese versions
+                    dummy1_vi: {
+                        title: "Tương Lai Âm Nhạc: AI DJ Tốt Hơn Anh DJ Steve",
+                        content: `
+                            <h2>Tại Sao 'Vibe' Quán Bạn Đang Là Thảm Họa</h2>
+                            <p>Thành thật mà nói: không gian âm nhạc quán bạn có lẽ phụ thuộc vào playlist Spotify tên 'Vibe 2024' do anh em họ ai đó tạo. Hoặc tệ hơn, một DJ tên Steve cứ khăng khăng chơi deep house 140 BPM ngay cả lúc brunch Chủ nhật. Nghiên cứu cho thấy <strong>75% chủ doanh nghiệp tin rằng âm nhạc giúp họ nổi bật</strong> (BMI, 2023), nhưng nếu quán bạn nổi bật như bộ vest xanh neon trong đám tang, thì đó là vấn đề.</p>
+                            
+                            <p>AI đến để sửa chữa điều đó. Không giống Steve, AI không có cái tôi. Nó không quan tâm bạn có thích remix underground của nó hay không. Nó quan tâm đến dữ liệu. AI phân tích năng lượng căn phòng như bà mẹ chồng tìm bụi trên kệ sách. Theo nghiên cứu của <em>Journal of Service Research</em> (2019), "kích thích giác quan trong không gian dịch vụ", đặc biệt là âm nhạc, chiếm tới 30% chất lượng dịch vụ cảm nhận. Nói cho dễ hiểu: mua AI đi, không thì khách sẽ nghĩ cà phê của bạn vị như hối hận.</p>
+                            
+                            <h3>Khoa Học Về 'Nghe Chọn Lọc'</h3>
+                            <p>Các nghiên cứu cho thấy nhạc nền có thể ảnh hưởng đến việc mọi người chi tiêu bao nhiêu; cụ thể, nhịp độ nhanh hơn có thể đẩy người ra ngoài nhanh hơn—tăng tốc độ luân chuyển bàn lên tới 11% trong giờ ăn trưa—trong khi nhịp độ chậm hơn khuyến khích nán lại và gọi thêm một ly mimosa (Milliman, 1982). Đây được gọi là "Lý thuyết Kích thích." Khi BPM chạm ngưỡng 130+, nhịp tim bạn thực sự tăng lên, khiến bạn nhai nhanh hơn. AI của Loudio xử lý quá trình chuyển đổi này mượt hơn cả chim cánh cụt bơ trượt trên băng.</p>
+                            
+                            <p>Hơn nữa, một nghiên cứu năm 2014 từ Đại học Oxford phát hiện rằng âm thanh cao làm tăng cảm nhận vị ngọt, trong khi âm thanh trầm làm tăng vị đắng. AI của chúng tôi không chỉ phát nhạc; nó điều khiển chính phân tử trải nghiệm của khách. Nếu bạn phục vụ món tráng miệng $15, chúng tôi đang phát 'đường bột âm nhạc'. Nếu Steve chơi heavy metal lúc tráng miệng, anh ấy đang rắc muối vào miệng khách.</p>
+                            
+                            <blockquote>"AI giỏi đến mức nó thực sự phát 'All I Want for Christmas Is You' đúng giây phút tôi mất lý trí vào ngày 24/12." - Quản lý quán bar ẩn danh</blockquote>
+                        `,
+                        image: "https://images.unsplash.com/photo-1514525253361-bee8718a74a1?auto=format&fit=crop&w=800&q=80",
+                        date: new Date().toISOString(),
+                        author: "Đội Loudio"
+                    },
+                    dummy2_vi: {
+                        title: "Tăng Doanh Thu: Kiếm Tiền Từ Gu Nhạc 'Độc Lạ' Của Khách",
+                        content: `
+                            <h2>Tiền, Tiền, Tiền (Và Một Chút 'Baby Shark')</h2>
+                            <p>Bạn có biết rằng <strong>thời gian ở lại tăng tới 40% khi nhạc 'đúng gu'</strong>? (Mood Media, 2022). Nhưng điều gì còn tốt hơn việc mọi người ở lại lâu? Họ trả tiền để bạn phát bài hát yêu thích của họ. Như một hối lộ hợp pháp, và mọi người đều thắng. Trừ người bị ép nghe 'Wonderwall' lần thứ ba đêm nay.</p>
+                            
+                            <p>Digital Jukebox không chỉ là công cụ; nó là thí nghiệm xã hội. Chúng tôi thấy các địa điểm tăng doanh thu đêm 10-15% chỉ qua yêu cầu bài hát. Mọi người sẽ trả $5 để bỏ qua lựa chọn jazz thử nghiệm 10 phút kinh khủng của bạn họ. Về cơ bản nó là "Thuế Cứu Vibe". Trong nghiên cứu mang tính bước ngoặt được xuất bản trên <em>Psychology of Music</em> (2011), các nhà nghiên cứu phát hiện rằng jukebox cho phép "bỏ phiếu ưu tiên" (trả tiền để đẩy bài hát lên) tăng tổng chi tiêu bình quân đầu người gần gấp đôi so với playlist tĩnh.</p>
+                            
+                            <h3>Hệ Số Nhân 'Despacito'</h3>
+                            <p>Tưởng tượng thế này: Một nhóm vào. Một tên hề yêu cầu 'Despacito'. Bàn khác, sợ hãi mất mạng, trả $10 để đẩy yêu cầu rock cổ điển lên đầu. Bàn đầu phản công bằng $15. Bạn, chủ quán, đang kiếm tiền từ cuộc chạy đua vũ trang âm nhạc. Theo <em>Journal of Applied Social Psychology</em>, lựa chọn nhạc tác động trực tiếp đến hành vi tiêu dùng—và rõ ràng, mọi người rất được thúc đẩy bởi mối thù. Mối thù, hóa ra, có Tỷ suất Lợi nhuận rất cao.</p>
+                            
+                            <p>Loudio xử lý thanh toán, hàng đợi và những tranh cãi không thể tránh khỏi. Một white paper năm 2017 của <em>International Hospitality Institute</em> lưu ý rằng thanh toán di động không ma sát trong "Môi trường Tương tác" giảm 'Nỗi Đau Khi Trả Tiền' (Prelec & Loewenstein, 1998) tới 22%. Khi họ nhận ra đã chi $50 cho Taylor Swift, họ đang vui quá nên không quan tâm. Bạn chỉ xem con số tăng và nghĩ về hòn đảo nhiệt đới sẽ đến khi tiền bản quyền 'Baby Shark' về.</p>
+                        `,
+                        image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80",
+                        date: new Date().toISOString(),
+                        author: "Đội Loudio"
+                    },
+                    dummy3_vi: {
+                        title: "Tạo 'Vibe': Tránh Mosh Pit Tại Tiệm Bánh Chay",
+                        content: `
+                            <h2>Nghệ Thuật Không Phá Hỏng Brunch</h2>
+                            <p>Có ranh giới mỏng manh giữa "không khí sôi động" và "tiếng động cơ phản lực trong thư viện." Tâm lý học âm nhạc cho thấy <strong>nhạc hài hòa (dễ nghe) dẫn đến liên kết thương hiệu tích cực hơn</strong> (Knoblich, 2012). Ngược lại, chơi death metal khi ai đó đang cố ăn bánh hạnh nhân tinh tế là điều chúng tôi gọi là "Ý Tưởng Rất Tệ". Đó là sự bất hòa nhận thức âm nhạc, và nó khiến mọi người muốn rời đi. Nhanh.</p>
+                            
+                            <p>Mẹo #1: Biết BPM của bạn. 70-100 BPM để thư giãn. 120+ BPM là khi bạn muốn mọi người uống xong cà phê và rời đi để bạn dọn bàn. Nó là cái húc 'Ra ngoài đi' thân thiện phiên bản âm nhạc. Nghiên cứu từ <em>Journal of Marketing</em> (2018) cho thấy âm lượng nền cũng ảnh hưởng đến lựa chọn thức ăn: âm lượng thấp thúc đẩy lựa chọn lành mạnh, trong khi âm lượng cao tăng khả năng gọi món ăn calo cao. Nếu bạn là quán gym cafe, giảm âm lượng xuống. Nếu bạn bán burger, tăng lên.</p>
+                            
+                            <h3>Tránh "Vibe Collision"</h3>
+                            <p>"Vibe Collision" xảy ra khi khách yêu cầu 'Slayer' giữa bữa tối Valentine lãng mạn. Với Loudio, bạn có thể đặt "Rào Vibe". Điều này có nghĩa AI lọc yêu cầu để đảm bảo chúng thực sự phù hợp với tâm trạng bạn đã chi hàng nghìn đô cho trang trí. Một nghiên cứu của <em>Hargreaves và North</em> (1997) chứng minh rằng "Phù Hợp Với Mục Đích" là yếu tố quan trọng nhất để khách hàng thích nhạc nền. Nếu nhạc phù hợp với trang trí, họ sẽ đánh giá đồ ăn cao hơn. Nếu không, họ sẽ nghĩ pasta của bạn 'bối rối'.</p>
+                            
+                            <p>Nhớ: Bạn là Thần của không khí quán. Dùng quyền lực khôn ngoan. Hoặc để AI làm, vì nó không bị phân tâm bởi chú chó dễ thương đi ngang cửa sổ. Loudio đảm bảo bản sắc âm thanh của bạn được bảo vệ trong khi khách cảm thấy như họ đang cầm lái. Đó là 'Ảo Giác Kiểm Soát' tối thượng (Langer, 1975), và nó hiệu quả mọi lúc.</p>
+                        `,
+                        image: "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?auto=format&fit=crop&w=800&q=80",
+                        date: new Date().toISOString(),
+                        author: "Đội Loudio"
                     }
                 };
                 renderArticle(dummies[articleId], dict);

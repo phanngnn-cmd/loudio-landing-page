@@ -379,6 +379,16 @@ h3 {
     font-size: 1rem;
 }
 
+.flag-img {
+    width: 20px;
+    height: 15px;
+    object-fit: cover;
+    border-radius: 3px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+
 /* Hero Section */
 /* Hero Section */
 .hero {
@@ -773,6 +783,95 @@ h3 {
     opacity: 0.6;
     text-align: center;
 }
+
+/* Partners Section */
+.partners {
+    background: rgba(255, 255, 255, 0.02);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+}
+
+.partners-scroll-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.partners-grid {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    animation: scroll-partners 40s linear infinite;
+    width: fit-content;
+}
+
+.partners-grid:hover {
+    animation-play-state: paused;
+}
+
+@keyframes scroll-partners {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.partner-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 140px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 15px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.partner-item:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-color);
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 10px 30px rgba(123, 44, 191, 0.2);
+}
+
+.partner-logo {
+    max-width: 100%;
+    max-height: 70px;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.partner-item:hover .partner-logo {
+    filter: grayscale(0%);
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    .partners-grid {
+        gap: 20px;
+        animation: scroll-partners 30s linear infinite;
+    }
+
+    .partner-item {
+        width: 120px;
+        height: 85px;
+        padding: 12px;
+    }
+
+    .partner-logo {
+        max-height: 55px;
+    }
+}
+
 
 .section-header {
     text-align: center;

@@ -25,7 +25,7 @@
                 <span class="venue-tag nav-tag-small" data-i18n="nav_tag">for venues</span>
             </a>
             <div class="nav-links">
-                <a href="#hero" data-i18n="nav_intro">Introduction</a>
+                <a href="#how-it-works" data-i18n="nav_about">About Us</a>
                 <a href="#features" data-i18n="nav_features">Features</a>
                 <a href="#blog" data-i18n="nav_blog">Blog</a>
                 <a href="#testimonials" data-i18n="nav_testimonials">Testimonials</a>
@@ -36,18 +36,18 @@
             <div class="nav-actions">
                 <div class="lang-switcher">
                     <button class="lang-btn lang-btn-compact" id="langBtn">
-                        <span class="flag">🇺🇸</span>
+                        <img src="assets/flag_en.png" alt="EN" class="flag-img">
                         <span class="lang-name">EN</span>
                     </button>
                     <div class="lang-dropdown" id="langDropdown">
                         <a href="#" class="lang-option active" data-lang="en">
-                            <span class="flag">🇺🇸</span> English
+                            <img src="assets/flag_en.png" alt="EN" class="flag-img"> English
                         </a>
                         <a href="#" class="lang-option" data-lang="vi">
-                            <span class="flag">🇻🇳</span> Tiếng Việt
+                            <img src="assets/flag_vi.png" alt="VI" class="flag-img"> Tiếng Việt
                         </a>
                         <a href="#" class="lang-option" data-lang="fr">
-                            <span class="flag">🇫🇷</span> Français
+                            <img src="assets/flag_fr.png" alt="FR" class="flag-img"> Français
                         </a>
                     </div>
                 </div>
@@ -320,61 +320,115 @@
         </div>
     </section>
 
-    <!-- Blog Section -->
-    <section id="blog" class="section blog">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title" data-i18n="blog_title">Loudio Insights</h2>
-                <p class="section-desc" data-i18n="blog_desc">Market trends, venue success stories, and AI music tips.
-                </p>
-            </div>
-            <div class="blog-grid" id="blog-grid">
-                <!-- Articles will be loaded here dynamically -->
-                <div class="blog-loading">Loading latest articles...</div>
-            </div>
-            <div class="blog-footer" style="text-align: center; margin-top: 40px;">
-                <a href="#" class="btn btn-outline" data-i18n="blog_view_all">View All Articles</a>
-            </div>
-        </div>
     </section>
 
-    <!-- Testimonials Section -->
-    <section id="testimonials" class="section testimonials">
+    <!-- Partners Section -->
+    <section id="partners" class="section partners">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title" data-i18n="testimonials_title">Trusted by Nightlife Leaders</h2>
+                <h2 class="section-title" data-i18n="partners_title">Our Partners</h2>
+                <p class="section-desc" data-i18n="partners_desc">Backed by leading accelerators, investors, and music
+                    industry leaders.</p>
             </div>
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <p class="quote" data-i18n="test1_quote">"Loudio changed the vibe completely. Customers stay longer
-                        because they control the
-                        music, and our revenue is up 20%."</p>
-                    <div class="author">
-                        <div class="author-info">
-                            <h4 data-i18n="test1_author">Nguyen Tuan Anh</h4>
-                            <span data-i18n="test1_role">Owner, The Coffee House (HCMC)</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <p class="quote">"Setup was instant. No hardware needed. It's the first time I've seen customers
-                        actually excited about the background music."</p>
-                    <div class="author">
-                        <div class="author-info">
-                            <h4>Tran Thi Mai</h4>
-                            <span>Manager, Chill Skybar</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <p class="quote">"The AI DJ is a lifesaver. It reads the room perfectly on busy Friday nights. Huge
-                        upgrade from our old Spotify playlists."</p>
-                    <div class="author">
-                        <div class="author-info">
-                            <h4>Le Minh</h4>
-                            <span>Founder, Acoustic Bar Hanoi</span>
-                        </div>
-                    </div>
+            <div class="partners-scroll-container">
+                <div class="partners-grid">
+                    <a href="https://appworks.tw" target="_blank" rel="noopener noreferrer" class="partner-item"
+                        title="AppWorks Accelerator">
+                        <img src="assets/partner_appworks.png" alt="AppWorks Accelerator" class="partner-logo">
+                    </a>
+                    <a href="https://expara.com" target="_blank" rel="noopener noreferrer" class="partner-item"
+                        title="Expara Accelerator">
+                        <img src="assets/partner_expara.png" alt="Expara Accelerator" class="partner-logo">
+                    </a>
+                    <a href="https://sun-asterisk.com" target="_blank" rel="noopener noreferrer" class="partner-item"
+                        title="Sun* Startups">
+                        <img src="assets/partner_sun.png" alt="Sun* Startups" class="partner-logo">
+                    </a>
+                    <a href="https://wiziin.com" target="_blank" rel="noopener noreferrer" class="partner-item"
+                        title="Wiziin">
+                        <img src="assets/partner_wiziin.png" alt="Wiziin" class="partner-logo">
+                    </a>
+                    <a href="https://vcpmc.org" target="_blank" rel="noopener noreferrer" class="partner-item"
+                        title="VCPMC">
+                        <img src="assets/partner_vcpmc.png" alt="VCPMC" class="partner-logo">
+                    </a>
+                    <a href="https://www.universalmusic.com" target="_blank" rel="noopener noreferrer"
+                        class="partner-item" title="Universal Music Group">
+                        <img src="assets/partner_universal.png" alt="Universal Music Group" class="partner-logo">
+                    </a>
+                    <a href="https://skymusic.vn" target="_blank" rel="noopener noreferrer" class="partner-item"
+                        title="Sky Music">
+                        <img src="assets/partner_skymusic.png" alt="Sky Music" class="partner-logo">
+                    </a>
+                    <a href="https://bssc.com.vn" target="_blank" rel="noopener noreferrer" class="partner-item"
+                        title="BSSC">
+                        <img src="assets/partner_bssc.png" alt="BSSC" class="partner-logo">
+                    </a>
+                    <a href="https://sihub.org.vn" target="_blank" rel="noopener noreferrer" class="partner-item"
+                        title="SIHUB">
+                        <img src="assets/partner_sihub.png" alt="SIHUB" class="partner-logo">
+                    </a>
+                    <a href="https://yba.org.vn" target="_blank" rel="noopener noreferrer" class="partner-item"
+                        title="YBA">
+                        <img src="assets/partner_yba.png" alt="YBA" class="partner-logo">
+                    </a>
+                    <a href="https://momo.vn" target="_blank" rel="noopener noreferrer" class="partner-item"
+                        title="Momo">
+                        <img src="assets/partner_momo.png" alt="Momo" class="partner-logo">
+                    </a>
+                    <a href="https://ifpi.org" target="_blank" rel="noopener noreferrer" class="partner-item"
+                        title="IFPI">
+                        <img src="assets/partner_ifpi.png" alt="IFPI" class="partner-logo">
+                    </a>
+                    <!-- Duplicate set for seamless infinite scroll -->
+                    <a href="https://appworks.tw" target="_blank" rel="noopener noreferrer" class="partner-item"
+                        title="AppWorks Accelerator">
+                        <img src="assets/partner_appworks.png" alt="AppWorks Accelerator" class="partner-logo">
+                    </a>
+                    <a href="https://expara.com" target="_blank" rel="noopener noreferrer" class="partner-item"
+                        title="Expara Accelerator">
+                        <img src="assets/partner_expara.png" alt="Expara Accelerator" class="partner-logo">
+                    </a>
+                    <a href="https://sun-asterisk.com" target="_blank" rel="noopener noreferrer" class="partner-item"
+                        title="Sun* Startups">
+                        <img src="assets/partner_sun.png" alt="Sun* Startups" class="partner-logo">
+                    </a>
+                    <a href="https://wiziin.com" target="_blank" rel="noopener noreferrer" class="partner-item"
+                        title="Wiziin">
+                        <img src="assets/partner_wiziin.png" alt="Wiziin" class="partner-logo">
+                    </a>
+                    <a href="https://vcpmc.org" target="_blank" rel="noopener noreferrer" class="partner-item"
+                        title="VCPMC">
+                        <img src="assets/partner_vcpmc.png" alt="VCPMC" class="partner-logo">
+                    </a>
+                    <a href="https://www.universalmusic.com" target="_blank" rel="noopener noreferrer"
+                        class="partner-item" title="Universal Music Group">
+                        <img src="assets/partner_universal.png" alt="Universal Music Group" class="partner-logo">
+                    </a>
+                    <a href="https://skymusic.vn" target="_blank" rel="noopener noreferrer" class="partner-item"
+                        title="Sky Music">
+                        <img src="assets/partner_skymusic.png" alt="Sky Music" class="partner-logo">
+                    </a>
+                    <a href="https://bssc.com.vn" target="_blank" rel="noopener noreferrer" class="partner-item"
+                        title="BSSC">
+                        <img src="assets/partner_bssc.png" alt="BSSC" class="partner-logo">
+                    </a>
+                    <a href="https://sihub.org.vn" target="_blank" rel="noopener noreferrer" class="partner-item"
+                        title="SIHUB">
+                        <img src="assets/partner_sihub.png" alt="SIHUB" class="partner-logo">
+                    </a>
+                    <a href="https://yba.org.vn" target="_blank" rel="noopener noreferrer" class="partner-item"
+                        title="YBA">
+                        <img src="assets/partner_yba.png" alt="YBA" class="partner-logo">
+                    </a>
+                    <a href="https://momo.vn" target="_blank" rel="noopener noreferrer" class="partner-item"
+                        title="Momo">
+                        <img src="assets/partner_momo.png" alt="Momo" class="partner-logo">
+                    </a>
+                    <a href="https://ifpi.org" target="_blank" rel="noopener noreferrer" class="partner-item"
+                        title="IFPI">
+                        <img src="assets/partner_ifpi.png" alt="IFPI" class="partner-logo">
+                    </a>
                 </div>
             </div>
         </div>
@@ -480,6 +534,67 @@
             </div>
         </div>
     </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="section testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" data-i18n="testimonials_title">Trusted by Nightlife Leaders</h2>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p class="quote" data-i18n="test1_quote">"Loudio changed the vibe completely. Customers stay longer
+                        because they control the
+                        music, and our revenue is up 20%."</p>
+                    <div class="author">
+                        <div class="author-info">
+                            <h4 data-i18n="test1_author">Nam</h4>
+                            <span data-i18n="test1_role">Manager, KFC (HCMC)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="quote">"Setup was instant. No hardware needed. It's the first time I've seen customers
+                        actually excited about the background music."</p>
+                    <div class="author">
+                        <div class="author-info">
+                            <h4>Raja</h4>
+                            <span>Director, Elite Fitness</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="quote">"The AI DJ is a lifesaver. It reads the room perfectly on busy Friday nights. Huge
+                        upgrade from our old Spotify playlists."</p>
+                    <div class="author">
+                        <div class="author-info">
+                            <h4>Le Minh</h4>
+                            <span>Founder, Tadioto (Hanoi)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="section blog">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" data-i18n="blog_title">Loudio Insights</h2>
+                <p class="section-desc" data-i18n="blog_desc">Market trends, venue success stories, and AI music tips.
+                </p>
+            </div>
+            <div class="blog-grid" id="blog-grid">
+                <!-- Articles will be loaded here dynamically -->
+                <div class="blog-loading">Loading latest articles...</div>
+            </div>
+            <div class="blog-footer" style="text-align: center; margin-top: 40px;">
+                <a href="#" class="btn btn-outline" data-i18n="blog_view_all">View All Articles</a>
+            </div>
+        </div>
+    </section>
+
 
     <!-- Sign Up / CTA Section -->
     <section id="signup" class="section cta-section">
@@ -620,7 +735,7 @@
     <!-- Background Music -->
     <audio id="bg-music" loop autoplay>
         <source
-            src="https://upload.wikimedia.org/wikipedia/commons/9/90/WinnieTheMoog_-_Street_Trap_%28cc-by%29_%28filmmusic%29.mp3"
+            src="C:\Users\phann\Music\4K YouTube to MP3\1 hour of Kanye instrumentals to work study to-[AudioTrimmer.com].mp3"
             type="audio/mpeg">
     </audio>
 

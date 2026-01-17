@@ -328,29 +328,60 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (SCRIPT_URL === 'YOUR_GOOGLE_SCRIPT_URL_HERE') {
             // Show dummy articles if URL is not set
-            renderBlogArticles([
-                {
-                    title: "The Future of Venue Soundscapes",
-                    excerpt: "How AI is personalizing the music experience for every guest in real-time.",
-                    image: "https://images.unsplash.com/photo-1514525253361-bee8718a74a1?auto=format&fit=crop&w=800&q=80",
-                    date: new Date().toISOString(),
-                    id: "dummy1"
-                },
-                {
-                    title: "Boosting ROI with Digital Jukeboxes",
-                    excerpt: "Case studies from 5 leading brands that saw a 15% increase in dwell time.",
-                    image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80",
-                    date: new Date().toISOString(),
-                    id: "dummy2"
-                },
-                {
-                    title: "Top 10 Vibe-Setting Tips",
-                    excerpt: "Expert advice on balancing requests with your venue's unique sonic identity.",
-                    image: "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?auto=format&fit=crop&w=800&q=80",
-                    date: new Date().toISOString(),
-                    id: "dummy3"
-                }
-            ]);
+            const lang = document.documentElement.lang || 'en';
+            let articles = [];
+
+            if (lang === 'vi') {
+                articles = [
+                    {
+                        title: "Tương Lai Âm Nhạc: AI DJ Tốt Hơn Anh DJ Steve",
+                        excerpt: "Tại sao playlist Spotify 'Vibe 2024' có thể đang phá hỏng không khí quán bạn.",
+                        image: "https://images.unsplash.com/photo-1514525253361-bee8718a74a1?auto=format&fit=crop&w=800&q=80",
+                        date: new Date().toISOString(),
+                        id: "dummy1_vi"
+                    },
+                    {
+                        title: "Tăng Doanh Thu: Kiếm Tiền Từ Gu Nhạc 'Độc Lạ' Của Khách",
+                        excerpt: "Biến môi trường âm nhạc thành công cụ kiếm tiền (hợp pháp!).",
+                        image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80",
+                        date: new Date().toISOString(),
+                        id: "dummy2_vi"
+                    },
+                    {
+                        title: "Tạo 'Vibe': Tránh Mosh Pit Tại Tiệm Bánh Chay",
+                        excerpt: "Chuyên gia chia sẻ cách cân bằng yêu cầu nhạc mà không để Slayer phá hỏng bữa tối lãng mạn.",
+                        image: "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?auto=format&fit=crop&w=800&q=80",
+                        date: new Date().toISOString(),
+                        id: "dummy3_vi"
+                    }
+                ];
+            } else {
+                articles = [
+                    {
+                        title: "The Future of Venue Soundscapes: Your DJ is a Bot (And He's Nicer Than Steve)",
+                        excerpt: "Why relying on a Spotify playlist titled 'Vibe 2024' is a dangerous game for your business.",
+                        image: "https://images.unsplash.com/photo-1514525253361-bee8718a74a1?auto=format&fit=crop&w=800&q=80",
+                        date: new Date().toISOString(),
+                        id: "dummy1"
+                    },
+                    {
+                        title: "Boosting ROI: How to Get Paid When Your Customers Have Bad Taste",
+                        excerpt: "Turn your musical environment into a revenue engine (and a legalized bribe system).",
+                        image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80",
+                        date: new Date().toISOString(),
+                        id: "dummy2"
+                    },
+                    {
+                        title: "Vibe-Setting 101: Preventing Musical Mosh Pits at Vegan Bakeries",
+                        excerpt: "Expert advice on balancing guest requests without letting Slayer ruin a romantic dinner.",
+                        image: "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?auto=format&fit=crop&w=800&q=80",
+                        date: new Date().toISOString(),
+                        id: "dummy3"
+                    }
+                ];
+            }
+
+            renderBlogArticles(articles);
             return;
         }
 
@@ -423,11 +454,15 @@ document.addEventListener('DOMContentLoaded', () => {
             option.addEventListener('click', (e) => {
                 e.preventDefault();
                 const lang = option.getAttribute('data-lang');
-                const flag = option.querySelector('.flag').textContent;
-                const name = option.textContent.trim().replace(flag, '').trim();
+                const flagImg = option.querySelector('.flag-img');
 
-                // Update Button with abbreviated name
-                langBtn.querySelector('.flag').textContent = flag;
+                // Update Button with flag image and abbreviated name
+                const btnFlagImg = langBtn.querySelector('.flag-img');
+                if (flagImg && btnFlagImg) {
+                    btnFlagImg.src = flagImg.src;
+                    btnFlagImg.alt = flagImg.alt;
+                }
+
                 const abbrev = { en: 'EN', vi: 'VI', fr: 'FR' };
                 langBtn.querySelector('.lang-name').textContent = abbrev[lang] || lang.toUpperCase();
 
