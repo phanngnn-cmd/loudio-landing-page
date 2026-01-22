@@ -185,6 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const result = await submitLead({
                 venue_name: name,
                 contact_info: contact,
+                email: contact.includes('@') ? contact : undefined,
                 source: 'Onboarding Popup'
             });
 
@@ -237,6 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 name: name,
                 venue_name: venue,
                 contact_info: `Phone: ${phone}, Email: ${email}`,
+                email: email,
                 notes: notes,
                 source: 'Main Section'
             });
@@ -274,8 +276,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Centralized Lead Submission
     async function submitLead(data) {
-        // REPLACE THIS with your actual Google Script URL
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz2YwxBpQYvUqA1xYbLKBOLPEWhGX_3K9a-Dw2gYJJWcWE42sXAKZ5uQZrS5707M2wC/exec';
+        // Using Google Apps Script for reliability and easy email auto-reply
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw7dyjwNuMtHbRq48Jq9nhGyeiP3MO3w0CzpRAUlsClUqojKH5sSOFseZOCdGS7K6m0/exec';
 
         try {
             // 1. Fetch IP Address
@@ -295,22 +297,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 timestamp: new Date().toISOString()
             };
 
-            // 3. Submit to GAS (or Mock)
-            if (SCRIPT_URL !== 'YOUR_GOOGLE_SCRIPT_URL_HERE') {
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors', // GAS requires no-cors for simple web app posts
-                    cache: 'no-cache',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                return { success: true };
-            } else {
-                // Mock success with log
-                await new Promise(resolve => setTimeout(resolve, 1500));
-                console.log('Lead Captured (MOCK):', payload);
-                return { success: true };
-            }
+            // 3. Submit to GAS
+            const response = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors', // GAS requires no-cors
+                cache: 'no-cache',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            console.log('Lead successfully submitted via Google Script');
+            return { success: true };
+
         } catch (error) {
             console.error('Lead submission failed', error);
             return { success: false };
