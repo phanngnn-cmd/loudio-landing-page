@@ -221,56 +221,46 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
 
             const submitBtn = mainSignupForm.querySelector('button[type="submit"]');
-            const originalBtnText = submitBtn.textContent;
 
-            submitBtn.textContent = 'Sending...';
-            submitBtn.disabled = true;
-
-            const formData = new FormData(mainSignupForm);
-            // Since we don't have 'name' attributes on all inputs, we'll grab them by i18n keys or positions
+            // Collect form data BEFORE changing UI
             const name = mainSignupForm.querySelector('[data-i18n="cta_name_ph"]').value;
             const venue = mainSignupForm.querySelector('[data-i18n="cta_venue_ph"]').value;
             const phone = mainSignupForm.querySelector('[data-i18n="cta_phone_ph"]').value;
             const email = mainSignupForm.querySelector('[data-i18n="cta_email_ph"]').value;
             const notes = mainSignupForm.querySelector('[data-i18n="cta_notes_ph"]').value;
 
-            const result = await submitLead({
+            // OPTIMISTIC UI: Show success immediately
+            mainSignupForm.style.background = 'transparent';
+            mainSignupForm.style.border = 'none';
+            mainSignupForm.style.boxShadow = 'none';
+
+            mainSignupForm.innerHTML = `
+                <div class="premium-success-card">
+                    <div class="success-glow"></div>
+                    <div class="success-drawing-container">
+                        <svg viewBox="0 0 52 52" class="checkmark-svg">
+                            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                        </svg>
+                    </div>
+                    <h2 class="success-title" data-i18n="success_title">Welcome to the Club</h2>
+                    <p class="success-text" data-i18n="success_desc">We've received your request. Our team is already analyzing your venue's potential. Talk soon!</p>
+                    <div style="display: flex; gap: 15px; justify-content: center;">
+                        <a href="#hero" class="btn btn-outline">Back to Top</a>
+                        <a href="https://loudiomanager.com" class="btn btn-glass">Explore Dashboard</a>
+                    </div>
+                </div>
+            `;
+
+            // BACKGROUND: Send lead data (fire and forget)
+            submitLead({
                 name: name,
                 venue_name: venue,
                 contact_info: `Phone: ${phone}, Email: ${email}`,
                 email: email,
                 notes: notes,
                 source: 'Main Section'
-            });
-
-            if (result.success) {
-                // Change UI to success - PREMIUM REDESIGN
-                mainSignupForm.style.background = 'transparent';
-                mainSignupForm.style.border = 'none';
-                mainSignupForm.style.boxShadow = 'none';
-
-                mainSignupForm.innerHTML = `
-                    <div class="premium-success-card">
-                        <div class="success-glow"></div>
-                        <div class="success-drawing-container">
-                            <svg viewBox="0 0 52 52" class="checkmark-svg">
-                                <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
-                                <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-                            </svg>
-                        </div>
-                        <h2 class="success-title" data-i18n="success_title">Welcome to the Club</h2>
-                        <p class="success-text" data-i18n="success_desc">We've received your request. Our team is already analyzing your venue's potential. Talk soon!</p>
-                        <div style="display: flex; gap: 15px; justify-content: center;">
-                            <a href="#hero" class="btn btn-outline">Back to Top</a>
-                            <a href="https://loudiomanager.com" class="btn btn-glass">Explore Dashboard</a>
-                        </div>
-                    </div>
-                `;
-            } else {
-                alert('Có lỗi xảy ra. Vui lòng thử lại.');
-                submitBtn.textContent = originalBtnText;
-                submitBtn.disabled = false;
-            }
+            }).catch(err => console.error('Lead submission failed:', err));
         });
     }
 

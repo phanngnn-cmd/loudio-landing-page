@@ -118,24 +118,28 @@ function sendAutoReplyToCustomer(data, emailAddress) {
 
     // Basic check to see if it's an email address
     if (recipient && recipient.includes('@')) {
-        var venueName = data['Venue Name'] !== 'N/A' ? data['Venue Name'] : 'venue của bạn';
-        var emailSubject = "Chào mừng đến với Loudio - Nâng tầm trải nghiệm âm nhạc tại venue!";
+        var venueName = data['Venue Name'] !== 'N/A' ? data['Venue Name'] : 'your venue';
+        var emailSubject = "Welcome to Loudio - Elevating Your Venue's Music Experience!";
+        var logoUrl = "https://loudio.vn/assets/loudio_full_logo.png";
         var emailBody = `
         <div style="font-family: 'Be Vietnam Pro', Arial, sans-serif; max-width: 600px; color: #333; line-height: 1.6;">
-          <h2 style="color: #7B2CBF;">Chào bạn,</h2>
-          <p>Cảm ơn bạn đã quan tâm đến giải pháp âm nhạc tương tác từ <strong>Loudio</strong>!</p>
-          <p>Chúng tôi đã nhận được thông tin đăng ký cho <strong>${venueName}</strong>. Đội ngũ Loudio đang xử lý yêu cầu của bạn và sẽ liên hệ trong vòng 24 giờ tới!</p>
+          <div style="text-align: center; margin-bottom: 20px;">
+            <img src="${logoUrl}" alt="Loudio" style="max-width: 180px; height: auto;">
+          </div>
+          <h2 style="color: #7B2CBF;">Hello!</h2>
+          <p>Thank you for your interest in <strong>Loudio</strong>'s interactive music solution!</p>
+          <p>We've received your registration for <strong>${venueName}</strong>. Our team is processing your request and will reach out within 24 hours!</p>
           
           <div style="background: #f8f4ff; padding: 15px; border-radius: 8px; margin: 20px 0;">
-            <p style="margin: 0; font-weight: bold;">Thông tin đã nhận:</p>
+            <p style="margin: 0; font-weight: bold;">Information Received:</p>
             <p style="margin: 5px 0;">📍 Venue: ${venueName}</p>
-            <p style="margin: 5px 0;">📧 Liên hệ: ${recipient}</p>
+            <p style="margin: 5px 0;">📧 Contact: ${recipient}</p>
           </div>
           
           <br>
-          <p>Trân trọng,</p>
-          <p><strong>Đội ngũ Loudio</strong></p>
-          <p style="font-size: 12px; color: #999;">Email này được gửi tự động từ hệ thống chăm sóc khách hàng của Loudio.</p>
+          <p>Best regards,</p>
+          <p><strong>The Loudio Team</strong></p>
+          <p style="font-size: 12px; color: #999;">This email was sent automatically from Loudio's customer care system.</p>
         </div>`;
 
         try {
@@ -150,17 +154,27 @@ function sendAutoReplyToCustomer(data, emailAddress) {
             console.log("Email sent successfully via alias.");
         } catch (e) {
             console.error("Failed to send via alias: " + e.toString());
-            console.log("Falling back to default sender...");
+            var errorMsg = "Primary alias failed: " + e.toString();
             
-            // Fallback: Send as primary user (no alias)
+            // Fallback: Send as primary user using MailApp
             try {
-                GmailApp.sendEmail(recipient, emailSubject, "", {
-                    name: "Loudio Support (via fallback)",
+                MailApp.sendEmail({
+                    to: recipient,
+                    subject: emailSubject,
+                    name: "Loudio Support",
                     htmlBody: emailBody
                 });
-                console.log("Email sent successfully via default sender.");
+                console.log("Email sent successfully via MailApp fallback.");
             } catch (e2) {
-                console.error("Failed to send via default sender: " + e2.toString());
+                console.error("Failed to send via MailApp fallback: " + e2.toString());
+                errorMsg += "\nFallback failed: " + e2.toString();
+                
+                // CRITICAL: Send Error Report to Admin
+                MailApp.sendEmail(
+                    'phananh.nguyen@loudio.vn', 
+                    '⚠️ DEBUG: Auto-Reply Failed', 
+                    'Could not send email to customer.\n\nDetails:\n' + errorMsg
+                );
             }
         }
     }
