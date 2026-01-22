@@ -144,38 +144,22 @@ function sendAutoReplyToCustomer(data, emailAddress) {
 
         try {
             console.log("Attempting to send email via alias no-reply@loudio.vn to " + recipient);
-            // Try sending with the alias
+            // Send ONLY via the alias - no fallback
             GmailApp.sendEmail(recipient, emailSubject, "", {
                 from: "no-reply@loudio.vn",
-                name: "Loudio Support",
+                name: "Loudio",
                 replyTo: "support@loudio.vn",
                 htmlBody: emailBody
             });
             console.log("Email sent successfully via alias.");
         } catch (e) {
             console.error("Failed to send via alias: " + e.toString());
-            var errorMsg = "Primary alias failed: " + e.toString();
-            
-            // Fallback: Send as primary user using MailApp
-            try {
-                MailApp.sendEmail({
-                    to: recipient,
-                    subject: emailSubject,
-                    name: "Loudio Support",
-                    htmlBody: emailBody
-                });
-                console.log("Email sent successfully via MailApp fallback.");
-            } catch (e2) {
-                console.error("Failed to send via MailApp fallback: " + e2.toString());
-                errorMsg += "\nFallback failed: " + e2.toString();
-                
-                // CRITICAL: Send Error Report to Admin
-                MailApp.sendEmail(
-                    'phananh.nguyen@loudio.vn', 
-                    '⚠️ DEBUG: Auto-Reply Failed', 
-                    'Could not send email to customer.\n\nDetails:\n' + errorMsg
-                );
-            }
+            // NO FALLBACK - only send debug email to admin
+            MailApp.sendEmail(
+                'phananh.nguyen@loudio.vn', 
+                '⚠️ DEBUG: Auto-Reply Failed (alias issue)', 
+                'Could not send email to customer ' + recipient + '\n\nError: ' + e.toString()
+            );
         }
     }
 }
