@@ -112,55 +112,50 @@ function handleLead(data) {
         .setMimeType(ContentService.MimeType.JSON);
 }
 
-// NEW FUNCTION: Sends the welcome email to the customer
+// Lark Webhook URL - USER MUST UPDATE THIS
+const LARK_WEBHOOK_URL = 'YOUR_LARK_WEBHOOK_URL_HERE';
+
+// Sends lead data to Lark webhook for auto-reply email
 function sendAutoReplyToCustomer(data, emailAddress) {
     var recipient = emailAddress;
 
-    // Basic check to see if it's an email address
-    if (recipient && recipient.includes('@')) {
-        var venueName = data['Venue Name'] !== 'N/A' ? data['Venue Name'] : 'your venue';
-        var emailSubject = "Welcome to Loudio - Elevating Your Venue's Music Experience!";
-        var logoUrl = "https://loudio.vn/assets/loudio_full_logo.png";
-        var emailBody = `
-        <div style="font-family: 'Be Vietnam Pro', Arial, sans-serif; max-width: 600px; color: #333; line-height: 1.6;">
-          <div style="text-align: center; margin-bottom: 20px;">
-            <img src="${logoUrl}" alt="Loudio" style="max-width: 180px; height: auto;">
-          </div>
-          <h2 style="color: #7B2CBF;">Hello!</h2>
-          <p>Thank you for your interest in <strong>Loudio</strong>'s interactive music solution!</p>
-          <p>We've received your registration for <strong>${venueName}</strong>. Our team is processing your request and will reach out within 24 hours!</p>
-          
-          <div style="background: #f8f4ff; padding: 15px; border-radius: 8px; margin: 20px 0;">
-            <p style="margin: 0; font-weight: bold;">Information Received:</p>
-            <p style="margin: 5px 0;">📍 Venue: ${venueName}</p>
-            <p style="margin: 5px 0;">📧 Contact: ${recipient}</p>
-          </div>
-          
-          <br>
-          <p>Best regards,</p>
-          <p><strong>The Loudio Team</strong></p>
-          <p style="font-size: 12px; color: #999;">This email was sent automatically from Loudio's customer care system.</p>
-        </div>`;
+    if (!recipient || !recipient.includes('@')) {
+        console.warn("No valid email address for auto-reply.");
+        return;
+    }
 
-        try {
-            console.log("Attempting to send email via alias no-reply@loudio.vn to " + recipient);
-            // Send ONLY via the alias - no fallback
-            GmailApp.sendEmail(recipient, emailSubject, "", {
-                from: "no-reply@loudio.vn",
-                name: "Loudio",
-                replyTo: "support@loudio.vn",
-                htmlBody: emailBody
-            });
-            console.log("Email sent successfully via alias.");
-        } catch (e) {
-            console.error("Failed to send via alias: " + e.toString());
-            // NO FALLBACK - only send debug email to admin
-            MailApp.sendEmail(
-                'phananh.nguyen@loudio.vn', 
-                '⚠️ DEBUG: Auto-Reply Failed (alias issue)', 
-                'Could not send email to customer ' + recipient + '\n\nError: ' + e.toString()
-            );
-        }
+    var venueName = data['Venue Name'] !== 'N/A' ? data['Venue Name'] : 'your venue';
+
+    // If webhook URL is not configured, skip
+    if (LARK_WEBHOOK_URL === 'YOUR_LARK_WEBHOOK_URL_HERE') {
+        console.warn("Lark webhook URL not configured. Skipping auto-reply.");
+        return;
+    }
+
+    try {
+        var payload = {
+            venue_name: venueName,
+            email: recipient,
+            timestamp: new Date().toISOString()
+        };
+
+        var options = {
+            method: 'post',
+            contentType: 'application/json',
+            payload: JSON.stringify(payload),
+            muteHttpExceptions: true
+        };
+
+        var response = UrlFetchApp.fetch(LARK_WEBHOOK_URL, options);
+        console.log("Lark webhook response: " + response.getContentText());
+    } catch (e) {
+        console.error("Failed to send to Lark webhook: " + e.toString());
+        // Notify admin of failure
+        MailApp.sendEmail(
+            'phananh.nguyen@loudio.vn',
+            '⚠️ DEBUG: Lark Webhook Failed',
+            'Could not send lead to Lark.\n\nEmail: ' + recipient + '\nVenue: ' + venueName + '\n\nError: ' + e.toString()
+        );
     }
 }
 
