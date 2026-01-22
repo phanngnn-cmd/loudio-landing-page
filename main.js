@@ -277,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Centralized Lead Submission
     async function submitLead(data) {
         // Using Google Apps Script for reliability and easy email auto-reply
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw7dyjwNuMtHbRq48Jq9nhGyeiP3MO3w0CzpRAUlsClUqojKH5sSOFseZOCdGS7K6m0/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzc6ZfzLNcCSviv1LCQlaqPcetV-nQH8JlONCrW3G6KujxUk-pqU2baTcDTdYYtQ_M5/exec';
 
         try {
             // 1. Fetch IP Address

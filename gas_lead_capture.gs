@@ -90,12 +90,21 @@ function handleLead(data) {
     // 2. Send Auto-Reply to Customer (NEW)
     // Pass the explicit email if available, otherwise try to extract from Contact Info
     var replyEmail = data.email;
-    if (!replyEmail && rowData['Contact Info'] && rowData['Contact Info'].includes('@') && !rowData['Contact Info'].includes('Phone:')) {
-         replyEmail = rowData['Contact Info'];
+    
+    // Robust fallback: Extract email from "Phone: ..., Email: ..." string if needed
+    if (!replyEmail && rowData['Contact Info']) {
+        var emailMatch = rowData['Contact Info'].toString().match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/);
+        if (emailMatch) {
+            replyEmail = emailMatch[0];
+        }
     }
+    
+    console.log("Processing lead. Contact Info: " + rowData['Contact Info'] + ", Extracted Email: " + replyEmail);
     
     if (replyEmail) {
         sendAutoReplyToCustomer(rowData, replyEmail);
+    } else {
+        console.warn("No email address found to send auto-reply.");
     }
 
     return ContentService
@@ -110,14 +119,8 @@ function sendAutoReplyToCustomer(data, emailAddress) {
     // Basic check to see if it's an email address
     if (recipient && recipient.includes('@')) {
         var venueName = data['Venue Name'] !== 'N/A' ? data['Venue Name'] : 'venue của bạn';
-
-        // To send via 'no-reply@loudio.vn', you MUST have it set up as an alias in your Gmail settings.
-        // We use GmailApp here as it handles headers/aliases more reliably than MailApp.
-        GmailApp.sendEmail(recipient, "Chào mừng đến với Loudio - Nâng tầm trải nghiệm âm nhạc tại venue!", "", {
-            from: "no-reply@loudio.vn", // <--- THIS forces the sender address
-            name: "Loudio Support",
-            replyTo: "support@loudio.vn",
-            htmlBody: `
+        var emailSubject = "Chào mừng đến với Loudio - Nâng tầm trải nghiệm âm nhạc tại venue!";
+        var emailBody = `
         <div style="font-family: 'Be Vietnam Pro', Arial, sans-serif; max-width: 600px; color: #333; line-height: 1.6;">
           <h2 style="color: #7B2CBF;">Chào bạn,</h2>
           <p>Cảm ơn bạn đã quan tâm đến giải pháp âm nhạc tương tác từ <strong>Loudio</strong>!</p>
@@ -133,8 +136,33 @@ function sendAutoReplyToCustomer(data, emailAddress) {
           <p>Trân trọng,</p>
           <p><strong>Đội ngũ Loudio</strong></p>
           <p style="font-size: 12px; color: #999;">Email này được gửi tự động từ hệ thống chăm sóc khách hàng của Loudio.</p>
-        </div>`
-        });
+        </div>`;
+
+        try {
+            console.log("Attempting to send email via alias no-reply@loudio.vn to " + recipient);
+            // Try sending with the alias
+            GmailApp.sendEmail(recipient, emailSubject, "", {
+                from: "no-reply@loudio.vn",
+                name: "Loudio Support",
+                replyTo: "support@loudio.vn",
+                htmlBody: emailBody
+            });
+            console.log("Email sent successfully via alias.");
+        } catch (e) {
+            console.error("Failed to send via alias: " + e.toString());
+            console.log("Falling back to default sender...");
+            
+            // Fallback: Send as primary user (no alias)
+            try {
+                GmailApp.sendEmail(recipient, emailSubject, "", {
+                    name: "Loudio Support (via fallback)",
+                    htmlBody: emailBody
+                });
+                console.log("Email sent successfully via default sender.");
+            } catch (e2) {
+                console.error("Failed to send via default sender: " + e2.toString());
+            }
+        }
     }
 }
 
