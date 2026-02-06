@@ -9,6 +9,10 @@
     <title>Loudio | The AI-Powered Music Experience for Venues</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Preload critical fonts for peak lighthouse scores -->
+    <link rel="preload"
+        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700&family=Outfit:wght@600;700&display=swap"
+        as="style">
     <link
         href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;600;700&family=Outfit:wght@300;400;600;700&display=swap"
         rel="stylesheet">
@@ -29,14 +33,14 @@
                 <a href="#features" data-i18n="nav_features">Features</a>
                 <a href="#pricing" data-i18n="nav_pricing">Pricing</a>
                 <a href="#testimonials" data-i18n="nav_testimonials">Testimonials</a>
-                <a href="#blog" data-i18n="nav_blog">Blog</a>
                 <a href="#faq" data-i18n="nav_faq">FAQ</a>
                 <a href="https://loudio.app" class="nav-pick-music" target="_blank">Pick Music</a>
             </div>
             <div class="nav-actions">
                 <div class="lang-switcher">
-                    <button class="lang-btn lang-btn-compact" id="langBtn">
-                        <img src="assets/flag_en.png" alt="EN" class="flag-img">
+                    <button class="lang-btn lang-btn-compact" id="langBtn" aria-label="Select Language"
+                        aria-haspopup="true" aria-expanded="false">
+                        <img src="assets/flag_en.png" alt="English Flag" class="flag-img">
                         <span class="lang-name">EN</span>
                     </button>
                     <div class="lang-dropdown" id="langDropdown">
@@ -55,7 +59,7 @@
                     Login</a>
                 <a href="#signup" class="btn btn-primary" data-i18n="nav_get_started">Get Started</a>
             </div>
-            <div class="mobile-menu-btn">
+            <div class="mobile-menu-btn" aria-label="Toggle Navigation Menu" role="button" aria-expanded="false">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -72,9 +76,8 @@
                 <h1 class="hero-title" data-i18n="hero_title">Transform Your Venue with <span
                         class="text-gradient">Loudio's AI Music</span>
                 </h1>
-                <p class="hero-subtitle" data-i18n="hero_subtitle">As <strong>Southeast Asia's first digital
-                        jukebox</strong>, Loudio boosts
-                    engagement and revenue with AI-curated playlists, real-time feedback, and seamless integrations.</p>
+                <p class="hero-subtitle" data-i18n="hero_subtitle"><strong>Southeast Asia's first digital
+                        jukebox</strong>. AI-curated playlists. Real-time crowd feedback. Revenue on autopilot.</p>
 
                 <div class="hero-actions-container">
                     <div class="hero-buttons">
@@ -240,19 +243,19 @@
             <p class="brands-title" data-i18n="brands_title">Trusted by Leading Brands</p>
             <div class="brands-grid">
                 <div class="brand-item">
-                    <img src="assets/brand_kfc.png" alt="KFC" class="brand-logo">
+                    <img src="assets/brand_kfc.png" alt="KFC" class="brand-logo" loading="lazy">
                     <span class="brand-name">KFC</span>
                 </div>
                 <div class="brand-item">
-                    <img src="assets/brand_phuclong.png" alt="Phúc Long" class="brand-logo">
+                    <img src="assets/brand_phuclong.png" alt="Phúc Long" class="brand-logo" loading="lazy">
                     <span class="brand-name">Phúc Long</span>
                 </div>
                 <div class="brand-item">
-                    <img src="assets/brand_elite.png" alt="Elite Fitness" class="brand-logo">
+                    <img src="assets/brand_elite.png" alt="Elite Fitness" class="brand-logo" loading="lazy">
                     <span class="brand-name">Elite Fitness</span>
                 </div>
                 <div class="brand-item">
-                    <img src="assets/brand_swequity.png" alt="Swequity Fitness" class="brand-logo">
+                    <img src="assets/brand_swequity.png" alt="Swequity Fitness" class="brand-logo" loading="lazy">
                     <span class="brand-name">Swequity Fitness</span>
                 </div>
                 <div class="brand-item brand-more-container">
@@ -271,16 +274,58 @@
                     tool.</p>
             </div>
             <div class="features-grid">
-                <!-- 1. Copyright Compliance - Legal protection is crucial -->
+                <!-- 1. AI Vibe Manager - Atmosphere control -->
                 <div class="feature-card">
-                    <div class="feature-icon">⚖️</div>
-                    <h3 data-i18n="feat3_title">Copyright Compliance</h3>
-                    <p data-i18n="feat3_desc">Play music legally with full rights coverage. Unlike standard streaming,
-                        we ensure both publishing and performance rights are handled.</p>
+                    <div class="feature-icon-svg">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Energy Dial Outer -->
+                            <circle cx="32" cy="32" r="28" stroke="white" stroke-opacity="0.1" stroke-width="1" />
+                            <!-- Pulsing Energy Waves -->
+                            <circle cx="32" cy="32" r="14" stroke="var(--primary-color)" stroke-width="2">
+                                <animate attributeName="r" values="14;18;14" dur="3s" repeatCount="indefinite" />
+                                <animate attributeName="opacity" values="0.8;0.3;0.8" dur="3s"
+                                    repeatCount="indefinite" />
+                            </circle>
+                            <circle cx="32" cy="32" r="8" fill="var(--secondary-color)">
+                                <animate attributeName="r" values="8;10;8" dur="1.5s" repeatCount="indefinite" />
+                            </circle>
+                            <!-- Rhythmic Bars -->
+                            <rect x="20" y="28" width="4" height="8" rx="2" fill="var(--primary-color)">
+                                <animate attributeName="height" values="8;16;8" dur="0.8s" repeatCount="indefinite" />
+                                <animate attributeName="y" values="28;24;28" dur="0.8s" repeatCount="indefinite" />
+                            </rect>
+                            <rect x="40" y="28" width="4" height="8" rx="2" fill="var(--secondary-color)">
+                                <animate attributeName="height" values="8;20;8" dur="1.2s" repeatCount="indefinite" />
+                                <animate attributeName="y" values="28;22;28" dur="1.2s" repeatCount="indefinite" />
+                            </rect>
+                        </svg>
+                    </div>
+                    <h3 data-i18n="feat3_title">AI Vibe Manager</h3>
+                    <p data-i18n="feat3_desc">Smart atmosphere control that reads the room. Keep the energy perfect from
+                        morning chill to peak hours.</p>
                 </div>
                 <!-- 2. Digital Jukebox Mode - Revenue generation -->
                 <div class="feature-card">
-                    <div class="feature-icon">💸</div>
+                    <div class="feature-icon-svg">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Currency Symbol Outline -->
+                            <circle cx="32" cy="32" r="20" stroke="var(--secondary-color)" stroke-width="1.5"
+                                stroke-dasharray="4 4" />
+                            <text x="32" y="40" font-size="20" fill="var(--primary-color)" text-anchor="middle"
+                                font-weight="bold">$</text>
+                            <!-- Flow Lines -->
+                            <path d="M12 32C12 32 18 22 26 22" stroke="var(--secondary-color)" stroke-width="1.5"
+                                stroke-linecap="round">
+                                <animate attributeName="stroke-dashoffset" from="20" to="0" dur="1.5s"
+                                    repeatCount="indefinite" />
+                            </path>
+                            <path d="M52 32C52 32 46 42 38 42" stroke="var(--secondary-color)" stroke-width="1.5"
+                                stroke-linecap="round">
+                                <animate attributeName="stroke-dashoffset" from="20" to="0" dur="1.5s"
+                                    repeatCount="indefinite" />
+                            </path>
+                        </svg>
+                    </div>
                     <h3 data-i18n="feat2_title">Digital Jukebox Mode</h3>
                     <p data-i18n="feat2_desc">Let guests request songs effortlessly. Our AI ensures requests fit the
                         vibe while you drive
@@ -288,7 +333,27 @@
                 </div>
                 <!-- 3. Promotional Pop-ups - Revenue generation -->
                 <div class="feature-card">
-                    <div class="feature-icon">📢</div>
+                    <div class="feature-icon-svg">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Megaphone Shape -->
+                            <polygon points="16,28 28,20 28,44 16,36"
+                                fill="hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.15)"
+                                stroke="var(--primary-color)" stroke-width="1.5" />
+                            <rect x="28" y="22" width="20" height="20" rx="2"
+                                fill="hsla(var(--secondary-h), var(--secondary-s), var(--secondary-l), 0.1)"
+                                stroke="var(--secondary-color)" stroke-width="1.5" />
+                            <!-- Sound Waves -->
+                            <path d="M52 26C54 28 54 36 52 38" stroke="var(--secondary-color)" stroke-width="1.5"
+                                stroke-linecap="round" opacity="0.6">
+                                <animate attributeName="opacity" values="0.3;1;0.3" dur="1s" repeatCount="indefinite" />
+                            </path>
+                            <path d="M56 22C60 26 60 38 56 42" stroke="var(--secondary-color)" stroke-width="1.5"
+                                stroke-linecap="round" opacity="0.4">
+                                <animate attributeName="opacity" values="0.2;0.6;0.2" dur="1.2s"
+                                    repeatCount="indefinite" />
+                            </path>
+                        </svg>
+                    </div>
                     <h3 data-i18n="feat5_title">Promotional Pop-ups</h3>
                     <p data-i18n="feat5_desc">Drive sales with customized pop-up messages. Promote specials, events, or
                         brand partnerships
@@ -296,7 +361,23 @@
                 </div>
                 <!-- 4. AI Smart Playlists - Engagement -->
                 <div class="feature-card">
-                    <div class="feature-icon">🎵</div>
+                    <div class="feature-icon-svg">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Music Note with AI Core -->
+                            <circle cx="20" cy="44" r="8"
+                                fill="hsla(var(--secondary-h), var(--secondary-s), var(--secondary-l), 0.2)"
+                                stroke="var(--secondary-color)" stroke-width="1.5" />
+                            <path d="M28 44V16L48 12V40" stroke="var(--primary-color)" stroke-width="2"
+                                stroke-linecap="round" />
+                            <circle cx="40" cy="40" r="8"
+                                fill="hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.2)"
+                                stroke="var(--primary-color)" stroke-width="1.5" />
+                            <!-- AI Brain Hint -->
+                            <circle cx="38" cy="16" r="3" fill="var(--secondary-color)">
+                                <animate attributeName="r" values="2;4;2" dur="1.5s" repeatCount="indefinite" />
+                            </circle>
+                        </svg>
+                    </div>
                     <h3 data-i18n="feat1_title">AI Smart Playlists</h3>
                     <p data-i18n="feat1_desc">Curate the perfect atmosphere with adaptive playlists that respond to the
                         crowd's energy using
@@ -304,7 +385,24 @@
                 </div>
                 <!-- 5. AI Analytics - Insights -->
                 <div class="feature-card">
-                    <div class="feature-icon">📈</div>
+                    <div class="feature-icon-svg">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Growth Chart -->
+                            <path d="M12 52H52" stroke="white" stroke-opacity="0.2" stroke-width="1.5" />
+                            <path d="M12 52V12" stroke="white" stroke-opacity="0.2" stroke-width="1.5" />
+                            <!-- Data Lines -->
+                            <polyline points="16,44 26,36 36,40 48,20" stroke="var(--secondary-color)" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" fill="none">
+                                <animate attributeName="stroke-dashoffset" from="100" to="0" dur="2s" fill="freeze" />
+                            </polyline>
+                            <!-- Data Points -->
+                            <circle cx="26" cy="36" r="3" fill="var(--primary-color)" />
+                            <circle cx="48" cy="20" r="4" fill="var(--secondary-color)">
+                                <animate attributeName="opacity" values="0.7;1;0.7" dur="1.5s"
+                                    repeatCount="indefinite" />
+                            </circle>
+                        </svg>
+                    </div>
                     <h3 data-i18n="feat4_title">AI Analytics</h3>
                     <p data-i18n="feat4_desc">Deep insights into crowd preferences and behavior. Understand your
                         audience like never before
@@ -312,14 +410,30 @@
                 </div>
                 <!-- 6. Seamless Integration - Ease of use -->
                 <div class="feature-card">
-                    <div class="feature-icon">🔌</div>
+                    <div class="feature-icon-svg">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Plug Icon -->
+                            <rect x="20" y="24" width="12" height="20" rx="2"
+                                fill="hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.1)"
+                                stroke="var(--primary-color)" stroke-width="1.5" />
+                            <path d="M24 24V18" stroke="var(--secondary-color)" stroke-width="2"
+                                stroke-linecap="round" />
+                            <path d="M28 24V18" stroke="var(--secondary-color)" stroke-width="2"
+                                stroke-linecap="round" />
+                            <!-- Socket -->
+                            <rect x="36" y="28" width="12" height="12" rx="2" stroke="var(--secondary-color)"
+                                stroke-width="1.5" stroke-dasharray="3 3" />
+                            <!-- Connection Spark -->
+                            <circle cx="33" cy="34" r="2" fill="var(--secondary-color)">
+                                <animate attributeName="opacity" values="0;1;0" dur="0.8s" repeatCount="indefinite" />
+                            </circle>
+                        </svg>
+                    </div>
                     <h3 data-i18n="feat6_title">Seamless Integration</h3>
                     <p data-i18n="feat6_desc">Works with your existing music system. No hardware needed.</p>
                 </div>
             </div>
         </div>
-    </section>
-
     </section>
 
     <!-- Partners Section -->
@@ -577,7 +691,8 @@
         </div>
     </section>
 
-    <!-- Blog Section -->
+    <!-- Blog Section: Moved to footer link for lean funnel -->
+    <!--
     <section id="blog" class="section blog">
         <div class="container">
             <div class="section-header">
@@ -586,7 +701,6 @@
                 </p>
             </div>
             <div class="blog-grid" id="blog-grid">
-                <!-- Articles will be loaded here dynamically -->
                 <div class="blog-loading">Loading latest articles...</div>
             </div>
             <div class="blog-footer" style="text-align: center; margin-top: 40px;">
@@ -594,6 +708,7 @@
             </div>
         </div>
     </section>
+    -->
 
 
     <!-- Sign Up / CTA Section -->
@@ -732,8 +847,8 @@
             </div>
         </div>
     </div>
-    <!-- Background Music -->
-    <audio id="bg-music" loop autoplay>
+    <!-- Audio: Restored user's local path and optimized for immediate playback -->
+    <audio id="bg-music" loop preload="auto">
         <source
             src="C:\Users\phann\Music\4K YouTube to MP3\1 hour of Kanye instrumentals to work study to-[AudioTrimmer.com].mp3"
             type="audio/mpeg">

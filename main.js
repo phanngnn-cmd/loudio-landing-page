@@ -50,9 +50,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (mobileBtn) {
         mobileBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
+            const isActive = navLinks.classList.toggle('active');
             navActions.classList.toggle('active');
             mobileBtn.classList.toggle('open');
+            mobileBtn.setAttribute('aria-expanded', isActive);
         });
     }
 
@@ -107,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
-                const headerOffset = 100;
+                const headerOffset = 80;
                 const elementPosition = targetElement.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
@@ -117,6 +118,62 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
         });
+    });
+
+    // --- NEW PREMIUM INTERACTIVITY ---
+
+    // 1. Magnetic Buttons Effect - Refined to prevent twitching
+    const magneticBtns = document.querySelectorAll('.btn-primary, .btn-outline, .btn-glass');
+    magneticBtns.forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            // Calculate mouse position relative to the center of the button viewport-wise
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+
+            // Use a stronger damping to prevent overshoot and limit to visual drift
+            btn.style.transform = `translate(${x * 0.2}px, ${y * 0.3}px)`;
+        });
+
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transition = 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)';
+            btn.style.transform = 'translate(0px, 0px)';
+            // Remove transition after it's done to stay snappy for next hover
+            setTimeout(() => { btn.style.transition = ''; }, 500);
+        });
+    });
+
+    // 2. Mouse-Tracking Glow for Cards
+    const featureCards = document.querySelectorAll('.feature-card, .stat-item, .partner-item');
+    featureCards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        });
+    });
+
+    // 3. Scroll Reveal Animations (Intersection Observer)
+    const revealOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px"
+    };
+
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('reveal-visible');
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, revealOptions);
+
+    document.querySelectorAll('.section, .feature-card, .step-card, .pricing-card, .hero-content, .hero-image').forEach(el => {
+        el.classList.add('reveal-hidden');
+        revealObserver.observe(el);
     });
 
     // Onboarding Modal Logic
@@ -266,8 +323,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Centralized Lead Submission
     async function submitLead(data) {
-        // Using Google Apps Script for reliability and easy email auto-reply
+        // Google Apps Script for Google Sheets backup
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwc5GX6-nL3OHBhR5hk7nm3y0UsM2vjqxECSwKRdgkm_YqWjaSxFhaJ5acw-5w2AidH/exec';
+
+        // n8n Webhook for auto-reply email (update this after deploying n8n)
+        // Local: http://localhost:5678/webhook/loudio-lead-capture
+        // Production: https://your-n8n-domain.com/webhook/loudio-lead-capture
+        const N8N_WEBHOOK_URL = 'http://localhost:5678/webhook/loudio-lead-capture';
 
         try {
             // 1. Fetch IP Address
@@ -287,16 +349,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 timestamp: new Date().toISOString()
             };
 
-            // 3. Submit to GAS
-            const response = await fetch(SCRIPT_URL, {
+            // 3. Submit to GAS (Google Sheets backup)
+            fetch(SCRIPT_URL, {
                 method: 'POST',
-                mode: 'no-cors', // GAS requires no-cors
+                mode: 'no-cors',
                 cache: 'no-cache',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
-            });
+            }).catch(err => console.warn('GAS submission failed (backup):', err));
 
-            console.log('Lead successfully submitted via Google Script');
+            // 4. Submit to n8n for auto-reply email
+            try {
+                const n8nResponse = await fetch(N8N_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (n8nResponse.ok) {
+                    console.log('Lead submitted to n8n, auto-reply will be sent');
+                } else {
+                    console.warn('n8n webhook responded with error:', n8nResponse.status);
+                }
+            } catch (n8nError) {
+                console.warn('n8n webhook failed (auto-reply may not be sent):', n8nError);
+            }
+
+            console.log('Lead successfully submitted');
             return { success: true };
 
         } catch (error) {
@@ -427,7 +506,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (langBtn && langDropdown) {
         langBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            langDropdown.classList.toggle('show');
+            const isShown = langDropdown.classList.toggle('show');
+            langBtn.setAttribute('aria-expanded', isShown);
         });
 
         // Close dropdown when clicking outside
@@ -490,9 +570,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let isMusicPlaying = false;
 
     if (bgMusic && musicToggle) {
-        bgMusic.volume = 0.4; // Set initial volume
+        bgMusic.volume = 0.4;
+        bgMusic.onerror = () => console.error("Audio failed to load. Check path:", bgMusic.src);
 
-        const toggleMusic = () => {
+        const toggleMusic = (e) => {
+            if (e) e.stopPropagation(); // Prevent document listener from firing if button is clicked
+
             if (isMusicPlaying) {
                 bgMusic.pause();
                 musicToggle.classList.remove('playing');
@@ -507,31 +590,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
         musicToggle.addEventListener('click', toggleMusic);
 
-        // Try to play immediately on load (usually blocked by browsers but worth a try)
+        // Try to play immediately on load
         window.addEventListener('load', () => {
             bgMusic.play().then(() => {
-                // If success, update UI
                 isMusicPlaying = true;
                 musicToggle.classList.add('playing');
                 musicText.textContent = 'Music On';
-            }).catch(error => {
-                console.log("Autoplay prevented by browser. Waiting for interaction.");
+            }).catch(() => {
+                console.log("Autoplay prevented. Ready for interaction.");
             });
         });
 
-        // Auto-start on first interaction anywhere on the page
-        const handleFirstInteraction = () => {
+        // Auto-start on first interaction anywhere ELSE on the page
+        const handleFirstInteraction = (e) => {
+            // If they clicked the toggle directly, let the toggle handler deal with it
+            if (e.target.closest('#musicToggle')) return;
+
             if (!isMusicPlaying) {
                 toggleMusic();
             }
-            // Remove all interaction listeners once started
+
+            // Clean up listeners
             ['click', 'touchstart', 'mousedown', 'keydown'].forEach(type => {
                 document.removeEventListener(type, handleFirstInteraction);
             });
         };
 
         ['click', 'touchstart', 'mousedown', 'keydown'].forEach(type => {
-            document.addEventListener(type, handleFirstInteraction);
+            document.addEventListener(type, handleFirstInteraction, { passive: true });
         });
     }
 });

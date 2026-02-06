@@ -112,10 +112,39 @@ function handleLead(data) {
         .setMimeType(ContentService.MimeType.JSON);
 }
 
-// Lark Webhook URL - USER MUST UPDATE THIS
-const LARK_WEBHOOK_URL = 'YOUR_LARK_WEBHOOK_URL_HERE';
+// ========== LARK BASE API CONFIGURATION ==========
+// USER MUST UPDATE THESE VALUES
+const LARK_APP_ID = 'YOUR_LARK_APP_ID';
+const LARK_APP_SECRET = 'YOUR_LARK_APP_SECRET';
+const LARK_BASE_APP_TOKEN = 'YOUR_BASE_APP_TOKEN';  // From Base URL: /base/ABC123
+const LARK_TABLE_ID = 'YOUR_TABLE_ID';              // From Base URL: ?table=tblXYZ
 
-// Sends lead data to Lark webhook for auto-reply email
+// Gets tenant access token from Lark
+function getLarkAccessToken() {
+    var url = 'https://open.larksuite.com/open-apis/auth/v3/tenant_access_token/internal';
+    var payload = {
+        app_id: LARK_APP_ID,
+        app_secret: LARK_APP_SECRET
+    };
+    
+    var options = {
+        method: 'post',
+        contentType: 'application/json',
+        payload: JSON.stringify(payload),
+        muteHttpExceptions: true
+    };
+    
+    var response = UrlFetchApp.fetch(url, options);
+    var result = JSON.parse(response.getContentText());
+    
+    if (result.code === 0) {
+        return result.tenant_access_token;
+    } else {
+        throw new Error('Failed to get Lark token: ' + result.msg);
+    }
+}
+
+// Adds a record to Lark Base (triggers automation)
 function sendAutoReplyToCustomer(data, emailAddress) {
     var recipient = emailAddress;
 
@@ -124,37 +153,67 @@ function sendAutoReplyToCustomer(data, emailAddress) {
         return;
     }
 
-    var venueName = data['Venue Name'] !== 'N/A' ? data['Venue Name'] : 'your venue';
-
-    // If webhook URL is not configured, skip
-    if (LARK_WEBHOOK_URL === 'YOUR_LARK_WEBHOOK_URL_HERE') {
-        console.warn("Lark webhook URL not configured. Skipping auto-reply.");
+    // Check if configured
+    if (LARK_APP_ID === 'YOUR_LARK_APP_ID') {
+        console.warn("Lark API not configured. Skipping auto-reply.");
         return;
     }
 
-    try {
-        var payload = {
-            venue_name: venueName,
-            email: recipient,
-            timestamp: new Date().toISOString()
-        };
+    var venueName = data['Venue Name'] !== 'N/A' ? data['Venue Name'] : 'your venue';
+    var contactInfo = data['Contact Info'] || '';
+    var notes = data['Notes'] || '';
+    var clientIP = data['Client IP'] || 'Unknown';
+    var source = data['Source'] || 'Loudio Landing Page';
+    var contactName = data['Name'] || '';
+    
+    // Extract phone from contact info
+    var phoneMatch = contactInfo.match(/Phone:\s*([^,]*)/);
+    var phone = phoneMatch ? phoneMatch[1].trim() : '';
 
+    try {
+        var accessToken = getLarkAccessToken();
+        
+        var url = 'https://open.larksuite.com/open-apis/bitable/v1/apps/' + 
+                  LARK_BASE_APP_TOKEN + '/tables/' + LARK_TABLE_ID + '/records';
+        
+        var recordData = {
+            fields: {
+                "name": contactName,
+                "venue_name": venueName,
+                "email": recipient,
+                "phone": phone,
+                "message": notes,
+                "source": source,
+                "ip_address": clientIP,
+                "timestamp": new Date().getTime()  // Unix timestamp for Lark
+            }
+        };
+        
         var options = {
             method: 'post',
-            contentType: 'application/json',
-            payload: JSON.stringify(payload),
+            headers: {
+                'Authorization': 'Bearer ' + accessToken,
+                'Content-Type': 'application/json'
+            },
+            payload: JSON.stringify(recordData),
             muteHttpExceptions: true
         };
-
-        var response = UrlFetchApp.fetch(LARK_WEBHOOK_URL, options);
-        console.log("Lark webhook response: " + response.getContentText());
+        
+        var response = UrlFetchApp.fetch(url, options);
+        var result = JSON.parse(response.getContentText());
+        
+        if (result.code === 0) {
+            console.log("Record added to Lark Base successfully. ID: " + result.data.record.record_id);
+        } else {
+            throw new Error('Lark API error: ' + result.msg);
+        }
     } catch (e) {
-        console.error("Failed to send to Lark webhook: " + e.toString());
+        console.error("Failed to add record to Lark Base: " + e.toString());
         // Notify admin of failure
         MailApp.sendEmail(
             'phananh.nguyen@loudio.vn',
-            '⚠️ DEBUG: Lark Webhook Failed',
-            'Could not send lead to Lark.\n\nEmail: ' + recipient + '\nVenue: ' + venueName + '\n\nError: ' + e.toString()
+            '⚠️ DEBUG: Lark Base API Failed',
+            'Could not add lead to Lark Base.\n\nEmail: ' + recipient + '\nVenue: ' + venueName + '\n\nError: ' + e.toString()
         );
     }
 }
