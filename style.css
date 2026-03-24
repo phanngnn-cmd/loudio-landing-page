@@ -25,7 +25,7 @@
     --dark-l: 4%;
     --bg-dark: hsl(var(--dark-h), var(--dark-s), var(--dark-l));
     /* #0a0a0b */
-    --bg-card: hsl(var(--dark-h), var(--dark-s), 8%);
+    --bg-card: hsl(var(--dark-h), 10%, 11%);
 
     --text-main: #ffffff;
     --text-muted: #94a3b8;
@@ -33,8 +33,8 @@
     --border-color: rgba(255, 255, 255, 0.08);
 
     /* Premium Effects */
-    --glass-bg: rgba(255, 255, 255, 0.03);
-    --glass-border: rgba(255, 255, 255, 0.07);
+    --glass-bg: hsla(var(--primary-h), 55%, 18%, 0.34);
+    --glass-border: rgba(255, 255, 255, 0.12);
     --glass-blur: 12px;
 
     --gradient-aurora: linear-gradient(135deg,
@@ -585,10 +585,11 @@ h3 {
 /* Hero Section - Aurora UI Implementation */
 .hero {
     position: relative;
-    min-height: 100vh;
+    min-height: auto;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
+    padding: calc(var(--header-height) + 12px) 0 48px;
     background-color: var(--bg-dark);
     /* Multi-layered Aurora Mesh Gradient */
     background-image:
@@ -653,10 +654,10 @@ h3 {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 18px;
+    gap: 10px;
     position: relative;
     z-index: 2;
-    padding-top: 28px;
+    padding-top: 0;
 }
 
 .hero-content {
@@ -677,7 +678,7 @@ h3 {
 }
 
 .floating-mockup {
-    max-width: 340px;
+    max-width: 220px;
     height: auto;
     border-radius: 40px;
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 50px rgba(76, 201, 240, 0.3);
@@ -2504,7 +2505,7 @@ input:checked+.slider:before {
 
     .floating-mockup {
         width: 100%;
-        max-width: 280px;
+        max-width: 190px;
     }
 
     .hero-buttons {
@@ -2617,7 +2618,7 @@ input:checked+.slider:before {
 
 @media (max-width: 480px) {
     .floating-mockup {
-        max-width: 240px;
+        max-width: 160px;
     }
 
     .stat-item {
