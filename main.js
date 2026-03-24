@@ -39,6 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const langBtn = document.getElementById('langBtn');
     const langDropdown = document.getElementById('langDropdown');
     const langOptions = document.querySelectorAll('.lang-option');
+    const quickNavBtn = document.getElementById('quickNavBtn');
+    const quickNavDropdown = document.getElementById('quickNavDropdown');
     const mainSignupForm = document.querySelector('.signup-form');
 
     // Mobile Menu Toggle
@@ -508,12 +510,21 @@ document.addEventListener('DOMContentLoaded', () => {
             e.stopPropagation();
             const isShown = langDropdown.classList.toggle('show');
             langBtn.setAttribute('aria-expanded', isShown);
+            if (isShown && quickNavDropdown) {
+                quickNavDropdown.classList.remove('show');
+                quickNavBtn?.setAttribute('aria-expanded', 'false');
+            }
         });
 
         // Close dropdown when clicking outside
         window.addEventListener('click', () => {
             if (langDropdown.classList.contains('show')) {
                 langDropdown.classList.remove('show');
+                langBtn.setAttribute('aria-expanded', 'false');
+            }
+            if (quickNavDropdown?.classList.contains('show')) {
+                quickNavDropdown.classList.remove('show');
+                quickNavBtn?.setAttribute('aria-expanded', 'false');
             }
         });
 
@@ -540,6 +551,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Close Dropdown
                 langDropdown.classList.remove('show');
+                langBtn.setAttribute('aria-expanded', 'false');
 
                 console.log(`Language changed to: ${lang}`);
 
@@ -562,6 +574,25 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.documentElement.lang = lang;
                 }
             });
+        });
+    }
+
+    if (quickNavBtn && quickNavDropdown) {
+        quickNavBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isShown = quickNavDropdown.classList.toggle('show');
+            quickNavBtn.setAttribute('aria-expanded', isShown);
+            if (isShown && langDropdown) {
+                langDropdown.classList.remove('show');
+                langBtn?.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        quickNavDropdown.addEventListener('click', (e) => {
+            if (e.target.closest('a')) {
+                quickNavDropdown.classList.remove('show');
+                quickNavBtn.setAttribute('aria-expanded', 'false');
+            }
         });
     }
 
