@@ -417,6 +417,11 @@ h3 {
     flex-shrink: 0;
 }
 
+.lang-switcher,
+.quick-nav {
+    display: none;
+}
+
 .quick-nav {
     position: relative;
 }
@@ -523,12 +528,6 @@ h3 {
 .lang-btn:hover {
     background: rgba(123, 44, 191, 0.26);
     border-color: var(--primary-color);
-}
-
-@media (max-width: 1280px) {
-    .nav-links {
-        display: none;
-    }
 }
 
 .lang-btn-compact {
@@ -678,12 +677,11 @@ h3 {
 }
 
 .hero-image {
-    order: -1;
-    flex: unset;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 8px 0 12px;
 }
 
 .floating-mockup {
@@ -1520,6 +1518,7 @@ input:checked+.slider:before {
     padding: 25px;
     border-radius: 12px;
     transition: border-color 0.3s ease;
+    text-align: center;
 }
 
 .addon-card:hover {
@@ -1528,10 +1527,10 @@ input:checked+.slider:before {
 
 .addon-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     margin-bottom: 10px;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 10px;
 }
 
@@ -1776,36 +1775,21 @@ input:checked+.slider:before {
         transform: scale(1);
     }
 
-    /* Better Mobile Menu Approach: Full Screen Overlay */
     .nav-links,
-    .nav-actions {
+    .nav-actions .btn,
+    .mobile-menu-btn {
         display: none;
     }
 
-    .nav-links.active {
+    .nav-actions {
         display: flex;
-        flex-direction: column;
-        position: fixed;
-        top: var(--header-height);
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: var(--bg-dark);
         align-items: center;
-        justify-content: center;
-        gap: 40px;
-        font-size: 1.5rem;
-        z-index: 999;
+        gap: 8px;
     }
 
-    .nav-actions.active {
-        display: flex;
-        position: fixed;
-        bottom: 50px;
-        left: 0;
-        right: 0;
-        justify-content: center;
-        z-index: 1000;
+    .lang-switcher,
+    .quick-nav {
+        display: block;
     }
 }
 
@@ -2608,7 +2592,7 @@ input:checked+.slider:before {
         word-break: break-word;
     }
 
-    .nav-actions.active {
+    .nav-actions {
         align-items: flex-start;
         flex-wrap: wrap;
         gap: 10px;
