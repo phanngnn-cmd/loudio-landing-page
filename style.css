@@ -1365,6 +1365,14 @@ input:checked+.slider:before {
     margin-bottom: 60px;
 }
 
+.pricing-account-note {
+    margin-top: -34px;
+    margin-bottom: 40px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+}
+
 .pricing-card {
     background: var(--bg-card);
     padding: 40px 30px;
