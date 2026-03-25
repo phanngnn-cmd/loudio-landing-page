@@ -43,6 +43,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const quickNavDropdown = document.getElementById('quickNavDropdown');
     const mainSignupForm = document.querySelector('.signup-form');
 
+    const updatePricingCurrencyLabels = (isYearly) => {
+        const lang = document.documentElement.lang || 'en';
+        const dict = (typeof translations !== 'undefined' && translations[lang]) ? translations[lang] : null;
+        const monthlyLabel = dict?.pricing_currency || 'VND / month';
+        const yearlyLabel = dict?.pricing_currency_year || 'VND / year';
+
+        document.querySelectorAll('.price-container .currency').forEach(el => {
+            el.textContent = isYearly ? yearlyLabel : monthlyLabel;
+        });
+    };
+
     // Mobile Menu Toggle
     const closeMenu = () => {
         navLinks?.classList.remove('active');
@@ -70,8 +81,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Pricing Toggle
     if (billingToggle && prices.length > 0) {
+        updatePricingCurrencyLabels(billingToggle.checked);
+
         billingToggle.addEventListener('change', () => {
             const isYearly = billingToggle.checked;
+            updatePricingCurrencyLabels(isYearly);
 
             prices.forEach(price => {
                 const monthlyVal = price.dataset.monthly;
@@ -572,6 +586,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // Update HTML lang attribute
                     document.documentElement.lang = lang;
+                    updatePricingCurrencyLabels(billingToggle?.checked || false);
                 }
             });
         });
