@@ -1376,6 +1376,22 @@ input:checked+.slider:before {
     flex-direction: column;
 }
 
+@media (min-width: 1024px) {
+    .pricing-grid {
+        max-width: 980px;
+        margin-left: auto;
+        margin-right: auto;
+        gap: 20px;
+    }
+
+    .pricing-card {
+        max-width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 30px 22px;
+    }
+}
+
 .pricing-card.popular {
     border-color: var(--primary-color);
     box-shadow: 0 0 40px hsla(var(--primary-h), var(--primary-s), var(--primary-l), 0.2);
@@ -1431,7 +1447,8 @@ input:checked+.slider:before {
 .price {
     font-size: 2.5rem;
     font-weight: 700;
-    color: var(--text-main);
+    color: var(--secondary-color);
+    text-shadow: 0 0 14px hsla(var(--secondary-h), var(--secondary-s), var(--secondary-l), 0.45);
     display: flex;
     flex-direction: column;
     align-items: center;
