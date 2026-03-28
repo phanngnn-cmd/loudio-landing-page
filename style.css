@@ -25,7 +25,7 @@
     --dark-l: 4%;
     --bg-dark: hsl(var(--dark-h), var(--dark-s), var(--dark-l));
     /* #0a0a0b */
-    --bg-card: hsl(var(--dark-h), 10%, 11%);
+    --bg-card: hsl(244, 18%, 13%);
 
     --text-main: #ffffff;
     --text-muted: #94a3b8;
@@ -33,8 +33,8 @@
     --border-color: rgba(255, 255, 255, 0.08);
 
     /* Premium Effects */
-    --glass-bg: hsla(var(--primary-h), 55%, 18%, 0.34);
-    --glass-border: rgba(255, 255, 255, 0.12);
+    --glass-bg: hsla(246, 58%, 22%, 0.38);
+    --glass-border: hsla(236, 70%, 72%, 0.25);
     --glass-blur: 12px;
 
     --gradient-aurora: linear-gradient(135deg,
