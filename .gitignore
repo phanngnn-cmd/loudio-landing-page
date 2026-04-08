@@ -5,3 +5,7 @@ node_modules/
 .gemini/
 *.log
 .vercel
+.agent
+.agents
+.agent_logs
+.knowledge

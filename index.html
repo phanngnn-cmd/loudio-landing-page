@@ -34,7 +34,7 @@
                 <a href="#pricing" data-i18n="nav_pricing">Pricing</a>
                 <a href="#testimonials" data-i18n="nav_testimonials">Testimonials</a>
                 <a href="#faq" data-i18n="nav_faq">FAQ</a>
-                <a href="https://loudio.app" class="nav-pick-music" target="_blank">Pick Music</a>
+                <a href="https://loudio.app" class="nav-pick-music" target="_blank" rel="noopener noreferrer">Pick Music</a>
             </div>
             <div class="nav-actions">
                 <div class="lang-switcher">
@@ -62,13 +62,13 @@
                         <a href="#pricing" class="quick-nav-option" data-i18n="nav_pricing">Pricing</a>
                         <a href="#testimonials" class="quick-nav-option" data-i18n="nav_testimonials">Testimonials</a>
                         <a href="#faq" class="quick-nav-option" data-i18n="nav_faq">FAQ</a>
-                        <a href="https://loudio.app" class="quick-nav-option" target="_blank">Pick Music</a>
-                        <a href="https://loudiomanager.com" class="quick-nav-option" target="_blank"
+                        <a href="https://loudio.app" class="quick-nav-option" target="_blank" rel="noopener noreferrer">Pick Music</a>
+                        <a href="https://loudiomanager.com" class="quick-nav-option" target="_blank" rel="noopener noreferrer"
                             data-i18n="nav_login">Venue Login</a>
                         <a href="#signup" class="quick-nav-option" data-i18n="nav_get_started">Get Started</a>
                     </div>
                 </div>
-                <a href="https://loudiomanager.com" class="btn btn-glass" target="_blank" data-i18n="nav_login">Venue
+                <a href="https://loudiomanager.com" class="btn btn-glass" target="_blank" rel="noopener noreferrer" data-i18n="nav_login">Venue
                     Login</a>
                 <a href="#signup" class="btn btn-primary" data-i18n="nav_get_started">Get Started</a>
             </div>
@@ -649,7 +649,7 @@
                             <span class="addon-price">Custom Quote</span>
                         </div>
                         <p>Full legal coverage for public performance rights regarding specialized catalogs.</p>
-                        <a href="#signup" class="btn btn-outline btn-sm addon-btn">Get a Quote</a>
+                        <a href="licensing-calculator.html" class="btn btn-outline btn-sm addon-btn">Estimate Cost</a>
                     </div>
                     <div class="addon-card">
                         <div class="addon-header">
@@ -863,10 +863,9 @@
         </div>
     </div>
     <!-- Audio: Restored user's local path and optimized for immediate playback -->
-    <audio id="bg-music" loop preload="auto">
-        <source
-            src="C:\Users\phann\Music\4K YouTube to MP3\1 hour of Kanye instrumentals to work study to-[AudioTrimmer.com].mp3"
-            type="audio/mpeg">
+    <!-- Background music: place a royalty-free .mp3 in assets/bg-music.mp3 to enable -->
+    <audio id="bg-music" loop preload="none">
+        <source src="assets/bg-music.mp3" type="audio/mpeg">
     </audio>
 
     <!-- Music Toggle -->

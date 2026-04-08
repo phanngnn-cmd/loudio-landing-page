@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Loudio Commercial Licensing Cost Calculator — estimate public performance licensing fees for your venue.">
+    <title>Commercial Licensing Calculator | Loudio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;600;700&family=Outfit:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.png" type="image/png">
+    <style>
+        /* ── Calculator Page Styles ───────────────────────────────── */
+        .calc-hero {
+            padding: 140px 0 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .calc-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 70% 60% at 50% 0%,
+                    hsla(271, 76%, 53%, 0.18) 0%,
+                    transparent 70%);
+            pointer-events: none;
+        }
+
+        .calc-hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(var(--glass-blur));
+            padding: 6px 18px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            letter-spacing: 0.04em;
+        }
+
+        .calc-hero-badge span {
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        .calc-hero h1 {
+            font-family: 'Outfit', var(--font-main);
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        .calc-hero p {
+            color: var(--text-muted);
+            max-width: 560px;
+            margin: 0 auto 48px;
+            font-size: 1.05rem;
+        }
+
+        /* ── Layout ───────────────────────────────────────────────── */
+        .calc-layout {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 28px;
+            align-items: start;
+            padding-bottom: 80px;
+        }
+
+        @media (max-width: 900px) {
+            .calc-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ── Form Card ───────────────────────────────────────────── */
+        .calc-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(var(--glass-blur));
+            border-radius: var(--border-radius-lg);
+            padding: 36px;
+        }
+
+        .calc-section-title {
+            font-family: 'Outfit', var(--font-main);
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 20px;
+            margin-top: 32px;
+            padding-top: 28px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .calc-card .calc-section-title:first-child {
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 0.02em;
+        }
+
+        .form-group label .hint {
+            font-weight: 400;
+            color: var(--text-dim);
+        }
+
+        .form-control {
+            background: hsla(240, 8%, 8%, 0.7);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px 16px;
+            color: var(--text-main);
+            font-family: var(--font-main);
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+            appearance: none;
+            width: 100%;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px hsla(271, 76%, 53%, 0.18);
+        }
+
+        select.form-control {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2394a3b8' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 36px;
+            cursor: pointer;
+        }
+
+        select.form-control option {
+            background: hsl(244, 18%, 13%);
+            color: var(--text-main);
+        }
+
+        /* Range input */
+        .range-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .range-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .range-value {
+            font-family: 'Outfit', var(--font-main);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 5px;
+            background: var(--border-color);
+            border-radius: 999px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            border: 2px solid white;
+            box-shadow: 0 0 10px hsla(271, 76%, 53%, 0.5);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 16px hsla(271, 76%, 53%, 0.7);
+        }
+
+        /* Chip selectors */
+        .chip-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .chip {
+            padding: 8px 16px;
+            border-radius: 999px;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-muted);
+            font-family: var(--font-main);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .chip:hover {
+            border-color: var(--primary-color);
+            color: var(--text-main);
+        }
+
+        .chip.active {
+            background: hsla(271, 76%, 53%, 0.2);
+            border-color: var(--primary-color);
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        /* ── Results Card ────────────────────────────────────────── */
+        .results-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(var(--glass-blur));
+            border-radius: var(--border-radius-lg);
+            padding: 32px;
+            position: sticky;
+            top: 100px;
+        }
+
+        .results-card h3 {
+            font-family: 'Outfit', var(--font-main);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 28px;
+        }
+
+        .estimate-total {
+            text-align: center;
+            padding: 24px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 24px;
+        }
+
+        .estimate-label {
+            font-size: 0.82rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 6px;
+        }
+
+        .estimate-range {
+            font-family: 'Outfit', var(--font-main);
+            font-size: clamp(1.6rem, 4vw, 2.2rem);
+            font-weight: 700;
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .estimate-period {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-top: 4px;
+        }
+
+        .breakdown-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.88rem;
+        }
+
+        .breakdown-item .item-label {
+            color: var(--text-muted);
+        }
+
+        .breakdown-item .item-value {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .breakdown-item.total-row {
+            padding-top: 12px;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.95rem;
+        }
+
+        .breakdown-item.total-row .item-label {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .breakdown-item.total-row .item-value {
+            color: var(--secondary-color);
+            font-weight: 700;
+        }
+
+        .disclaimer {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* Factor badges */
+        .factor-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 20px;
+        }
+
+        .factor-tag {
+            font-size: 0.72rem;
+            padding: 3px 10px;
+            border-radius: 999px;
+            background: hsla(271, 76%, 53%, 0.12);
+            border: 1px solid hsla(271, 76%, 53%, 0.3);
+            color: var(--primary-hover);
+        }
+
+        .factor-tag.green {
+            background: hsla(142, 70%, 40%, 0.12);
+            border-color: hsla(142, 70%, 40%, 0.3);
+            color: hsl(142, 70%, 60%);
+        }
+
+        .factor-tag.amber {
+            background: hsla(38, 92%, 50%, 0.12);
+            border-color: hsla(38, 92%, 50%, 0.3);
+            color: hsl(38, 92%, 65%);
+        }
+
+        /* ── Info boxes ──────────────────────────────────────────── */
+        .info-box {
+            background: hsla(191, 100%, 42%, 0.07);
+            border: 1px solid hsla(191, 100%, 42%, 0.2);
+            border-radius: 12px;
+            padding: 14px 18px;
+            font-size: 0.84rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .info-box strong {
+            color: var(--secondary-color);
+        }
+
+        /* ── CTA ─────────────────────────────────────────────────── */
+        .cta-section {
+            text-align: center;
+            padding: 60px 0 80px;
+        }
+
+        .cta-section h2 {
+            font-family: 'Outfit', var(--font-main);
+            font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .cta-section p {
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ── Footer ──────────────────────────────────────────────── */
+        .page-footer {
+            border-top: 1px solid var(--border-color);
+            padding: 32px 0;
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.82rem;
+        }
+
+        .page-footer a {
+            color: var(--text-muted);
+            transition: color 0.2s ease;
+        }
+
+        .page-footer a:hover {
+            color: var(--text-main);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="assets/loudio_full_logo.png" alt="Loudio" class="logo-full-img">
+                <span class="venue-tag nav-tag-small">for venues</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html#how-it-works">About Us</a>
+                <a href="index.html#features">Features</a>
+                <a href="index.html#pricing">Pricing</a>
+                <a href="index.html#testimonials">Testimonials</a>
+                <a href="index.html#faq">FAQ</a>
+                <a href="https://loudio.app" class="nav-pick-music" target="_blank" rel="noopener noreferrer">Pick Music</a>
+            </div>
+            <div class="nav-actions">
+                <a href="https://loudiomanager.com" class="btn btn-glass" target="_blank" rel="noopener noreferrer">Venue Login</a>
+                <a href="index.html#signup" class="btn btn-primary">Get Started</a>
+            </div>
+            <div class="mobile-menu-btn" aria-label="Toggle Navigation Menu" role="button" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="calc-hero">
+        <div class="container">
+            <div class="calc-hero-badge">
+                <span>Commercial Licensing</span> Cost Estimator
+            </div>
+            <h1>Estimate Your <span class="text-gradient">Licensing Cost</span></h1>
+            <p>Answer a few questions about your venue and get an instant estimate for commercial music licensing fees before speaking with our team.</p>
+        </div>
+    </section>
+
+    <!-- Calculator -->
+    <div class="container">
+        <div class="calc-layout">
+
+            <!-- Form -->
+            <div class="calc-card">
+
+                <!-- Venue Profile -->
+                <p class="calc-section-title">Venue Profile</p>
+
+                <div class="form-group">
+                    <label>Venue Type</label>
+                    <div class="chip-group" id="venueTypeGroup">
+                        <button class="chip active" data-value="bar">Bar / Nightclub</button>
+                        <button class="chip" data-value="restaurant">Restaurant / Café</button>
+                        <button class="chip" data-value="hotel">Hotel / Lobby</button>
+                        <button class="chip" data-value="retail">Retail / Mall</button>
+                        <button class="chip" data-value="fitness">Fitness / Spa</button>
+                        <button class="chip" data-value="event">Event Space</button>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Number of Locations</label>
+                        <div class="range-wrapper">
+                            <div class="range-display">
+                                <span class="range-value" id="locCount">1</span>
+                                <span style="font-size:0.8rem; color: var(--text-dim);">locations</span>
+                            </div>
+                            <input type="range" id="locSlider" min="1" max="50" value="1">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Avg. Capacity <span class="hint">(guests)</span></label>
+                        <div class="range-wrapper">
+                            <div class="range-display">
+                                <span class="range-value" id="capCount">50</span>
+                                <span style="font-size:0.8rem; color: var(--text-dim);">guests</span>
+                            </div>
+                            <input type="range" id="capSlider" min="10" max="1000" step="10" value="50">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Catalog & Usage -->
+                <p class="calc-section-title">Catalog &amp; Usage</p>
+
+                <div class="form-group">
+                    <label>Music Catalog Type</label>
+                    <div class="chip-group" id="catalogGroup">
+                        <button class="chip active" data-value="standard">Standard (Mainstream / Pop)</button>
+                        <button class="chip" data-value="curated">Curated (Jazz / Classical / Lo-fi)</button>
+                        <button class="chip" data-value="regional">Regional / Local Artists</button>
+                        <button class="chip" data-value="licensed">Pre-Licensed Background Library</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Hours of Music Per Day</label>
+                    <div class="range-wrapper">
+                        <div class="range-display">
+                            <span class="range-value" id="hoursCount">8</span>
+                            <span style="font-size:0.8rem; color: var(--text-dim);">hrs/day</span>
+                        </div>
+                        <input type="range" id="hoursSlider" min="1" max="24" value="8">
+                    </div>
+                </div>
+
+                <!-- Region -->
+                <p class="calc-section-title">Region</p>
+
+                <div class="form-group">
+                    <label>Primary Market</label>
+                    <select class="form-control" id="regionSelect">
+                        <option value="vn">Vietnam</option>
+                        <option value="sea">Southeast Asia (other)</option>
+                        <option value="eu">Europe</option>
+                        <option value="us">United States / Canada</option>
+                        <option value="au">Australia / NZ</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="info-box">
+                    <strong>How this estimate works:</strong> Licensing fees depend on your performing rights organization (PRO), territory, venue size, and catalog type. This calculator gives a directional range based on published PRO tariff schedules. Final quotes are always tailored to your situation.
+                </div>
+
+            </div>
+
+            <!-- Results -->
+            <div class="results-card">
+                <h3>Your Estimate</h3>
+
+                <div class="estimate-total">
+                    <p class="estimate-label">Estimated Annual Cost</p>
+                    <div class="estimate-range" id="estRange">—</div>
+                    <p class="estimate-period" id="estPeriod">Fill in the form to see your estimate</p>
+                </div>
+
+                <div class="breakdown-list" id="breakdown">
+                    <div class="breakdown-item">
+                        <span class="item-label">Base PRO Tariff</span>
+                        <span class="item-value" id="bdBase">—</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="item-label">Capacity Multiplier</span>
+                        <span class="item-value" id="bdCap">—</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="item-label">Catalog Adjustment</span>
+                        <span class="item-value" id="bdCatalog">—</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="item-label">Locations × Rate</span>
+                        <span class="item-value" id="bdLoc">—</span>
+                    </div>
+                    <div class="breakdown-item total-row">
+                        <span class="item-label">Total / Year</span>
+                        <span class="item-value" id="bdTotal">—</span>
+                    </div>
+                </div>
+
+                <div class="factor-tags" id="factorTags"></div>
+
+                <p class="disclaimer">
+                    This estimate is indicative only. Actual licensing fees may vary based on your PRO agreement, territory-specific tariffs, and Loudio's bulk licensing arrangements. VAT/taxes not included.
+                </p>
+
+                <a href="index.html#signup" class="btn btn-primary full-width" style="margin-bottom: 12px;">Get an Exact Quote</a>
+                <a href="index.html#pricing" class="btn btn-outline full-width">View Subscription Plans</a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- CTA Strip -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to License with <span class="text-gradient">Confidence?</span></h2>
+            <p>Our licensing specialists will find the most cost-effective coverage for your venues — often bundled with your Loudio subscription.</p>
+            <div class="cta-buttons">
+                <a href="index.html#signup" class="btn btn-primary btn-lg">Talk to a Specialist</a>
+                <a href="index.html" class="btn btn-outline btn-lg">Back to Loudio</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="page-footer">
+        <div class="container">
+            <p>&copy; 2025 Loudio. All rights reserved. &nbsp;|&nbsp;
+                <a href="index.html">Home</a> &nbsp;|&nbsp;
+                <a href="index.html#pricing">Pricing</a> &nbsp;|&nbsp;
+                <a href="https://loudiomanager.com" rel="noopener noreferrer">Manager Portal</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        /* ── Calculator Logic ─────────────────────────────────────── */
+        (function () {
+            'use strict';
+
+            // Base annual PRO tariffs by region (USD equivalent, per location)
+            const BASE_TARIFF = {
+                vn: 180,
+                sea: 280,
+                eu: 620,
+                us: 850,
+                au: 540,
+                other: 350
+            };
+
+            // Venue type multipliers
+            const VENUE_MULT = {
+                bar: 1.4,
+                restaurant: 1.0,
+                hotel: 1.2,
+                retail: 0.9,
+                fitness: 0.8,
+                event: 1.6
+            };
+
+            // Catalog adjustments (additive on top of base)
+            const CATALOG_ADJ = {
+                standard: 1.0,
+                curated: 1.25,
+                regional: 0.75,
+                licensed: 0.45
+            };
+
+            // Capacity tiers
+            function capacityMultiplier(cap) {
+                if (cap <= 50) return 1.0;
+                if (cap <= 150) return 1.3;
+                if (cap <= 300) return 1.65;
+                if (cap <= 500) return 2.0;
+                return 2.5;
+            }
+
+            // Hours-of-use factor (baseline 8h)
+            function hoursFactor(h) {
+                return 0.7 + (h / 24) * 0.6;
+            }
+
+            // Currency labels per region
+            const CURRENCY = {
+                vn: { symbol: '₫', rate: 25000, label: 'VND' },
+                sea: { symbol: '$', rate: 1, label: 'USD' },
+                eu: { symbol: '€', rate: 0.92, label: 'EUR' },
+                us: { symbol: '$', rate: 1, label: 'USD' },
+                au: { symbol: 'A$', rate: 1.52, label: 'AUD' },
+                other: { symbol: '$', rate: 1, label: 'USD' }
+            };
+
+            function fmtCurrency(usd, region) {
+                const c = CURRENCY[region];
+                const val = usd * c.rate;
+                if (region === 'vn') {
+                    return c.symbol + Math.round(val / 1000) * 1000;
+                }
+                return c.symbol + val.toFixed(0);
+            }
+
+            // State
+            let state = {
+                venueType: 'bar',
+                locations: 1,
+                capacity: 50,
+                catalog: 'standard',
+                hours: 8,
+                region: 'vn'
+            };
+
+            function calculate() {
+                const base = BASE_TARIFF[state.region];
+                const vMult = VENUE_MULT[state.venueType];
+                const capMult = capacityMultiplier(state.capacity);
+                const catAdj = CATALOG_ADJ[state.catalog];
+                const hFactor = hoursFactor(state.hours);
+
+                const perLocation = base * vMult * capMult * catAdj * hFactor;
+                const totalLow = perLocation * state.locations * 0.85;
+                const totalHigh = perLocation * state.locations * 1.2;
+
+                return {
+                    base,
+                    vMult,
+                    capMult,
+                    catAdj,
+                    hFactor,
+                    perLocation,
+                    totalLow,
+                    totalHigh
+                };
+            }
+
+            function updateUI() {
+                const r = calculate();
+                const region = state.region;
+
+                const lo = fmtCurrency(r.totalLow, region);
+                const hi = fmtCurrency(r.totalHigh, region);
+
+                document.getElementById('estRange').textContent = lo + ' – ' + hi;
+                document.getElementById('estPeriod').textContent =
+                    CURRENCY[region].label + ' / year (estimated range)';
+
+                document.getElementById('bdBase').textContent =
+                    fmtCurrency(r.base, region) + ' base';
+                document.getElementById('bdCap').textContent =
+                    '×' + r.capMult.toFixed(2);
+                document.getElementById('bdCatalog').textContent =
+                    '×' + r.catAdj.toFixed(2);
+                document.getElementById('bdLoc').textContent =
+                    '×' + state.locations + ' location' + (state.locations > 1 ? 's' : '');
+                document.getElementById('bdTotal').textContent =
+                    lo + ' – ' + hi;
+
+                // Factor tags
+                const tags = [];
+                if (r.vMult > 1.3) tags.push({ label: 'High-traffic venue', cls: 'amber' });
+                if (r.catAdj < 0.8) tags.push({ label: 'Cost-efficient catalog', cls: 'green' });
+                if (state.locations >= 5) tags.push({ label: 'Multi-site discount eligible', cls: 'green' });
+                if (r.capMult >= 2) tags.push({ label: 'Large capacity surcharge', cls: 'amber' });
+                if (state.hours <= 6) tags.push({ label: 'Reduced-hours credit', cls: 'green' });
+
+                const tagsEl = document.getElementById('factorTags');
+                tagsEl.innerHTML = '';
+                tags.forEach(function (t) {
+                    const span = document.createElement('span');
+                    span.className = 'factor-tag' + (t.cls ? ' ' + t.cls : '');
+                    span.textContent = t.label;
+                    tagsEl.appendChild(span);
+                });
+            }
+
+            // Chip groups
+            function initChipGroup(groupId, stateKey) {
+                const group = document.getElementById(groupId);
+                if (!group) return;
+                group.addEventListener('click', function (e) {
+                    const chip = e.target.closest('.chip');
+                    if (!chip) return;
+                    group.querySelectorAll('.chip').forEach(function (c) {
+                        c.classList.remove('active');
+                    });
+                    chip.classList.add('active');
+                    state[stateKey] = chip.dataset.value;
+                    updateUI();
+                });
+            }
+
+            // Range sliders
+            function initSlider(sliderId, displayId, stateKey) {
+                const slider = document.getElementById(sliderId);
+                const display = document.getElementById(displayId);
+                if (!slider || !display) return;
+                slider.addEventListener('input', function () {
+                    display.textContent = slider.value;
+                    state[stateKey] = Number(slider.value);
+                    updateUI();
+                });
+            }
+
+            // Region select
+            const regionSelect = document.getElementById('regionSelect');
+            if (regionSelect) {
+                regionSelect.addEventListener('change', function () {
+                    state.region = regionSelect.value;
+                    updateUI();
+                });
+            }
+
+            // Init
+            initChipGroup('venueTypeGroup', 'venueType');
+            initChipGroup('catalogGroup', 'catalog');
+            initSlider('locSlider', 'locCount', 'locations');
+            initSlider('capSlider', 'capCount', 'capacity');
+            initSlider('hoursSlider', 'hoursCount', 'hours');
+
+            updateUI();
+
+            // Navbar scroll effect
+            var navbar = document.querySelector('.navbar');
+            if (navbar) {
+                window.addEventListener('scroll', function () {
+                    navbar.classList.toggle('scrolled', window.scrollY > 50);
+                }, { passive: true });
+            }
+
+            // Mobile menu
+            var mobileBtn = document.querySelector('.mobile-menu-btn');
+            var navLinks = document.querySelector('.nav-links');
+            var navActions = document.querySelector('.nav-actions');
+            if (mobileBtn && navLinks && navActions) {
+                mobileBtn.addEventListener('click', function () {
+                    var isActive = navLinks.classList.toggle('active');
+                    navActions.classList.toggle('active');
+                    mobileBtn.classList.toggle('open');
+                    mobileBtn.setAttribute('aria-expanded', isActive);
+                });
+            }
+        })();
+    </script>
+</body>
+
+</html>

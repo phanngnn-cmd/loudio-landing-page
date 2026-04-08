@@ -275,10 +275,13 @@ document.addEventListener('DOMContentLoaded', () => {
                             </svg>
                         </div>
                         <h2 class="success-title">The Future Awaits</h2>
-                        <p class="success-text">Your venue is one step closer to an AI-powered atmosphere. We'll reach out to <strong>${contact}</strong> within 24 hours.</p>
+                        <p class="success-text">Your venue is one step closer to an AI-powered atmosphere. We'll reach out to <strong class="contact-display"></strong> within 24 hours.</p>
                         <button class="btn btn-primary" onclick="window.location.reload()" style="min-width: 200px;">Return to Site</button>
                     </div>
                 `;
+                // Set contact via textContent to prevent XSS
+                const contactEl = modalBody.querySelector('.contact-display');
+                if (contactEl) contactEl.textContent = contact;
             } else {
                 alert('Something went wrong. Please try again.');
                 submitBtn.textContent = originalBtnText;
@@ -478,6 +481,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = String(str || '');
+        return div.innerHTML;
+    }
+
     function renderBlogArticles(articles) {
         if (!blogGrid) return;
 
@@ -487,15 +496,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         blogGrid.innerHTML = articles.map(art => {
-            const articleUrl = `article.html?id=${art.id}`;
-            console.log(`Rendering article: ${art.title} -> ${articleUrl}`);
+            const articleUrl = `article.html?id=${encodeURIComponent(art.id)}`;
+            const safeImage = art.image
+                ? escapeHtml(art.image)
+                : 'https://images.unsplash.com/photo-1459749411177-042180ce6742?auto=format&fit=crop&w=800&q=80';
             return `
                 <article class="article-card">
-                    <img src="${art.image || 'https://images.unsplash.com/photo-1459749411177-042180ce6742?auto=format&fit=crop&w=800&q=80'}" alt="${art.title}" class="article-image">
+                    <img src="${safeImage}" alt="${escapeHtml(art.title)}" class="article-image">
                     <div class="article-content">
                         <span class="article-tag">Insights</span>
-                        <h3 class="article-title">${art.title}</h3>
-                        <p class="article-excerpt">${art.excerpt}</p>
+                        <h3 class="article-title">${escapeHtml(art.title)}</h3>
+                        <p class="article-excerpt">${escapeHtml(art.excerpt)}</p>
                         <div class="article-footer">
                             <span class="article-date">${new Date(art.date).toLocaleDateString()}</span>
                             <a href="${articleUrl}" class="read-more"><span data-i18n="read_more">Read More →</span></a>
