@@ -228,13 +228,15 @@
 
         async function checkAuth() {
             const pass = document.getElementById('passkey').value;
-            if (pass === 'loudio-internal-2026') {
-                auth_token = pass;
-                document.getElementById('login-overlay').classList.add('hidden');
-                initStudio();
-            } else {
-                alert('Invalid passkey');
+            if (!pass || pass.trim() === '') {
+                alert('Please enter a passkey');
+                return;
             }
+            // Token is validated server-side by the GAS backend.
+            // Never hardcode the token here — set it in GAS Script Properties.
+            auth_token = pass.trim();
+            document.getElementById('login-overlay').classList.add('hidden');
+            initStudio();
         }
 
         async function initStudio() {
@@ -266,13 +268,22 @@
             currentArticles.forEach(art => {
                 const item = document.createElement('div');
                 item.className = `article-item ${activeArticleId === art.id ? 'active' : ''}`;
-                item.innerHTML = `
-                    <div style="font-weight: 600;">${art.title || 'Untitled'}</div>
-                    <div style="font-size: 0.8rem; color: var(--text-dim); margin-top: 4px;">
-                        ${new Date(art.date).toLocaleDateString()}
-                        <span class="badge ${art.published ? 'badge-pub' : 'badge-draft'}">${art.published ? 'Pub' : 'Draft'}</span>
-                    </div>
-                `;
+
+                const titleEl = document.createElement('div');
+                titleEl.style.fontWeight = '600';
+                titleEl.textContent = art.title || 'Untitled';
+
+                const metaEl = document.createElement('div');
+                metaEl.style.cssText = 'font-size: 0.8rem; color: var(--text-dim); margin-top: 4px;';
+                metaEl.textContent = new Date(art.date).toLocaleDateString() + ' ';
+
+                const badge = document.createElement('span');
+                badge.className = `badge ${art.published ? 'badge-pub' : 'badge-draft'}`;
+                badge.textContent = art.published ? 'Pub' : 'Draft';
+                metaEl.appendChild(badge);
+
+                item.appendChild(titleEl);
+                item.appendChild(metaEl);
                 item.onclick = () => openArticle(art.id);
                 list.appendChild(item);
             });

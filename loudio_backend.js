@@ -1,4 +1,7 @@
-const ADMIN_TOKEN = 'loudio-internal-2026'; // Simple security token
+// IMPORTANT: Set ADMIN_TOKEN in GAS Script Properties, not here.
+// In the GAS editor: Project Settings → Script Properties → Add "ADMIN_TOKEN" key.
+// The old token 'loudio-internal-2026' is compromised — rotate it before deploying.
+const ADMIN_TOKEN = PropertiesService.getScriptProperties().getProperty('ADMIN_TOKEN') || '';
 
 function doGet(e) {
     if (!e || !e.parameter) {
