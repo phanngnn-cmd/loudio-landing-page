@@ -28,7 +28,7 @@ assert.match(main, /LOUDIO_GAS_WEB_APP_URL/, 'frontend should use one shared GAS
 assert.doesNotMatch(main, /localhost:5678/, 'frontend should not call localhost n8n in production');
 
 assert.match(gas, /function sendCustomerEmail/, 'GAS should send customer emails directly');
-assert.match(gas, /phananh\.nguyen@loudio\.vn/, 'GAS should notify Loudio admin email');
+assert.match(gas, /phan\.ngnn@gmail\.com/, 'GAS should notify Loudio admin email');
 assert.match(gas, /BACKEND_VERSION/, 'GAS should expose a backend version for deployment verification');
 assert.match(gas, /action === 'health'/, 'GAS should expose a health endpoint for deployment verification');
 assert.match(gas, /action === 'upload_image'/, 'GAS should support authenticated blog image upload');

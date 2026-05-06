@@ -12,7 +12,7 @@
   6. Copy the Web App URL into LOUDIO_GAS_WEB_APP_URL in the static site.
 */
 
-const ADMIN_EMAIL = 'phananh.nguyen@loudio.vn';
+const ADMIN_EMAIL = 'phan.ngnn@gmail.com';
 const ADMIN_TOKEN = PropertiesService.getScriptProperties().getProperty('ADMIN_TOKEN') || '';
 const BLOG_IMAGE_FOLDER_ID_PROP = 'BLOG_IMAGE_FOLDER_ID';
 const MAX_IMAGE_BYTES = 2 * 1024 * 1024;
