@@ -5,339 +5,766 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loudio Content Studio | Admin</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap"
+        rel="stylesheet">
     <style>
         :root {
-            --primary-bg: #0a0a0b;
-            --card-bg: #151518;
-            --accent-color: #4cc9f0;
-            --text-main: #ffffff;
-            --text-dim: #a0a0a0;
-            --border-color: rgba(255, 255, 255, 0.1);
+            --bg: #090b11;
+            --panel: #121620;
+            --panel-soft: #171d2a;
+            --line: rgba(255, 255, 255, 0.1);
+            --text: #f8fafc;
+            --muted: #94a3b8;
+            --accent: #4cc9f0;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --radius: 10px;
         }
 
-        body {
-            font-family: 'Outfit', sans-serif;
-            background-color: var(--primary-bg);
-            color: var(--text-main);
-            margin: 0;
-            display: flex;
-            height: 100vh;
-        }
-
-        /* Login Overlay */
-        #login-overlay {
-            position: fixed;
-            inset: 0;
-            background: var(--primary-bg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-
-        .login-box {
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 16px;
-            border: 1px solid var(--border-color);
-            text-align: center;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            margin: 20px 0;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: white;
+        * {
             box-sizing: border-box;
         }
 
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Outfit', Arial, sans-serif;
+        }
+
+        button,
+        input,
+        textarea,
+        select {
+            font: inherit;
+        }
+
         button {
-            padding: 12px 24px;
-            background: var(--accent-color);
-            border: none;
-            border-radius: 8px;
-            color: #000;
-            font-weight: 600;
+            border: 0;
             cursor: pointer;
-            width: 100%;
-        }
-
-        /* Dashboard Layout */
-        .sidebar {
-            width: 300px;
-            border-right: 1px solid var(--border-color);
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            overflow-y: auto;
-        }
-
-        .main-content {
-            flex: 1;
-            padding: 40px;
-            overflow-y: auto;
-        }
-
-        .article-item {
-            padding: 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.2s;
-            border: 1px solid transparent;
-        }
-
-        .article-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .article-item.active {
-            background: rgba(76, 201, 240, 0.1);
-            border-color: var(--accent-color);
-        }
-
-        .editor-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-
-        textarea {
-            width: 100%;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: white;
-            padding: 16px;
-            font-family: inherit;
-            resize: vertical;
-            min-height: 400px;
-        }
-
-        .form-row {
-            margin-bottom: 16px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--text-dim);
-            font-size: 0.9rem;
-        }
-
-        .badge {
-            font-size: 0.7rem;
-            padding: 2px 6px;
-            border-radius: 4px;
-            text-transform: uppercase;
-        }
-
-        .badge-pub {
-            background: #4caf50;
-            color: white;
-        }
-
-        .badge-draft {
-            background: #ff9800;
-            color: white;
         }
 
         .hidden {
             display: none !important;
         }
+
+        #login-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: radial-gradient(circle at 50% 15%, rgba(76, 201, 240, 0.18), transparent 34%), var(--bg);
+        }
+
+        .login-box {
+            width: min(100%, 420px);
+            padding: 34px;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: var(--panel);
+            box-shadow: 0 28px 70px rgba(0, 0, 0, 0.35);
+        }
+
+        .login-box h1 {
+            margin: 0 0 10px;
+            font-size: 1.8rem;
+        }
+
+        .login-box p {
+            margin: 0 0 24px;
+            color: var(--muted);
+            line-height: 1.55;
+        }
+
+        .app-shell {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 320px minmax(0, 1fr);
+        }
+
+        .sidebar {
+            border-right: 1px solid var(--line);
+            background: rgba(18, 22, 32, 0.82);
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            min-height: 100vh;
+        }
+
+        .brand-row,
+        .studio-toolbar,
+        .editor-actions,
+        .meta-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-row {
+            justify-content: space-between;
+        }
+
+        .brand-row h2,
+        .editor-title h1 {
+            margin: 0;
+        }
+
+        .brand-row p,
+        .editor-title p {
+            margin: 4px 0 0;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        .article-list {
+            display: grid;
+            gap: 10px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .article-item {
+            padding: 13px;
+            border: 1px solid transparent;
+            border-radius: var(--radius);
+            background: transparent;
+            color: inherit;
+            text-align: left;
+            transition: border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .article-item:hover,
+        .article-item.active {
+            border-color: rgba(76, 201, 240, 0.5);
+            background: rgba(76, 201, 240, 0.08);
+        }
+
+        .article-item-title {
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .article-item-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            color: var(--muted);
+            font-size: 0.8rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 8px;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .badge-pub {
+            background: rgba(34, 197, 94, 0.16);
+            color: #86efac;
+        }
+
+        .badge-draft {
+            background: rgba(245, 158, 11, 0.16);
+            color: #facc15;
+        }
+
+        .main-content {
+            min-width: 0;
+            padding: 24px;
+        }
+
+        .studio-toolbar {
+            justify-content: space-between;
+            padding: 18px 20px;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: var(--panel);
+            margin-bottom: 18px;
+        }
+
+        .editor-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(320px, 0.78fr);
+            gap: 18px;
+            align-items: start;
+        }
+
+        .editor-panel,
+        .preview-panel,
+        .empty-state {
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: var(--panel);
+        }
+
+        .editor-panel {
+            padding: 22px;
+        }
+
+        .preview-panel {
+            position: sticky;
+            top: 18px;
+            overflow: hidden;
+        }
+
+        #preview-pane {
+            padding: 22px;
+        }
+
+        .empty-state {
+            min-height: 60vh;
+            display: grid;
+            place-items: center;
+            color: var(--muted);
+            text-align: center;
+            padding: 30px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .form-row {
+            display: grid;
+            gap: 8px;
+        }
+
+        .form-row.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            color: var(--muted);
+            font-size: 0.88rem;
+            font-weight: 700;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: var(--panel-soft);
+            color: var(--text);
+            padding: 12px 13px;
+            outline: none;
+        }
+
+        input:focus-visible,
+        textarea:focus-visible,
+        select:focus-visible {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(76, 201, 240, 0.16);
+        }
+
+        textarea {
+            min-height: 360px;
+            resize: vertical;
+            line-height: 1.65;
+        }
+
+        .helper-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            color: var(--muted);
+            font-size: 0.78rem;
+        }
+
+        .image-tools {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+            align-items: end;
+        }
+
+        .upload-drop {
+            border: 1px dashed rgba(76, 201, 240, 0.45);
+            border-radius: var(--radius);
+            background: rgba(76, 201, 240, 0.06);
+            padding: 14px;
+            color: var(--muted);
+        }
+
+        .upload-drop input {
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.18);
+        }
+
+        .image-preview {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border-radius: var(--radius);
+            border: 1px solid var(--line);
+            object-fit: cover;
+            background: #0f172a;
+            display: none;
+        }
+
+        .btn {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            min-height: 42px;
+            padding: 10px 15px;
+            border-radius: var(--radius);
+            font-weight: 800;
+            text-decoration: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #041016;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text);
+            border: 1px solid var(--line);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.12);
+            color: #fecaca;
+            border: 1px solid rgba(239, 68, 68, 0.45);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .status-bar {
+            min-height: 24px;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .status-bar.good {
+            color: #86efac;
+        }
+
+        .status-bar.warn {
+            color: #facc15;
+        }
+
+        .preview-kicker {
+            color: var(--accent);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.72rem;
+        }
+
+        .preview-title {
+            margin: 10px 0;
+            font-size: 2rem;
+            line-height: 1.1;
+        }
+
+        .preview-excerpt {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .preview-image {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            border-bottom: 1px solid var(--line);
+            background: #0f172a;
+        }
+
+        .preview-body {
+            color: #dbe4f0;
+            line-height: 1.75;
+        }
+
+        .preview-body h2,
+        .preview-body h3 {
+            color: #ffffff;
+        }
+
+        @media (max-width: 1040px) {
+            .app-shell,
+            .editor-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                min-height: auto;
+                border-right: 0;
+                border-bottom: 1px solid var(--line);
+            }
+
+            .preview-panel {
+                position: static;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .main-content,
+            .sidebar {
+                padding: 16px;
+            }
+
+            .studio-toolbar,
+            .editor-actions,
+            .form-grid,
+            .image-tools {
+                grid-template-columns: 1fr;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .studio-toolbar {
+                display: grid;
+            }
+        }
     </style>
 </head>
 
 <body>
-
     <div id="login-overlay">
         <div class="login-box">
-            <h2 style="margin-top: 0;">Loudio Content Studio</h2>
-            <p style="color: var(--text-dim);">Enter your internal passkey</p>
-            <input type="password" id="passkey" placeholder="••••••••">
-            <button onclick="checkAuth()">Access Studio</button>
+            <h1>Loudio Content Studio</h1>
+            <p>Enter the internal passkey from your Apps Script ADMIN_TOKEN property.</p>
+            <label for="passkey">Admin passkey</label>
+            <input type="password" id="passkey" autocomplete="current-password" placeholder="Enter passkey">
+            <button class="btn btn-primary" onclick="checkAuth()">Access Studio</button>
         </div>
     </div>
 
-    <div class="sidebar">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h3 style="margin: 0;">Articles</h3>
-            <button onclick="newArticle()" style="width: auto; padding: 6px 12px;">+ New</button>
-        </div>
-        <div id="article-list">
-            <!-- Items via JS -->
-        </div>
-    </div>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="brand-row">
+                <div>
+                    <h2>Articles</h2>
+                    <p id="article-count">No articles loaded</p>
+                </div>
+                <button class="btn btn-primary" onclick="newArticle()">New</button>
+            </div>
+            <label for="article-search">Search articles</label>
+            <input type="search" id="article-search" placeholder="Search by title, author, category">
+            <div id="article-list" class="article-list"></div>
+        </aside>
 
-    <div class="main-content">
-        <div id="editor-view" class="hidden">
-            <div class="editor-header">
-                <h2 id="editor-title-display">New Article</h2>
-                <div style="display: flex; gap: 10px;">
-                    <button onclick="deleteCurrentArticle()"
-                        style="background: transparent; color: #ff5252; border: 1px solid #ff5252; width: auto;">Delete</button>
-                    <button onclick="saveCurrentArticle()" style="width: auto;">Publish / Save</button>
+        <main class="main-content">
+            <div class="studio-toolbar">
+                <div class="editor-title">
+                    <h1 id="editor-title-display">Blog editor</h1>
+                    <p>Draft, upload, preview, and publish Loudio articles.</p>
+                </div>
+                <div class="editor-actions">
+                    <a class="btn btn-secondary" href="index.html#blog" target="_blank" rel="noopener">Open Blog</a>
+                    <button class="btn btn-secondary" onclick="loadArticles()">Refresh</button>
+                    <button class="btn btn-danger" onclick="deleteCurrentArticle()">Delete</button>
+                    <button class="btn btn-primary" onclick="saveCurrentArticle()">Save</button>
                 </div>
             </div>
 
-            <div class="form-row">
-                <label>Title</label>
-                <input type="text" id="art-title" placeholder="The Future of AI Music in Venues">
+            <div id="empty-state" class="empty-state">
+                <div>
+                    <h2>Select an article or create a new one</h2>
+                    <p>Use the left panel to manage drafts and published posts.</p>
+                </div>
             </div>
 
-            <div class="form-row">
-                <label>Excerpt (Short summary for the card)</label>
-                <input type="text" id="art-excerpt" placeholder="How AI is transforming the customer experience...">
-            </div>
+            <div id="editor-view" class="editor-layout hidden">
+                <section class="editor-panel" aria-label="Article editor">
+                    <div class="form-grid">
+                        <div class="form-row full">
+                            <label for="art-title">Title</label>
+                            <input type="text" id="art-title" placeholder="The future of AI music in venues">
+                            <div class="helper-row">
+                                <span>Use a concrete, search-friendly headline.</span>
+                                <span id="title-count">0 chars</span>
+                            </div>
+                        </div>
 
-            <div class="form-row">
-                <label>Featured Image URL</label>
-                <input type="text" id="art-image" placeholder="https://example.com/image.jpg">
-            </div>
+                        <div class="form-row full">
+                            <label for="art-excerpt">Excerpt</label>
+                            <input type="text" id="art-excerpt"
+                                placeholder="A short summary for the article card and preview.">
+                            <div class="helper-row">
+                                <span>Recommended: 90-160 characters.</span>
+                                <span id="excerpt-count">0 chars</span>
+                            </div>
+                        </div>
 
-            <div class="form-row">
-                <label>Content (HTML/Text)</label>
-                <textarea id="art-content"></textarea>
-            </div>
+                        <div class="form-row">
+                            <label for="art-author">Author</label>
+                            <input type="text" id="art-author" placeholder="Loudio Team">
+                        </div>
 
-            <div class="form-row">
-                <label>
-                    <input type="checkbox" id="art-published" style="width: auto; margin: 0 8px 0 0;">
-                    Published (Visible on landing page)
-                </label>
+                        <div class="form-row">
+                            <label for="art-category">Category</label>
+                            <select id="art-category">
+                                <option>Insights</option>
+                                <option>Customer Stories</option>
+                                <option>Product Updates</option>
+                                <option>Music Licensing</option>
+                                <option>Venue Growth</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row full">
+                            <label for="art-image">Featured image URL</label>
+                            <div class="image-tools">
+                                <input type="text" id="art-image" placeholder="https://example.com/image.jpg">
+                                <button class="btn btn-secondary" onclick="uploadFeaturedImage()">Upload Image</button>
+                            </div>
+                        </div>
+
+                        <div class="form-row full upload-drop">
+                            <label for="art-image-file">Upload JPG, PNG, or WebP</label>
+                            <input type="file" id="art-image-file" accept="image/jpeg,image/png,image/webp">
+                            <p class="status-bar" id="upload-status">Images are compressed before upload.</p>
+                            <img id="image-preview" class="image-preview" alt="">
+                        </div>
+
+                        <div class="form-row full">
+                            <label for="art-image-alt">Image alt text</label>
+                            <input type="text" id="art-image-alt" placeholder="Venue guests using Loudio on phones">
+                        </div>
+
+                        <div class="form-row full">
+                            <label for="art-content">Content</label>
+                            <textarea id="art-content"
+                                placeholder="Write HTML or plain text. Supported tags include headings, paragraphs, links, lists, quotes, and images."></textarea>
+                            <div class="helper-row">
+                                <span>Preview sanitizes unsafe markup before display.</span>
+                                <span id="content-count">0 words</span>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <label for="art-published">Publication status</label>
+                            <select id="art-published">
+                                <option value="false">Draft</option>
+                                <option value="true">Published</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <label>Public link</label>
+                            <a id="public-link" class="btn btn-secondary" href="#" target="_blank" rel="noopener">Preview public page</a>
+                        </div>
+                    </div>
+                    <p id="save-status" class="status-bar"></p>
+                </section>
+
+                <aside class="preview-panel" aria-label="Article preview">
+                    <img id="preview-image" class="preview-image" alt="">
+                    <div id="preview-pane">
+                        <div class="preview-kicker" id="preview-category">Insights</div>
+                        <h2 class="preview-title" id="preview-title">Article title</h2>
+                        <p class="preview-excerpt" id="preview-excerpt">Article excerpt will appear here.</p>
+                        <div class="meta-row">
+                            <span id="preview-author">Loudio Team</span>
+                            <span id="preview-date"></span>
+                        </div>
+                        <hr style="border:0;border-top:1px solid var(--line);margin:20px 0;">
+                        <div id="preview-body" class="preview-body"></div>
+                    </div>
+                </aside>
             </div>
-        </div>
-        <div id="empty-state"
-            style="height: 100%; display: flex; align-items: center; justify-content: center; color: var(--text-dim);">
-            Select an article or create a new one to start.
-        </div>
+        </main>
     </div>
 
     <script>
-        const SCRIPT_URL = localStorage.getItem('loudio_gas_url') || '';
+        const DEFAULT_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwc5GX6-nL3OHBhR5hk7nm3y0UsM2vjqxECSwKRdgkm_YqWjaSxFhaJ5acw-5w2AidH/exec';
+        const SCRIPT_URL = localStorage.getItem('loudio_gas_url') || DEFAULT_SCRIPT_URL;
+        const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1459749411177-042180ce6742?auto=format&fit=crop&w=1200&q=80';
         let currentArticles = [];
         let activeArticleId = null;
         let auth_token = '';
 
+        const fields = {
+            title: document.getElementById('art-title'),
+            excerpt: document.getElementById('art-excerpt'),
+            author: document.getElementById('art-author'),
+            category: document.getElementById('art-category'),
+            image: document.getElementById('art-image'),
+            imageAlt: document.getElementById('art-image-alt'),
+            content: document.getElementById('art-content'),
+            published: document.getElementById('art-published')
+        };
+
+        document.getElementById('article-search').addEventListener('input', renderList);
+        Object.values(fields).forEach(field => field.addEventListener('input', renderPreview));
+        fields.published.addEventListener('change', renderPreview);
+        fields.category.addEventListener('change', renderPreview);
+        fields.image.addEventListener('input', updateImagePreview);
+
         async function checkAuth() {
-            const pass = document.getElementById('passkey').value;
-            if (!pass || pass.trim() === '') {
-                alert('Please enter a passkey');
+            const pass = document.getElementById('passkey').value.trim();
+            if (!pass) {
+                alert('Please enter a passkey.');
                 return;
             }
-            // Token is validated server-side by the GAS backend.
-            // Never hardcode the token here — set it in GAS Script Properties.
-            auth_token = pass.trim();
+
+            auth_token = pass;
             document.getElementById('login-overlay').classList.add('hidden');
-            initStudio();
+            await initStudio();
         }
 
         async function initStudio() {
-            if (!SCRIPT_URL) {
-                const url = prompt("Please enter your Google Apps Script Web App URL:");
-                if (url) {
-                    localStorage.setItem('loudio_gas_url', url);
-                    location.reload();
-                }
-                return;
-            }
-            loadArticles();
+            await loadArticles();
+            newArticle();
         }
 
         async function loadArticles() {
+            setStatus('save-status', 'Loading articles...');
             try {
-                // We need to fetch ALL articles (even unpublished) - GAS needs update or we use action
-                const response = await fetch(`${SCRIPT_URL}?action=get_articles`);
-                currentArticles = await response.json();
+                const response = await fetch(`${SCRIPT_URL}?action=get_articles&include_drafts=true&token=${encodeURIComponent(auth_token)}`);
+                const result = await response.json();
+                if (result.result === 'error') throw new Error(result.error || 'Unauthorized.');
+                currentArticles = Array.isArray(result) ? result : [];
                 renderList();
-            } catch (e) {
-                console.error(e);
+                setStatus('save-status', 'Articles loaded.', 'good');
+            } catch (error) {
+                console.error(error);
+                setStatus('save-status', 'Could not load articles. Check your passkey, Apps Script URL, and deployment.', 'warn');
             }
         }
 
         function renderList() {
+            const query = document.getElementById('article-search').value.trim().toLowerCase();
             const list = document.getElementById('article-list');
-            list.innerHTML = '';
-            currentArticles.forEach(art => {
-                const item = document.createElement('div');
-                item.className = `article-item ${activeArticleId === art.id ? 'active' : ''}`;
-
-                const titleEl = document.createElement('div');
-                titleEl.style.fontWeight = '600';
-                titleEl.textContent = art.title || 'Untitled';
-
-                const metaEl = document.createElement('div');
-                metaEl.style.cssText = 'font-size: 0.8rem; color: var(--text-dim); margin-top: 4px;';
-                metaEl.textContent = new Date(art.date).toLocaleDateString() + ' ';
-
-                const badge = document.createElement('span');
-                badge.className = `badge ${art.published ? 'badge-pub' : 'badge-draft'}`;
-                badge.textContent = art.published ? 'Pub' : 'Draft';
-                metaEl.appendChild(badge);
-
-                item.appendChild(titleEl);
-                item.appendChild(metaEl);
-                item.onclick = () => openArticle(art.id);
-                list.appendChild(item);
+            const filtered = currentArticles.filter(article => {
+                const haystack = [article.title, article.author, article.category, article.excerpt].join(' ').toLowerCase();
+                return haystack.includes(query);
             });
+
+            document.getElementById('article-count').textContent = `${filtered.length} of ${currentArticles.length} articles`;
+            list.innerHTML = '';
+
+            filtered.forEach(article => {
+                const button = document.createElement('button');
+                button.className = `article-item ${activeArticleId === article.id ? 'active' : ''}`;
+                button.type = 'button';
+                button.onclick = () => openArticle(article.id);
+
+                const title = document.createElement('div');
+                title.className = 'article-item-title';
+                title.textContent = article.title || 'Untitled';
+
+                const meta = document.createElement('div');
+                meta.className = 'article-item-meta';
+                meta.append(formatDate(article.date));
+                meta.append(createBadge(article.published));
+                if (article.category) meta.append(article.category);
+
+                button.append(title, meta);
+                list.appendChild(button);
+            });
+        }
+
+        function createBadge(isPublished) {
+            const badge = document.createElement('span');
+            badge.className = `badge ${isPublished ? 'badge-pub' : 'badge-draft'}`;
+            badge.textContent = isPublished ? 'Published' : 'Draft';
+            return badge;
         }
 
         function openArticle(id) {
             activeArticleId = id;
-            const art = currentArticles.find(a => a.id === id);
-            document.getElementById('editor-view').classList.remove('hidden');
-            document.getElementById('empty-state').classList.add('hidden');
+            const article = currentArticles.find(item => item.id === id);
+            if (!article) return;
 
-            document.getElementById('art-title').value = art.title;
-            document.getElementById('art-excerpt').value = art.excerpt;
-            document.getElementById('art-image').value = art.image;
-            document.getElementById('art-content').value = art.content;
-            document.getElementById('art-published').checked = art.published;
-
-            document.getElementById('editor-title-display').innerText = id ? 'Edit Article' : 'New Article';
+            showEditor();
+            fields.title.value = article.title || '';
+            fields.excerpt.value = article.excerpt || '';
+            fields.author.value = article.author || 'Loudio Team';
+            fields.category.value = article.category || 'Insights';
+            fields.image.value = article.image || '';
+            fields.imageAlt.value = article.image_alt || article.title || '';
+            fields.content.value = article.content || '';
+            fields.published.value = article.published ? 'true' : 'false';
+            document.getElementById('editor-title-display').textContent = 'Edit Article';
+            document.getElementById('public-link').href = `article.html?id=${encodeURIComponent(id)}`;
+            updateCounts();
+            updateImagePreview();
+            renderPreview();
             renderList();
         }
 
         function newArticle() {
             activeArticleId = null;
-            document.getElementById('editor-view').classList.remove('hidden');
+            showEditor();
+            fields.title.value = '';
+            fields.excerpt.value = '';
+            fields.author.value = 'Loudio Team';
+            fields.category.value = 'Insights';
+            fields.image.value = '';
+            fields.imageAlt.value = '';
+            fields.content.value = '';
+            fields.published.value = 'false';
+            document.getElementById('editor-title-display').textContent = 'New Article';
+            document.getElementById('public-link').href = '#';
+            setStatus('save-status', '');
+            updateCounts();
+            updateImagePreview();
+            renderPreview();
+            renderList();
+        }
+
+        function showEditor() {
             document.getElementById('empty-state').classList.add('hidden');
-
-            document.getElementById('art-title').value = '';
-            document.getElementById('art-excerpt').value = '';
-            document.getElementById('art-image').value = '';
-            document.getElementById('art-content').value = '';
-            document.getElementById('art-published').checked = false;
-
-            document.getElementById('editor-title-display').innerText = 'New Article';
+            document.getElementById('editor-view').classList.remove('hidden');
         }
 
         async function saveCurrentArticle() {
+            if (!fields.title.value.trim()) {
+                setStatus('save-status', 'Title is required.', 'warn');
+                fields.title.focus();
+                return;
+            }
+
             const article = {
                 id: activeArticleId,
-                title: document.getElementById('art-title').value,
-                excerpt: document.getElementById('art-excerpt').value,
-                image: document.getElementById('art-image').value,
-                content: document.getElementById('art-content').value,
-                published: document.getElementById('art-published').checked,
+                title: fields.title.value.trim(),
+                excerpt: fields.excerpt.value.trim(),
+                author: fields.author.value.trim() || 'Loudio Team',
+                category: fields.category.value,
+                image: fields.image.value.trim(),
+                image_alt: fields.imageAlt.value.trim(),
+                content: fields.content.value,
+                published: fields.published.value === 'true',
                 date: new Date().toISOString()
             };
 
-            const btn = document.querySelector('button[onclick="saveCurrentArticle()"]');
-            btn.innerText = 'Saving...';
-            btn.disabled = true;
+            setStatus('save-status', 'Saving article...');
 
             try {
-                const res = await fetch(SCRIPT_URL, {
+                await fetch(SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
+                    cache: 'no-cache',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify({
                         action: 'save_article',
                         token: auth_token,
@@ -345,37 +772,214 @@
                     })
                 });
 
-                alert('Saved successfully! (Wait a few seconds for GAS to sync before refreshing list)');
-                setTimeout(loadArticles, 2000);
-            } catch (e) {
-                alert('Error saving. Check console.');
-            } finally {
-                btn.innerText = 'Publish / Save';
-                btn.disabled = false;
+                setStatus('save-status', 'Save submitted. Refreshing article list to verify...', 'good');
+                setTimeout(loadArticles, 1600);
+            } catch (error) {
+                console.error(error);
+                setStatus('save-status', 'Error saving article. Check the console and Apps Script deployment.', 'warn');
             }
         }
 
         async function deleteCurrentArticle() {
             if (!activeArticleId) return;
-            if (!confirm('Are you sure you want to delete this article?')) return;
+            if (!confirm('Delete this article? This cannot be undone.')) return;
 
+            setStatus('save-status', 'Deleting article...');
             try {
                 await fetch(SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
+                    cache: 'no-cache',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify({
                         action: 'delete_article',
                         token: auth_token,
                         id: activeArticleId
                     })
                 });
+
                 activeArticleId = null;
-                document.getElementById('editor-view').classList.add('hidden');
-                document.getElementById('empty-state').classList.remove('hidden');
-                setTimeout(loadArticles, 2000);
-            } catch (e) {
-                alert('Error deleting.');
+                setStatus('save-status', 'Delete submitted. Refreshing list to verify...', 'good');
+                setTimeout(loadArticles, 1600);
+                newArticle();
+            } catch (error) {
+                console.error(error);
+                setStatus('save-status', 'Error deleting article.', 'warn');
             }
+        }
+
+        async function uploadFeaturedImage() {
+            const input = document.getElementById('art-image-file');
+            const file = input.files && input.files[0];
+            if (!file) {
+                setStatus('upload-status', 'Choose an image first.', 'warn');
+                return;
+            }
+
+            if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+                setStatus('upload-status', 'Use JPG, PNG, or WebP images only.', 'warn');
+                return;
+            }
+
+            setStatus('upload-status', 'Compressing image...');
+            const prepared = await prepareImage(file);
+            document.getElementById('image-preview').src = prepared.dataUrl;
+            document.getElementById('image-preview').style.display = 'block';
+
+            try {
+                setStatus('upload-status', 'Uploading to Drive...');
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    cache: 'no-cache',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({
+                        action: 'upload_image',
+                        token: auth_token,
+                        image: {
+                            name: file.name,
+                            mimeType: prepared.mimeType,
+                            data: prepared.base64
+                        }
+                    })
+                });
+
+                const result = await response.json();
+                if (result.result !== 'success') throw new Error(result.error || 'Upload failed.');
+                fields.image.value = result.url;
+                if (!fields.imageAlt.value.trim()) fields.imageAlt.value = fields.title.value.trim();
+                setStatus('upload-status', 'Image uploaded and linked.', 'good');
+            } catch (error) {
+                console.warn(error);
+                if (prepared.dataUrl.length < 45000) {
+                    fields.image.value = prepared.dataUrl;
+                    setStatus('upload-status', 'Drive upload was blocked, so a small embedded image was used.', 'warn');
+                } else {
+                    setStatus('upload-status', 'Upload could not complete. Paste a hosted image URL or retry.', 'warn');
+                }
+            }
+
+            updateImagePreview();
+            renderPreview();
+        }
+
+        function prepareImage(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onerror = reject;
+                reader.onload = () => {
+                    const image = new Image();
+                    image.onerror = reject;
+                    image.onload = () => {
+                        const maxWidth = 1400;
+                        const scale = Math.min(1, maxWidth / image.width);
+                        const width = Math.round(image.width * scale);
+                        const height = Math.round(image.height * scale);
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(image, 0, 0, width, height);
+                        const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+                        resolve({
+                            mimeType: 'image/jpeg',
+                            dataUrl,
+                            base64: dataUrl.split(',')[1]
+                        });
+                    };
+                    image.src = reader.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function renderPreview() {
+            updateCounts();
+            const title = fields.title.value.trim() || 'Article title';
+            const excerpt = fields.excerpt.value.trim() || 'Article excerpt will appear here.';
+            const author = fields.author.value.trim() || 'Loudio Team';
+            const category = fields.category.value || 'Insights';
+
+            document.getElementById('preview-title').textContent = title;
+            document.getElementById('preview-excerpt').textContent = excerpt;
+            document.getElementById('preview-author').textContent = author;
+            document.getElementById('preview-category').textContent = category;
+            document.getElementById('preview-date').textContent = formatDate(new Date().toISOString());
+            document.getElementById('preview-body').innerHTML = sanitizeArticleHtml(fields.content.value || '<p>Article content preview will appear here.</p>');
+            updateImagePreview();
+        }
+
+        function updateImagePreview() {
+            const url = fields.image.value.trim() || FALLBACK_IMAGE;
+            const previewImage = document.getElementById('preview-image');
+            previewImage.src = isSafeImageUrl(url) ? url : FALLBACK_IMAGE;
+            previewImage.alt = fields.imageAlt.value.trim() || fields.title.value.trim() || 'Article image preview';
+
+            const localPreview = document.getElementById('image-preview');
+            if (fields.image.value.trim()) {
+                localPreview.src = previewImage.src;
+                localPreview.style.display = 'block';
+            }
+        }
+
+        function updateCounts() {
+            document.getElementById('title-count').textContent = `${fields.title.value.length} chars`;
+            document.getElementById('excerpt-count').textContent = `${fields.excerpt.value.length} chars`;
+            const words = fields.content.value.trim().split(/\s+/).filter(Boolean).length;
+            document.getElementById('content-count').textContent = `${words} words`;
+        }
+
+        function sanitizeArticleHtml(html) {
+            const allowedTags = new Set(['P', 'BR', 'STRONG', 'B', 'EM', 'I', 'H2', 'H3', 'H4', 'UL', 'OL', 'LI', 'BLOCKQUOTE', 'A', 'IMG']);
+            const allowedAttrs = {
+                A: ['href', 'target', 'rel'],
+                IMG: ['src', 'alt']
+            };
+            const template = document.createElement('template');
+            template.innerHTML = html;
+
+            [...template.content.querySelectorAll('*')].forEach(node => {
+                if (!allowedTags.has(node.tagName)) {
+                    node.replaceWith(document.createTextNode(node.textContent || ''));
+                    return;
+                }
+
+                [...node.attributes].forEach(attr => {
+                    const allowed = (allowedAttrs[node.tagName] || []).includes(attr.name);
+                    if (!allowed) node.removeAttribute(attr.name);
+                });
+
+                if (node.tagName === 'A') {
+                    const href = node.getAttribute('href') || '';
+                    if (!/^https?:\/\//i.test(href)) node.removeAttribute('href');
+                    node.setAttribute('target', '_blank');
+                    node.setAttribute('rel', 'noopener noreferrer');
+                }
+
+                if (node.tagName === 'IMG') {
+                    const src = node.getAttribute('src') || '';
+                    if (!isSafeImageUrl(src)) node.remove();
+                }
+            });
+
+            return template.innerHTML;
+        }
+
+        function isSafeImageUrl(url) {
+            return /^(https?:\/\/|data:image\/(?:png|jpe?g|webp);base64,)/i.test(url);
+        }
+
+        function setStatus(id, message, tone) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.textContent = message;
+            el.className = `status-bar ${tone || ''}`;
+        }
+
+        function formatDate(value) {
+            if (!value) return 'No date';
+            const date = new Date(value);
+            if (Number.isNaN(date.getTime())) return 'No date';
+            return date.toLocaleDateString();
         }
     </script>
 </body>

@@ -1,4 +1,5 @@
 // Loudio.vn - Main JavaScript (Performance Optimized)
+const LOUDIO_GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwc5GX6-nL3OHBhR5hk7nm3y0UsM2vjqxECSwKRdgkm_YqWjaSxFhaJ5acw-5w2AidH/exec';
 
 // Performance Utilities
 const debounce = (func, wait) => {
@@ -256,6 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const contact = document.getElementById('popup-contact').value;
 
             const result = await submitLead({
+                lead_type: 'popup',
                 venue_name: name,
                 contact_info: contact,
                 email: contact.includes('@') ? contact : undefined,
@@ -304,8 +306,30 @@ document.addEventListener('DOMContentLoaded', () => {
             const phone = mainSignupForm.querySelector('[data-i18n="cta_phone_ph"]').value;
             const email = mainSignupForm.querySelector('[data-i18n="cta_email_ph"]').value;
             const notes = mainSignupForm.querySelector('[data-i18n="cta_notes_ph"]').value;
+            const website = mainSignupForm.querySelector('[name="website"]')?.value || '';
+            const originalBtnText = submitBtn.textContent;
 
-            // OPTIMISTIC UI: Show success immediately
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+
+            const result = await submitLead({
+                lead_type: 'contact',
+                name: name,
+                venue_name: venue,
+                contact_info: `Phone: ${phone}, Email: ${email}`,
+                email: email,
+                website: website,
+                notes: notes,
+                source: 'Main Contact Form'
+            });
+
+            if (!result.success) {
+                alert('Something went wrong. Please try again.');
+                submitBtn.textContent = originalBtnText;
+                submitBtn.disabled = false;
+                return;
+            }
+
             mainSignupForm.style.background = 'transparent';
             mainSignupForm.style.border = 'none';
             mainSignupForm.style.boxShadow = 'none';
@@ -327,72 +351,26 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
             `;
-
-            // BACKGROUND: Send lead data (fire and forget)
-            submitLead({
-                name: name,
-                venue_name: venue,
-                contact_info: `Phone: ${phone}, Email: ${email}`,
-                email: email,
-                notes: notes,
-                source: 'Main Section'
-            }).catch(err => console.error('Lead submission failed:', err));
         });
     }
 
     // Centralized Lead Submission
     async function submitLead(data) {
-        // Google Apps Script for Google Sheets backup
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwc5GX6-nL3OHBhR5hk7nm3y0UsM2vjqxECSwKRdgkm_YqWjaSxFhaJ5acw-5w2AidH/exec';
-
-        // n8n Webhook for auto-reply email (update this after deploying n8n)
-        // Local: http://localhost:5678/webhook/loudio-lead-capture
-        // Production: https://your-n8n-domain.com/webhook/loudio-lead-capture
-        const N8N_WEBHOOK_URL = 'http://localhost:5678/webhook/loudio-lead-capture';
-
         try {
-            // 1. Fetch IP Address
-            let userIP = 'Unknown';
-            try {
-                const ipResponse = await fetch('https://api.ipify.org?format=json');
-                const ipData = await ipResponse.json();
-                userIP = ipData.ip;
-            } catch (e) {
-                console.warn('Could not fetch IP address', e);
-            }
-
-            // 2. Prepare Payload
             const payload = {
+                action: 'capture_lead',
+                lead_type: 'contact',
                 ...data,
-                ip: userIP,
                 timestamp: new Date().toISOString()
             };
 
-            // 3. Submit to GAS (Google Sheets backup)
-            fetch(SCRIPT_URL, {
+            await fetch(LOUDIO_GAS_WEB_APP_URL, {
                 method: 'POST',
                 mode: 'no-cors',
                 cache: 'no-cache',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify(payload)
-            }).catch(err => console.warn('GAS submission failed (backup):', err));
-
-            // 4. Submit to n8n for auto-reply email
-            try {
-                const n8nResponse = await fetch(N8N_WEBHOOK_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (n8nResponse.ok) {
-                    console.log('Lead submitted to n8n, auto-reply will be sent');
-                } else {
-                    console.warn('n8n webhook responded with error:', n8nResponse.status);
-                }
-            } catch (n8nError) {
-                console.warn('n8n webhook failed (auto-reply may not be sent):', n8nError);
-            }
+            });
 
             console.log('Lead successfully submitted');
             return { success: true };
@@ -410,59 +388,98 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function loadBlogArticles() {
-        const SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE'; // User needs to update this
+        const SCRIPT_URL = LOUDIO_GAS_WEB_APP_URL;
 
-        if (SCRIPT_URL === 'YOUR_GOOGLE_SCRIPT_URL_HERE') {
+        if (!SCRIPT_URL) {
             // Show dummy articles if URL is not set
             const lang = document.documentElement.lang || 'en';
             let articles = [];
 
+            const ipccArticleVi = {
+                title: "IPCC Công Bố Hợp Tác Chiến Lược Cùng Loudio",
+                excerpt: "Loudio chính thức trở thành đối tác chiến lược của Trung tâm Thương mại hóa tài sản trí tuệ (IPCC), mang đến giải pháp âm nhạc bản quyền trọn vẹn cho các địa điểm.",
+                image: "https://ipcc.org.vn/uploads-ipcc/news/1738722210/67a2d0-ipccxloudio.png", // Used common image relevant to IPCC/Loudio
+                date: new Date('2025-02-05').toISOString(), // Use an estimated recent date
+                id: "ipcc_partnership",
+                link: "https://ipcc.org.vn/en/tin-tuc/ipcc-cong-bo-hop-tac-chien-luoc-cung-loudio/76"
+            };
+
+            const ipccArticleEn = {
+                title: "IPCC Announces Strategic Partnership with Loudio",
+                excerpt: "IPCC grants Loudio a reproduction license, providing background music services to business establishments using IPCC's recorded music catalog.",
+                image: "https://ipcc.org.vn/uploads-ipcc/news/1738722210/67a2d0-ipccxloudio.png",
+                date: new Date('2025-02-05').toISOString(),
+                id: "ipcc_partnership",
+                 link: "https://ipcc.org.vn/en/tin-tuc/ipcc-cong-bo-hop-tac-chien-luoc-cung-loudio/76"
+            };
+
+            const ipccArticleFr = {
+                title: "L'IPCC Annonce Un Partenariat Stratégique Avec Loudio",
+                excerpt: "L'IPCC accorde à Loudio une licence de reproduction, permettant de fournir des services de musique de fond avec le catalogue de l'IPCC.",
+                image: "https://ipcc.org.vn/uploads-ipcc/news/1738722210/67a2d0-ipccxloudio.png",
+                date: new Date('2025-02-05').toISOString(),
+                id: "ipcc_partnership",
+                 link: "https://ipcc.org.vn/en/tin-tuc/ipcc-cong-bo-hop-tac-chien-luoc-cung-loudio/76"
+            };
+
             if (lang === 'vi') {
                 articles = [
+                    ipccArticleVi,
                     {
                         title: "Tương Lai Âm Nhạc: AI DJ Tốt Hơn Anh DJ Steve",
                         excerpt: "Tại sao playlist Spotify 'Vibe 2024' có thể đang phá hỏng không khí quán bạn.",
                         image: "https://images.unsplash.com/photo-1514525253361-bee8718a74a1?auto=format&fit=crop&w=800&q=80",
                         date: new Date().toISOString(),
-                        id: "dummy1_vi"
+                        id: "dummy1_vi",
+                        link: "" // Placeholder
                     },
                     {
                         title: "Tăng Doanh Thu: Kiếm Tiền Từ Gu Nhạc 'Độc Lạ' Của Khách",
                         excerpt: "Biến môi trường âm nhạc thành công cụ kiếm tiền (hợp pháp!).",
                         image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80",
                         date: new Date().toISOString(),
-                        id: "dummy2_vi"
-                    },
-                    {
-                        title: "Tạo 'Vibe': Tránh Mosh Pit Tại Tiệm Bánh Chay",
-                        excerpt: "Chuyên gia chia sẻ cách cân bằng yêu cầu nhạc mà không để Slayer phá hỏng bữa tối lãng mạn.",
-                        image: "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?auto=format&fit=crop&w=800&q=80",
-                        date: new Date().toISOString(),
-                        id: "dummy3_vi"
+                        id: "dummy2_vi",
+                        link: ""
                     }
                 ];
+            } else if (lang === 'fr') {
+                 articles = [
+                    ipccArticleFr,
+                    {
+                        title: "L'Avenir de l'Ambiance Sonore: Votre DJ Est un Bot",
+                        excerpt: "Pourquoi s'en remettre à une playlist 'Vibe 2024' est dangereux pour votre entreprise.",
+                        image: "https://images.unsplash.com/photo-1514525253361-bee8718a74a1?auto=format&fit=crop&w=800&q=80",
+                        date: new Date().toISOString(),
+                        id: "dummy1_fr",
+                        link: ""
+                    },
+                    {
+                        title: "Augmenter le ROI: Gagnez de l'Argent Quand Vos Clients Ont Mauvais Goût",
+                        excerpt: "Transformez votre espace sonore en moteur de revenus.",
+                        image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80",
+                        date: new Date().toISOString(),
+                        id: "dummy2_fr",
+                        link: ""
+                    }
+                 ];
             } else {
                 articles = [
+                    ipccArticleEn,
                     {
                         title: "The Future of Venue Soundscapes: Your DJ is a Bot (And He's Nicer Than Steve)",
                         excerpt: "Why relying on a Spotify playlist titled 'Vibe 2024' is a dangerous game for your business.",
                         image: "https://images.unsplash.com/photo-1514525253361-bee8718a74a1?auto=format&fit=crop&w=800&q=80",
                         date: new Date().toISOString(),
-                        id: "dummy1"
+                        id: "dummy1",
+                        link: ""
                     },
                     {
                         title: "Boosting ROI: How to Get Paid When Your Customers Have Bad Taste",
                         excerpt: "Turn your musical environment into a revenue engine (and a legalized bribe system).",
                         image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80",
                         date: new Date().toISOString(),
-                        id: "dummy2"
-                    },
-                    {
-                        title: "Vibe-Setting 101: Preventing Musical Mosh Pits at Vegan Bakeries",
-                        excerpt: "Expert advice on balancing guest requests without letting Slayer ruin a romantic dinner.",
-                        image: "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?auto=format&fit=crop&w=800&q=80",
-                        date: new Date().toISOString(),
-                        id: "dummy3"
+                        id: "dummy2",
+                        link: ""
                     }
                 ];
             }
@@ -496,20 +513,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         blogGrid.innerHTML = articles.map(art => {
-            const articleUrl = `article.html?id=${encodeURIComponent(art.id)}`;
-            const safeImage = art.image
-                ? escapeHtml(art.image)
+            const isExternalArticle = /^https?:\/\//i.test(String(art.link || ''));
+            const articleUrl = isExternalArticle ? art.link : `article.html?id=${encodeURIComponent(art.id || '')}`;
+            const safeImage = isSafeImageUrl(art.image)
+                ? art.image
                 : 'https://images.unsplash.com/photo-1459749411177-042180ce6742?auto=format&fit=crop&w=800&q=80';
             return `
                 <article class="article-card">
-                    <img src="${safeImage}" alt="${escapeHtml(art.title)}" class="article-image">
+                    <img src="${escapeHtml(safeImage)}" alt="${escapeHtml(art.title)}" class="article-image">
                     <div class="article-content">
-                        <span class="article-tag">Insights</span>
+                        <span class="article-tag">${escapeHtml(art.category || 'Insights')}</span>
                         <h3 class="article-title">${escapeHtml(art.title)}</h3>
                         <p class="article-excerpt">${escapeHtml(art.excerpt)}</p>
                         <div class="article-footer">
                             <span class="article-date">${new Date(art.date).toLocaleDateString()}</span>
-                            <a href="${articleUrl}" class="read-more"><span data-i18n="read_more">Read More →</span></a>
+                            <a href="${escapeHtml(articleUrl)}" ${isExternalArticle ? 'target="_blank" rel="noopener noreferrer"' : ''} class="read-more"><span data-i18n="read_more">Read More →</span></a>
                         </div>
                     </div>
                 </article>
@@ -525,6 +543,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (dict[key]) el.innerHTML = dict[key];
             });
         }
+    }
+
+    function isSafeImageUrl(url) {
+        const value = String(url || '');
+        return /^https?:\/\/[^\s"'<>]+$/i.test(value) ||
+            /^data:image\/(?:png|jpe?g|webp);base64,[a-z0-9+/=]+$/i.test(value);
     }
 
     // Language Switcher Logic

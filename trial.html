@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start Your Loudio Free Trial</title>
+    <meta name="description"
+        content="Request a Loudio free trial account for your venue. Trial details will be sent to your email.">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.png" type="image/png">
+    <style>
+        .trial-page {
+            min-height: 100vh;
+            padding: calc(var(--header-height) + 70px) 0 80px;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(76, 201, 240, 0.18), transparent 32%),
+                radial-gradient(circle at 85% 10%, rgba(123, 44, 191, 0.2), transparent 28%),
+                var(--bg-dark);
+        }
+
+        .trial-shell {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(320px, 440px);
+            gap: 48px;
+            align-items: center;
+        }
+
+        .trial-copy {
+            max-width: 680px;
+        }
+
+        .trial-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 14px;
+            border: 1px solid var(--glass-border);
+            border-radius: 999px;
+            background: var(--glass-bg);
+            color: var(--secondary-color);
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 22px;
+        }
+
+        .trial-copy h1 {
+            font-size: clamp(2.5rem, 5vw, 5rem);
+            line-height: 0.98;
+            margin-bottom: 22px;
+        }
+
+        .trial-copy p {
+            color: var(--text-dim);
+            font-size: 1.15rem;
+            line-height: 1.7;
+            max-width: 590px;
+        }
+
+        .trial-points {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+            margin-top: 32px;
+        }
+
+        .trial-point {
+            border: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 18px;
+            min-height: 110px;
+        }
+
+        .trial-point strong {
+            display: block;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .trial-point span {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            line-height: 1.45;
+        }
+
+        .trial-card {
+            background: rgba(15, 15, 35, 0.78);
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            padding: 34px;
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.38);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+        }
+
+        .trial-card h2 {
+            font-size: 1.7rem;
+            margin-bottom: 10px;
+        }
+
+        .trial-card p {
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .trial-form {
+            display: grid;
+            gap: 16px;
+        }
+
+        .trial-form label {
+            color: var(--text-main);
+            font-weight: 700;
+            text-align: left;
+        }
+
+        .trial-form input {
+            width: 100%;
+            padding: 16px 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            font-family: var(--font-main);
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .trial-form input:focus-visible {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(76, 201, 240, 0.18);
+        }
+
+        .trial-note {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .trial-status {
+            min-height: 22px;
+            color: var(--secondary-color);
+            font-weight: 700;
+            font-size: 0.92rem;
+        }
+
+        .trial-modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.78);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+        }
+
+        .trial-modal.show {
+            display: flex;
+        }
+
+        .trial-modal-card {
+            width: min(100%, 480px);
+            background: linear-gradient(135deg, #14142b 0%, #17233f 100%);
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            padding: 36px;
+            text-align: center;
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.45);
+        }
+
+        .trial-modal-card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+        }
+
+        .trial-modal-card p {
+            color: var(--text-dim);
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .trial-modal-card strong {
+            color: var(--secondary-color);
+            overflow-wrap: anywhere;
+        }
+
+        @media (max-width: 900px) {
+            .trial-shell {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .trial-points {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .trial-page {
+                padding-top: calc(var(--header-height) + 42px);
+            }
+
+            .trial-card,
+            .trial-modal-card {
+                padding: 26px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="assets/loudio_full_logo.png" alt="Loudio" class="logo-full-img">
+                <span class="venue-tag nav-tag-small">for venues</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html#features">Features</a>
+                <a href="index.html#blog">Blog</a>
+                <a href="index.html#pricing">Pricing</a>
+                <a href="index.html#faq">FAQ</a>
+            </div>
+            <div class="nav-actions">
+                <a href="index.html#signup" class="btn btn-outline">Contact Sales</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="trial-page">
+        <div class="container trial-shell">
+            <section class="trial-copy" aria-labelledby="trial-title">
+                <div class="trial-badge">14-day venue trial</div>
+                <h1 id="trial-title">Start Loudio in your venue</h1>
+                <p>Enter your email and the Loudio team will prepare your trial account details, onboarding steps, and
+                    venue setup guidance.</p>
+                <div class="trial-points" aria-label="Trial benefits">
+                    <div class="trial-point">
+                        <strong>No credit card</strong>
+                        <span>Try the Pro workflow before making a plan decision.</span>
+                    </div>
+                    <div class="trial-point">
+                        <strong>Fast setup</strong>
+                        <span>Use the devices and sound system your venue already has.</span>
+                    </div>
+                    <div class="trial-point">
+                        <strong>Human follow-up</strong>
+                        <span>A Loudio specialist reviews every trial request.</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="trial-card" aria-labelledby="trial-form-title">
+                <h2 id="trial-form-title">Get trial access</h2>
+                <p>We will send account instructions to this inbox and notify the Loudio team.</p>
+                <form id="trial-form" class="trial-form">
+                    <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
+                        style="position:absolute;left:-9999px;opacity:0;" value="">
+                    <label for="trial-email">Work email</label>
+                    <input type="email" id="trial-email" name="email" autocomplete="email"
+                        placeholder="you@venue.com" aria-describedby="trial-email-help" required>
+                    <p class="trial-note" id="trial-email-help">Use the inbox where you want Loudio to send your
+                        login details, setup checklist, and first-step onboarding instructions.</p>
+                    <button type="submit" class="btn btn-primary full-width">Send Trial Account</button>
+                    <p class="trial-note">Your trial account details will be sent to your email.</p>
+                    <div id="trial-status" class="trial-status" role="status" aria-live="polite"></div>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <div id="trial-success-modal" class="trial-modal" role="dialog" aria-modal="true"
+        aria-labelledby="trial-success-title">
+        <div class="trial-modal-card">
+            <div class="success-drawing-container" aria-hidden="true">
+                <svg viewBox="0 0 52 52" class="checkmark-svg">
+                    <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"></circle>
+                    <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"></path>
+                </svg>
+            </div>
+            <h2 id="trial-success-title">Trial request received</h2>
+            <p>Your trial account details will be sent to <strong id="trial-email-display"></strong>. The Loudio team
+                has also been notified.</p>
+            <a href="index.html" class="btn btn-primary full-width">Back to Loudio</a>
+        </div>
+    </div>
+
+    <script>
+        const LOUDIO_GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwc5GX6-nL3OHBhR5hk7nm3y0UsM2vjqxECSwKRdgkm_YqWjaSxFhaJ5acw-5w2AidH/exec';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('trial-form');
+            const emailInput = document.getElementById('trial-email');
+            const status = document.getElementById('trial-status');
+            const modal = document.getElementById('trial-success-modal');
+            const emailDisplay = document.getElementById('trial-email-display');
+            const params = new URLSearchParams(window.location.search);
+
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const submitButton = form.querySelector('button[type="submit"]');
+                const email = emailInput.value.trim();
+
+                submitButton.disabled = true;
+                submitButton.textContent = 'Sending...';
+                status.textContent = 'Preparing your trial request...';
+
+                try {
+                    await fetch(LOUDIO_GAS_WEB_APP_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        cache: 'no-cache',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify({
+                            action: 'capture_lead',
+                            lead_type: 'trial_request',
+                            source: params.get('source') === 'pricing' ? 'Pricing Free Trial' : 'Free Trial Page',
+                            plan: params.get('plan') || 'pro',
+                            venue_name: 'Free Trial Request',
+                            contact_info: email,
+                            email: email,
+                            website: form.querySelector('[name="website"]').value,
+                            notes: 'User requested a Loudio free trial account from trial.html.',
+                            timestamp: new Date().toISOString()
+                        })
+                    });
+
+                    emailDisplay.textContent = email;
+                    status.textContent = 'Trial request received.';
+                    modal.classList.add('show');
+                    form.reset();
+                } catch (error) {
+                    console.error('Trial submission failed', error);
+                    status.textContent = 'Something went wrong. Please try again or contact Loudio directly.';
+                } finally {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Send Trial Account';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
