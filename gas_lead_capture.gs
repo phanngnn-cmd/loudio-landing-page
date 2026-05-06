@@ -17,6 +17,7 @@ const ADMIN_TOKEN = PropertiesService.getScriptProperties().getProperty('ADMIN_T
 const BLOG_IMAGE_FOLDER_ID_PROP = 'BLOG_IMAGE_FOLDER_ID';
 const MAX_IMAGE_BYTES = 2 * 1024 * 1024;
 const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+const BACKEND_VERSION = '2026-05-07-email-trial-v2';
 
 function doGet(e) {
   if (!e || !e.parameter) {
@@ -24,6 +25,15 @@ function doGet(e) {
   }
 
   const action = e.parameter.action;
+
+  if (action === 'health') {
+    return jsonResponse({
+      result: 'success',
+      version: BACKEND_VERSION,
+      admin_email: ADMIN_EMAIL,
+      admin_token_configured: Boolean(ADMIN_TOKEN)
+    });
+  }
 
   if (action === 'get_articles') {
     if (e.parameter.include_drafts === 'true') {

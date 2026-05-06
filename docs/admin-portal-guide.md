@@ -13,6 +13,28 @@ Optional: add `BLOG_IMAGE_FOLDER_ID` as a Script Property if you want uploads to
 
 Do not publish or share the admin token in screenshots, page content, article drafts, docs, or chat. If admin login fails, first confirm the Apps Script deployment is current and that `ADMIN_TOKEN` exists in Script Properties.
 
+## 1A. Verify The Email Backend Is Current
+
+After every Apps Script change, click `Deploy > Manage deployments > Edit > New version > Deploy`. Saving the script is not enough.
+
+Then open:
+
+```text
+https://script.google.com/macros/s/AKfycbwc5GX6-nL3OHBhR5hk7nm3y0UsM2vjqxECSwKRdgkm_YqWjaSxFhaJ5acw-5w2AidH/exec?action=health
+```
+
+Expected result includes:
+
+```json
+{
+  "result": "success",
+  "version": "2026-05-07-email-trial-v2",
+  "admin_email": "phananh.nguyen@loudio.vn"
+}
+```
+
+If the version is missing or different, the live deployment is still old and contact/trial emails may not send.
+
 ## 2. Create A New Article
 
 1. Click `New`.

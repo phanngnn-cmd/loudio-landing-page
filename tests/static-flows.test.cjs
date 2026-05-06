@@ -29,6 +29,8 @@ assert.doesNotMatch(main, /localhost:5678/, 'frontend should not call localhost 
 
 assert.match(gas, /function sendCustomerEmail/, 'GAS should send customer emails directly');
 assert.match(gas, /phananh\.nguyen@loudio\.vn/, 'GAS should notify Loudio admin email');
+assert.match(gas, /BACKEND_VERSION/, 'GAS should expose a backend version for deployment verification');
+assert.match(gas, /action === 'health'/, 'GAS should expose a health endpoint for deployment verification');
 assert.match(gas, /action === 'upload_image'/, 'GAS should support authenticated blog image upload');
 assert.match(gas, /BLOG_IMAGE_FOLDER_ID/, 'GAS image upload should support a Drive folder property');
 
